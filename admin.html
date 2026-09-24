@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiteezi Recreational Center - Admin Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .admin-sidebar-active {
+            background-color: #1e293b;
+            border-left: 4px solid #10b981;
+            color: #ffffff;
+        }
+        .toast-enter {
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans min-h-screen text-slate-800 antialiased">
+
+    <!-- Toast Notification Overlay -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- AUTHENTICATION & RECOVERY CONTAINER -->
+    <div id="auth-container" class="flex items-center justify-center min-h-screen px-4 py-8">
+        <!-- LOGIN CARD -->
+        <div id="card-login" class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-slate-200 transition-all">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mb-3">
+                    <i class="fa-solid fa-user-shield text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800">Admin Login</h2>
+                <p class="text-sm text-slate-500 mt-1">Kiteezi Recreational Center Control Panel</p>
+            </div>
+            
+            <form id="admin-login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Passcode / PIN</label>
+                    <div class="relative">
+                        <input type="password" id="admin-passcode" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none pr-10" placeholder="Enter admin passcode" required>
+                        <button type="button" onclick="togglePasswordVisibility('admin-passcode', 'login-eye')" class="absolute right-3 top-3.5 text-slate-400 hover:text-slate-600">
+                            <i id="login-eye" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-400"><i class="fa-solid fa-lock mr-1"></i> Secured Session</span>
+                    <button type="button" onclick="showRecoveryCard()" class="text-emerald-600 hover:text-emerald-700 font-semibold hover:underline">Forgot Passcode?</button>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-lg transition duration-200 shadow-md flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login to Dashboard
+                </button>
+            </form>
+        </div>
+
+        <!-- RECOVERY CARD -->
+        <div id="card-recovery" class="hidden max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-slate-200 transition-all">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-100 text-amber-600 mb-3">
+                    <i class="fa-solid fa-key text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800">Restore Passcode</h2>
+                <p class="text-sm text-slate-500 mt-1">Verify your Recovery Key to set a new passcode</p>
+            </div>
+            
+            <form id="admin-recovery-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Secret Recovery Key</label>
+                    <input type="password" id="recovery-key-input" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Default key: kiteezi-recovery-2026" required>
+                    <p class="text-xs text-slate-400 mt-1">Default Recovery Key: <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-700">kiteezi-recovery-2026</code></p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">New Passcode</label>
+                    <input type="password" id="new-passcode-input" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Enter new passcode" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Confirm New Passcode</label>
+                    <input type="password" id="confirm-passcode-input" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Re-enter new passcode" required>
+                </div>
+
+                <div class="flex items-center gap-2 pt-2">
+                    <button type="button" onclick="showLoginCard()" class="w-1/2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium py-3 rounded-lg transition text-center">
+                        Cancel
+                    </button>
+                    <button type="submit" class="w-1/2 bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 rounded-lg transition shadow-md">
+                        Reset Passcode
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="dashboard-container" class="hidden flex flex-col md:flex-row min-h-screen">
+        
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 bg-slate-900 text-slate-300 flex-shrink-0">
+            <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+                <div>
+                    <h1 class="font-bold text-lg text-white">Kiteezi Admin</h1>
+                    <p class="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> Online & Synced
+                    </p>
+                </div>
+            </div>
+            
+            <nav class="p-4 space-y-1">
+                <button type="button" onclick="switchTab('swimming')" id="tab-btn-swimming" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-800 transition admin-sidebar-active">
+                    <i class="fa-solid fa-person-swimming text-lg w-6"></i> Swimming Rates
+                </button>
+                <button type="button" onclick="switchTab('events')" id="tab-btn-events" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">
+                    <i class="fa-solid fa-bullhorn text-lg w-6"></i> Event Announcements
+                </button>
+                <button type="button" onclick="switchTab('media')" id="tab-btn-media" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">
+                    <i class="fa-solid fa-photo-film text-lg w-6"></i> Media & Videos
+                </button>
+                <button type="button" onclick="switchTab('menu')" id="tab-btn-menu" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">
+                    <i class="fa-solid fa-utensils text-lg w-6"></i> Menu Manager
+                </button>
+                <button type="button" onclick="switchTab('personnel')" id="tab-btn-personnel" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">
+                    <i class="fa-solid fa-users text-lg w-6"></i> Personnel & Staff
+                </button>
+                <button type="button" onclick="switchTab('reviews')" id="tab-btn-reviews" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">
+                    <i class="fa-solid fa-star text-lg w-6"></i> Moderation Reviews
+                </button>
+                <button type="button" onclick="switchTab('settings')" id="tab-btn-settings" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">
+                    <i class="fa-solid fa-shield-halved text-lg w-6"></i> Settings & Security
+                </button>
+            </nav>
+
+            <div class="p-4 mt-auto border-t border-slate-800">
+                <button type="button" onclick="adminLogout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 transition">
+                    <i class="fa-solid fa-right-from-bracket text-lg w-6"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+
+            <!-- SECTION: SWIMMING PRICES -->
+            <section id="section-swimming" class="space-y-6">
+                <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Swimming Pool Rates Control</h2>
+                        <p class="text-slate-500 text-sm">Update daily entry rates, child packages, and promo highlights.</p>
+                    </div>
+                    <button onclick="loadSwimmingPrices()" class="px-3 py-1.5 text-xs bg-slate-200 hover:bg-slate-300 rounded-lg transition font-medium">
+                        <i class="fa-solid fa-rotate-right mr-1"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold mb-4 text-slate-800">Pool Pricing Form</h3>
+                    <form id="swimming-price-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Adult Entry Rate (UGX)</label>
+                            <input type="number" id="swim-adult-price" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="15000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Children Entry Rate (UGX)</label>
+                            <input type="number" id="swim-child-price" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="10000">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Special Offer / Banner Announcement</label>
+                            <input type="text" id="swim-promo-note" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="e.g., Free Pool Coaching for Kids every Sunday!">
+                        </div>
+                        <div class="md:col-span-2 flex items-center gap-2">
+                            <input type="checkbox" id="swim-promo-active" class="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+                            <label for="swim-promo-active" class="text-sm font-medium text-slate-700">Display promo note prominently on website</label>
+                        </div>
+                        <div class="md:col-span-2 pt-2">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-md">
+                                <i class="fa-solid fa-floppy-disk mr-1.5"></i> Save Swimming Rates
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- SECTION: EVENT ANNOUNCEMENTS -->
+            <section id="section-events" class="hidden space-y-6">
+                <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Event Announcements & Offers</h2>
+                        <p class="text-slate-500 text-sm">Post upcoming events, weekend specials, or facility notices.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold mb-4 text-slate-800">Post New Event</h3>
+                    <form id="add-event-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Event Title</label>
+                            <input type="text" id="event-title" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="e.g., Sunday BBQ & Pool Party">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Date & Time Schedule</label>
+                            <input type="text" id="event-date" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="e.g., Every Sunday from 2:00 PM">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Event Details / Offer</label>
+                            <textarea id="event-desc" rows="3" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Details about entry fees, music, special guests..."></textarea>
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-md">
+                                <i class="fa-solid fa-paper-plane mr-1.5"></i> Broadcast Announcement
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 font-semibold text-slate-800 flex justify-between items-center">
+                        <span>Active Announcements</span>
+                        <span id="event-count-badge" class="text-xs bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold">0 Events</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-slate-700 uppercase text-xs">
+                                <tr>
+                                    <th class="p-4">Title</th>
+                                    <th class="p-4">Schedule</th>
+                                    <th class="p-4">Description</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="events-table-body">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading events...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: MEDIA & VIDEOS -->
+            <section id="section-media" class="hidden space-y-6">
+                <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Media & Gallery Manager</h2>
+                        <p class="text-slate-500 text-sm">Add or update banner images, gallery photos, and video links.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold mb-4 text-slate-800">Add New Media Asset</h3>
+                    <form id="add-media-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Asset Title / Caption</label>
+                            <input type="text" id="media-title" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="e.g., Olympic Size Pool View">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Type</label>
+                            <select id="media-type" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                <option value="image">Image (URL)</option>
+                                <option value="video">Video (URL)</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Resource URL</label>
+                            <input type="url" id="media-url" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="https://images.unsplash.com/photo-...">
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-md">
+                                <i class="fa-solid fa-plus mr-1.5"></i> Add Media Item
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 font-semibold text-slate-800">Current Gallery Items</div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-slate-700 uppercase text-xs">
+                                <tr>
+                                    <th class="p-4">Type</th>
+                                    <th class="p-4">Title</th>
+                                    <th class="p-4">URL</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="media-table-body">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading gallery...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: MENU MANAGER -->
+            <section id="section-menu" class="hidden space-y-6">
+                <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Restaurant & Catering Menu Manager</h2>
+                        <p class="text-slate-500 text-sm">Manage dishes, buffet catering options, and pool snacks.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold mb-4 text-slate-800">Add Menu Item / Buffet Package</h3>
+                    <form id="add-menu-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Item / Package Name</label>
+                            <input type="text" id="menu-name" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="e.g., Kiteezi Executive Buffet">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Category</label>
+                            <select id="menu-category" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                <option value="buffet">Buffet Packages</option>
+                                <option value="main">Main Dishes</option>
+                                <option value="fastfood">Fast Food / Snacks</option>
+                                <option value="beverages">Beverages & Drinks</option>
+                                <option value="poolside">Poolside Menu</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Price (UGX)</label>
+                            <input type="number" id="menu-price" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="35000">
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Item Description / Included Dishes</label>
+                            <input type="text" id="menu-description" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Includes fried tilapia, pork ribs, chicken, rice, salads & dessert">
+                        </div>
+                        <div class="md:col-span-3">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-md">
+                                <i class="fa-solid fa-utensils mr-1.5"></i> Save Menu Item
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 font-semibold text-slate-800">Active Menu Items</div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-slate-700 uppercase text-xs">
+                                <tr>
+                                    <th class="p-4">Item Name</th>
+                                    <th class="p-4">Category</th>
+                                    <th class="p-4">Price</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menu-table-body">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading menu...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: PERSONNEL -->
+            <section id="section-personnel" class="hidden space-y-6">
+                <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Personnel & Staff Management</h2>
+                        <p class="text-slate-500 text-sm">Update team directory, roles, and contact numbers.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-semibold mb-4 text-slate-800">Add Staff Member</h3>
+                    <form id="add-personnel-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+                            <input type="text" id="staff-name" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="e.g., Sarah Namubiru">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Role / Designation</label>
+                            <input type="text" id="staff-role" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="e.g., Head Swimming Coach / Lifeguard">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Contact Phone</label>
+                            <input type="tel" id="staff-phone" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="+256 700 000000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Photo URL</label>
+                            <input type="url" id="staff-photo" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="https://images.unsplash.com/photo-...">
+                        </div>
+                        <div class="md:col-span-2">
+                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-md">
+                                <i class="fa-solid fa-user-plus mr-1.5"></i> Save Staff Member
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 font-semibold text-slate-800">Active Staff Directory</div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-slate-700 uppercase text-xs">
+                                <tr>
+                                    <th class="p-4">Name</th>
+                                    <th class="p-4">Role</th>
+                                    <th class="p-4">Phone</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staff-table-body">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading staff directory...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: REVIEWS MODERATION -->
+            <section id="section-reviews" class="hidden space-y-6">
+                <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Customer Review Moderation</h2>
+                        <p class="text-slate-500 text-sm">Approve or moderate customer feedback submitted to the center.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="px-6 py-4 border-b border-slate-100 font-semibold text-slate-800">Submitted Reviews</div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 text-slate-700 uppercase text-xs">
+                                <tr>
+                                    <th class="p-4">Author</th>
+                                    <th class="p-4">Rating</th>
+                                    <th class="p-4">Comment</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviews-table-body">
+                                <tr><td colspan="4" class="p-4 text-center text-slate-400">Loading customer reviews...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: SECURITY & SETTINGS -->
+            <section id="section-settings" class="hidden space-y-6">
+                <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Settings & Security Controls</h2>
+                        <p class="text-slate-500 text-sm">Change your login passcode or update recovery keys without editing code.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- CHANGE PASSCODE CARD -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-semibold mb-2 text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-lock text-emerald-600"></i> Change Login Passcode
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-4">Updates the passcode required to log into this admin portal.</p>
+
+                        <form id="change-passcode-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Current Passcode</label>
+                                <input type="password" id="change-pass-current" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">New Passcode</label>
+                                <input type="password" id="change-pass-new" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Confirm New Passcode</label>
+                                <input type="password" id="change-pass-confirm" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-lg transition shadow-md">
+                                Update Passcode
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- RECOVERY KEY CARD -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-semibold mb-2 text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-key text-amber-500"></i> Secret Recovery Key
+                        </h3>
+                        <p class="text-xs text-slate-500 mb-4">Used on the login page to restore your passcode if forgotten.</p>
+
+                        <form id="change-recovery-form" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">New Recovery Key / PIN</label>
+                                <input type="password" id="change-rec-key" required class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Enter custom secret recovery key">
+                            </div>
+                            <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-2.5 rounded-lg transition shadow-md">
+                                Update Secret Recovery Key
+                            </button>
+                        </form>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100">
+                            <h4 class="text-xs font-bold uppercase text-slate-400 mb-2">Database Status</h4>
+                            <div class="text-xs text-slate-600 space-y-1">
+                                <p><i class="fa-solid fa-database text-slate-400 mr-1.5"></i> Supabase Endpoint: Connected</p>
+                                <p><i class="fa-solid fa-shield-check text-emerald-500 mr-1.5"></i> Settings Store: <code class="bg-slate-100 px-1 py-0.5 rounded">admin_settings</code></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // SUPABASE CLIENT INITIALIZATION
+        const SUPABASE_URL = 'https://rgvwrfdcgummdfexxzuu.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_e_aIRgown6dzxGYgYxrdxQ_vDC7OM3_';
+        const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // DEFAULT FALLBACK CONSTANTS
+        const DEFAULT_PASSCODE = 'kiteezi2026';
+        const DEFAULT_RECOVERY_KEY = 'kiteezi-recovery-2026';
+
+        // TOAST NOTIFICATION HELPER
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bgClass = type === 'success' ? 'bg-emerald-600' : 'bg-red-600';
+            const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-triangle-exclamation';
+
+            toast.className = `${bgClass} text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 text-sm pointer-events-auto toast-enter`;
+            toast.innerHTML = `<i class="fa-solid ${iconClass} text-lg"></i> <span>${message}</span>`;
+
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // PASSWORD VISIBILITY TOGGLE
+        function togglePasswordVisibility(inputId, eyeId) {
+            const input = document.getElementById(inputId);
+            const eye = document.getElementById(eyeId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                eye.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                eye.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // CARD TOGGLES (LOGIN vs RECOVERY)
+        function showRecoveryCard() {
+            document.getElementById('card-login').classList.add('hidden');
+            document.getElementById('card-recovery').classList.remove('hidden');
+        }
+
+        function showLoginCard() {
+            document.getElementById('card-recovery').classList.add('hidden');
+            document.getElementById('card-login').classList.remove('hidden');
+        }
+
+        // GET SETTING FROM SUPABASE OR FALLBACK
+        async function getSettingValue(keyName, defaultValue) {
+            try {
+                const { data, error } = await dbClient.from('admin_settings').select('value').eq('key', keyName).single();
+                if (data && data.value) return data.value;
+                return defaultValue;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+
+        // SET SETTING IN SUPABASE
+        async function setSettingValue(keyName, value) {
+            try {
+                await dbClient.from('admin_settings').upsert({ key: keyName, value: value });
+                return true;
+            } catch (e) {
+                console.error('Error saving setting:', e);
+                return false;
+            }
+        }
+
+        // ADMIN LOGIN SUBMISSION
+        document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const inputPass = document.getElementById('admin-passcode').value;
+            const currentPass = await getSettingValue('admin_passcode', DEFAULT_PASSCODE);
+
+            if (inputPass === currentPass) {
+                sessionStorage.setItem('admin_auth', 'true');
+                showDashboard();
+                showToast('Welcome back, Administrator!');
+            } else {
+                showToast('Incorrect passcode. Please try again or restore your key.', 'error');
+            }
+        });
+
+        // ADMIN RECOVERY SUBMISSION
+        document.getElementById('admin-recovery-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const keyInput = document.getElementById('recovery-key-input').value;
+            const newPass = document.getElementById('new-passcode-input').value;
+            const confirmPass = document.getElementById('confirm-passcode-input').value;
+
+            const actualRecoveryKey = await getSettingValue('admin_recovery_key', DEFAULT_RECOVERY_KEY);
+
+            if (keyInput !== actualRecoveryKey) {
+                showToast('Invalid Secret Recovery Key!', 'error');
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                showToast('New passcodes do not match!', 'error');
+                return;
+            }
+
+            if (newPass.length < 4) {
+                showToast('Passcode must be at least 4 characters long.', 'error');
+                return;
+            }
+
+            await setSettingValue('admin_passcode', newPass);
+            showToast('Passcode restored successfully! You can now log in.');
+            document.getElementById('admin-recovery-form').reset();
+            showLoginCard();
+        });
+
+        // SHOW DASHBOARD AND LOAD TAB DATA
+        function showDashboard() {
+            document.getElementById('auth-container').classList.add('hidden');
+            document.getElementById('dashboard-container').classList.remove('hidden');
+            loadSwimmingPrices();
+            loadEventsData();
+            loadMediaData();
+            loadMenuData();
+            loadStaffData();
+            loadReviewsData();
+        }
+
+        if (sessionStorage.getItem('admin_auth') === 'true') {
+            showDashboard();
+        }
+
+        function adminLogout() {
+            sessionStorage.removeItem('admin_auth');
+            location.reload();
+        }
+
+        // NAVIGATION TABS SWITCHER
+        function switchTab(tab) {
+            ['swimming', 'events', 'media', 'menu', 'personnel', 'reviews', 'settings'].forEach(t => {
+                const section = document.getElementById(`section-${t}`);
+                const btn = document.getElementById(`tab-btn-${t}`);
+                if (section && btn) {
+                    if (t === tab) {
+                        section.classList.remove('hidden');
+                        btn.classList.add('admin-sidebar-active');
+                        btn.classList.remove('text-slate-400');
+                    } else {
+                        section.classList.add('hidden');
+                        btn.classList.remove('admin-sidebar-active');
+                        btn.classList.add('text-slate-400');
+                    }
+                }
+            });
+        }
+
+        // 1. SWIMMING PRICES HANDLERS
+        async function loadSwimmingPrices() {
+            try {
+                const { data, error } = await dbClient.from('swimming_prices').select('*').limit(1).single();
+                if (data) {
+                    document.getElementById('swim-adult-price').value = data.adult_price || 15000;
+                    document.getElementById('swim-child-price').value = data.child_price || 10000;
+                    document.getElementById('swim-promo-note').value = data.promo_note || '';
+                    document.getElementById('swim-promo-active').checked = !!data.promo_active;
+                }
+            } catch (err) {
+                console.log('Swimming table auto-ready check.');
+            }
+        }
+
+        document.getElementById('swimming-price-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const adult_price = parseFloat(document.getElementById('swim-adult-price').value);
+            const child_price = parseFloat(document.getElementById('swim-child-price').value);
+            const promo_note = document.getElementById('swim-promo-note').value;
+            const promo_active = document.getElementById('swim-promo-active').checked;
+
+            const { error } = await dbClient.from('swimming_prices').upsert([{ id: 1, adult_price, child_price, promo_note, promo_active }]);
+            if (error) {
+                showToast('Failed to update swimming prices.', 'error');
+            } else {
+                showToast('Swimming rates & promo updated successfully!');
+            }
+        });
+
+        // 2. EVENT ANNOUNCEMENTS HANDLERS
+        async function loadEventsData() {
+            try {
+                const { data, error } = await dbClient.from('events').select('*').order('created_at', { ascending: false });
+                const tbody = document.getElementById('events-table-body');
+                const badge = document.getElementById('event-count-badge');
+
+                if (error || !data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No active events found.</td></tr>`;
+                    if(badge) badge.innerText = '0 Events';
+                    return;
+                }
+
+                if(badge) badge.innerText = `${data.length} Event${data.length > 1 ? 's' : ''}`;
+
+                tbody.innerHTML = data.map(ev => `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-4 font-bold text-slate-800">${ev.title || ''}</td>
+                        <td class="p-4 font-semibold text-emerald-600">${ev.event_date || ''}</td>
+                        <td class="p-4 text-slate-600">${ev.description || ''}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="deleteItem('events', '${ev.id}')" class="text-red-500 hover:text-red-700 px-2 py-1" title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        document.getElementById('add-event-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('event-title').value;
+            const event_date = document.getElementById('event-date').value;
+            const description = document.getElementById('event-desc').value;
+
+            const { error } = await dbClient.from('events').insert([{ title, event_date, description }]);
+            if (error) {
+                showToast('Error posting event.', 'error');
+            } else {
+                showToast('Event broadcasted successfully!');
+                document.getElementById('add-event-form').reset();
+                loadEventsData();
+            }
+        });
+
+        // 3. MEDIA GALLERY HANDLERS
+        async function loadMediaData() {
+            try {
+                const { data, error } = await dbClient.from('media').select('*');
+                const tbody = document.getElementById('media-table-body');
+                if (error || !data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No gallery items found.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = data.map(item => `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-4 capitalize font-semibold">${item.type || 'Image'}</td>
+                        <td class="p-4 font-medium text-slate-800">${item.title || 'Untitled'}</td>
+                        <td class="p-4 text-emerald-600 truncate max-w-xs"><a href="${item.url}" target="_blank" class="hover:underline">${item.url}</a></td>
+                        <td class="p-4 text-right">
+                            <button onclick="deleteItem('media', '${item.id}')" class="text-red-500 hover:text-red-700 px-2 py-1">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        document.getElementById('add-media-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('media-title').value;
+            const type = document.getElementById('media-type').value;
+            const url = document.getElementById('media-url').value;
+
+            const { error } = await dbClient.from('media').insert([{ title, type, url }]);
+            if (error) {
+                showToast('Error saving media.', 'error');
+            } else {
+                showToast('Media asset saved!');
+                document.getElementById('add-media-form').reset();
+                loadMediaData();
+            }
+        });
+
+        // 4. MENU & CATERING HANDLERS
+        async function loadMenuData() {
+            try {
+                const { data, error } = await dbClient.from('menu_items').select('*');
+                const tbody = document.getElementById('menu-table-body');
+                if (error || !data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No menu items found.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = data.map(item => `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-4 font-medium text-slate-800">${item.name}</td>
+                        <td class="p-4 capitalize"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-xs">${item.category || 'General'}</span></td>
+                        <td class="p-4 font-semibold text-emerald-600">UGX ${(item.price || 0).toLocaleString()}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="deleteItem('menu_items', '${item.id}')" class="text-red-500 hover:text-red-700 px-2 py-1">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        document.getElementById('add-menu-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('menu-name').value;
+            const category = document.getElementById('menu-category').value;
+            const price = parseFloat(document.getElementById('menu-price').value);
+            const description = document.getElementById('menu-description').value;
+
+            const { error } = await dbClient.from('menu_items').insert([{ name, category, price, description }]);
+            if (error) {
+                showToast('Error adding menu item.', 'error');
+            } else {
+                showToast('Menu item added successfully!');
+                document.getElementById('add-menu-form').reset();
+                loadMenuData();
+            }
+        });
+
+        // 5. STAFF & PERSONNEL HANDLERS
+        async function loadStaffData() {
+            try {
+                const { data, error } = await dbClient.from('staff').select('*');
+                const tbody = document.getElementById('staff-table-body');
+                if (error || !data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No staff members listed.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = data.map(st => `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-4 font-medium text-slate-800 flex items-center gap-2">
+                            ${st.photo_url ? `<img src="${st.photo_url}" class="w-7 h-7 rounded-full object-cover">` : '<i class="fa-solid fa-user text-slate-400"></i>'}
+                            ${st.name}
+                        </td>
+                        <td class="p-4 text-slate-600">${st.role || 'Staff'}</td>
+                        <td class="p-4 text-slate-500">${st.phone || 'N/A'}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="deleteItem('staff', '${st.id}')" class="text-red-500 hover:text-red-700 px-2 py-1">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        document.getElementById('add-personnel-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('staff-name').value;
+            const role = document.getElementById('staff-role').value;
+            const phone = document.getElementById('staff-phone').value;
+            const photo_url = document.getElementById('staff-photo').value;
+
+            const { error } = await dbClient.from('staff').insert([{ name, role, phone, photo_url }]);
+            if (error) {
+                showToast('Error adding staff member.', 'error');
+            } else {
+                showToast('Staff member profile added!');
+                document.getElementById('add-personnel-form').reset();
+                loadStaffData();
+            }
+        });
+
+        // 6. CUSTOMER REVIEWS MODERATION HANDLERS
+        async function loadReviewsData() {
+            try {
+                const { data, error } = await dbClient.from('reviews').select('*');
+                const tbody = document.getElementById('reviews-table-body');
+                if (error || !data || data.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">No customer reviews submitted.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = data.map(rev => `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-4 font-medium text-slate-800">${rev.customer_name || rev.author || 'Anonymous'}</td>
+                        <td class="p-4 text-amber-500 font-semibold">★ ${rev.rating || 5}</td>
+                        <td class="p-4 text-slate-600">${rev.comment || ''}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="deleteItem('reviews', '${rev.id}')" class="text-red-500 hover:text-red-700 px-2 py-1">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // 7. CHANGE PASSCODE & RECOVERY KEY (SETTINGS TAB)
+        document.getElementById('change-passcode-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const curr = document.getElementById('change-pass-current').value;
+            const next = document.getElementById('change-pass-new').value;
+            const conf = document.getElementById('change-pass-confirm').value;
+
+            const existingPass = await getSettingValue('admin_passcode', DEFAULT_PASSCODE);
+
+            if (curr !== existingPass) {
+                showToast('Current passcode is incorrect!', 'error');
+                return;
+            }
+
+            if (next !== conf) {
+                showToast('New passcodes do not match!', 'error');
+                return;
+            }
+
+            if (next.length < 4) {
+                showToast('Passcode must be at least 4 characters.', 'error');
+                return;
+            }
+
+            await setSettingValue('admin_passcode', next);
+            showToast('Passcode updated successfully!');
+            document.getElementById('change-passcode-form').reset();
+        });
+
+        document.getElementById('change-recovery-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newKey = document.getElementById('change-rec-key').value;
+
+            if (newKey.length < 6) {
+                showToast('Recovery key must be at least 6 characters.', 'error');
+                return;
+            }
+
+            await setSettingValue('admin_recovery_key', newKey);
+            showToast('Secret Recovery Key updated successfully!');
+            document.getElementById('change-recovery-form').reset();
+        });
+
+        // GENERIC DELETE FUNCTION
+        async function deleteItem(table, id) {
+            if (confirm('Are you sure you want to remove this item?')) {
+                const { error } = await dbClient.from(table).delete().eq('id', id);
+                if (error) {
+                    showToast('Failed to delete item.', 'error');
+                } else {
+                    showToast('Item deleted successfully.');
+                    if (table === 'media') loadMediaData();
+                    if (table === 'menu_items') loadMenuData();
+                    if (table === 'reviews') loadReviewsData();
+                    if (table === 'events') loadEventsData();
+                    if (table === 'staff') loadStaffData();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
