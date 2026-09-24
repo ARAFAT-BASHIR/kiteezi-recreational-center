@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kiteezi Recreational Center | Kiteezi, Lusanjja, Kampala</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -30,16 +30,12 @@
         }
     </script>
 
-    <!-- Google Fonts & Font Awesome Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Custom CSS -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -64,863 +60,2287 @@
         .social-btn {
             transition: all 0.3s ease;
         }
+
         .social-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
 
+        .public-announcement {
+            border-left: 5px solid #d4af37;
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
         }
+
         ::-webkit-scrollbar-track {
             background: #1b4332;
         }
+
         ::-webkit-scrollbar-thumb {
             background: #d4af37;
             border-radius: 4px;
         }
     </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
 
-    <!-- NAVIGATION BAR -->
-    <header class="sticky top-0 z-50 bg-brand-green text-white shadow-xl transition-all duration-300" id="main-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
-                    <div class="w-12 h-12 rounded-full border-2 border-brand-gold overflow-hidden bg-brand-lightgreen flex items-center justify-center text-brand-gold font-bold text-xl shadow">
-                        <i class="fa-solid fa-tree"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-serif text-lg sm:text-2xl font-bold tracking-wide text-white leading-tight">Kiteezi Recreational Center</h1>
-                        <p class="text-xs text-brand-gold font-light tracking-wider uppercase"><i class="fa-solid fa-location-dot mr-1"></i>Kiteezi, Lusanjja, Kampala</p>
-                    </div>
+<header class="sticky top-0 z-50 bg-brand-green text-white shadow-xl transition-all duration-300" id="main-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="w-12 h-12 rounded-full border-2 border-brand-gold overflow-hidden bg-brand-lightgreen flex items-center justify-center text-brand-gold font-bold text-xl shadow">
+                    <i class="fa-solid fa-tree"></i>
                 </div>
+                <div>
+                    <h1 class="font-serif text-lg sm:text-2xl font-bold tracking-wide text-white leading-tight">Kiteezi Recreational Center</h1>
+                    <p class="text-xs text-brand-gold font-light tracking-wider uppercase"><i class="fa-solid fa-location-dot mr-1"></i>Kiteezi, Lusanjja, Kampala</p>
+                </div>
+            </div>
 
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex space-x-1 items-center font-medium text-sm">
-                    <button onclick="navigateTo('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition active-tab">Home</button>
-                    <button onclick="navigateTo('menu')" id="nav-menu" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Menu & Dining</button>
-                    <button onclick="navigateTo('swimming')" id="nav-swimming" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Swimming</button>
-                    <button onclick="navigateTo('events')" id="nav-events" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Events & Gardens</button>
-                    <button onclick="navigateTo('booking')" id="nav-booking" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Booking</button>
-                    <button onclick="navigateTo('personnel')" id="nav-personnel" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Personnel Area</button>
-                    <button onclick="navigateTo('contact')" id="nav-contact" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Contact & Socials</button>
-                </nav>
+            <nav class="hidden lg:flex space-x-1 items-center font-medium text-sm">
+                <button onclick="navigateTo('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition active-tab">Home</button>
+                <button onclick="navigateTo('menu')" id="nav-menu" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Menu & Dining</button>
+                <button onclick="navigateTo('swimming')" id="nav-swimming" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Swimming</button>
+                <button onclick="navigateTo('events')" id="nav-events" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Events & Gardens</button>
+                <button onclick="navigateTo('booking')" id="nav-booking" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Booking</button>
+                <button onclick="navigateTo('personnel')" id="nav-personnel" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Personnel Area</button>
+                <button onclick="navigateTo('contact')" id="nav-contact" class="nav-btn px-3 py-2 rounded-md hover:text-brand-gold transition">Contact & Socials</button>
+            </nav>
 
-                <div class="lg:hidden flex items-center space-x-2">
-                    <button onclick="toggleMobileMenu()" class="text-white hover:text-brand-gold focus:outline-none p-2">
-                        <i class="fa-solid fa-bars text-2xl" id="menu-icon"></i>
+            <div class="lg:hidden flex items-center space-x-2">
+                <button onclick="toggleMobileMenu()" class="text-white hover:text-brand-gold focus:outline-none p-2">
+                    <i class="fa-solid fa-bars text-2xl" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden lg:hidden bg-brand-green border-t border-white/10 px-4 pt-2 pb-6 space-y-2">
+        <button onclick="navigateTo('home')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Home</button>
+        <button onclick="navigateTo('menu')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Menu & Dining</button>
+        <button onclick="navigateTo('swimming')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Swimming Pool</button>
+        <button onclick="navigateTo('events')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Events & Gardens</button>
+        <button onclick="navigateTo('booking')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Booking</button>
+        <button onclick="navigateTo('personnel')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Personnel Area</button>
+        <button onclick="navigateTo('contact')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Contact & Socials</button>
+    </div>
+</header>
+
+<main class="flex-grow" id="app-content">
+
+    <div id="page-home" class="page-view space-y-16">
+
+        <section class="hero-bg text-white py-24 sm:py-32 px-4 sm:px-6 lg:px-8 text-center relative">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <span class="inline-block bg-brand-gold/20 text-brand-gold border border-brand-gold px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase">
+                    <i class="fa-solid fa-gem mr-1.5"></i>Kiteezi, Lusanjja • Kampala
+                </span>
+
+                <h1 class="text-4xl sm:text-6xl font-serif font-bold tracking-tight text-white leading-tight">
+                    Your Oasis of Comfort, Dining & Relaxation
+                </h1>
+
+                <p class="text-lg sm:text-xl font-light text-gray-200 max-w-2xl mx-auto">
+                    Refreshing swimming pool, gourmet local & continental cuisine, lush garden venue rentals, and welcoming hospitality in Lusanjja, Kiteezi.
+                </p>
+
+                <div class="pt-4 flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="navigateTo('booking')" class="bg-brand-gold text-brand-dark hover:bg-yellow-500 font-bold px-8 py-3.5 rounded-lg shadow-lg transition">
+                        <i class="fa-solid fa-calendar-check mr-2"></i>Book An Event
                     </button>
+
+                    <a href="https://wa.me/256709763803" target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-lg shadow-lg transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Us (0709763803)
+                    </a>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Mobile Navigation Menu Drawer -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-brand-green border-t border-white/10 px-4 pt-2 pb-6 space-y-2">
-            <button onclick="navigateTo('home')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Home</button>
-            <button onclick="navigateTo('menu')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Menu & Dining</button>
-            <button onclick="navigateTo('swimming')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Swimming Pool</button>
-            <button onclick="navigateTo('events')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Events & Gardens</button>
-            <button onclick="navigateTo('booking')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Booking</button>
-            <button onclick="navigateTo('personnel')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Personnel Area</button>
-            <button onclick="navigateTo('contact')" class="block w-full text-left px-3 py-2.5 rounded-md text-base hover:bg-brand-lightgreen">Contact & Socials</button>
-        </div>
-    </header>
+        <!-- PUBLIC STATEMENTS -->
+        <section id="public-statements" class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20 hidden">
+            <div id="public-statements-container" class="space-y-4"></div>
+        </section>
 
-    <!-- MAIN APP CONTENT -->
-    <main class="flex-grow" id="app-content">
-
-        <!-- 1. HOME VIEW -->
-        <div id="page-home" class="page-view space-y-16">
-            <!-- Hero Section -->
-            <section class="hero-bg text-white py-24 sm:py-32 px-4 sm:px-6 lg:px-8 text-center relative">
-                <div class="max-w-4xl mx-auto space-y-6">
-                    <span class="inline-block bg-brand-gold/20 text-brand-gold border border-brand-gold px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase"><i class="fa-solid fa-gem mr-1.5"></i>Kiteezi, Lusanjja • Kampala</span>
-                    <h1 class="text-4xl sm:text-6xl font-serif font-bold tracking-tight text-white leading-tight">Your Oasis of Comfort, Dining & Relaxation</h1>
-                    <p class="text-lg sm:text-xl font-light text-gray-200 max-w-2xl mx-auto">Refreshing swimming pool, gourmet local & continental cuisine, lush garden venue rentals, and welcoming hospitality in Lusanjja, Kiteezi.</p>
-                    
-                    <!-- Quick Contact / Action Buttons -->
-                    <div class="pt-4 flex flex-col sm:flex-row justify-center gap-4">
-                        <button onclick="navigateTo('booking')" class="bg-brand-gold text-brand-dark hover:bg-yellow-500 font-bold px-8 py-3.5 rounded-lg shadow-lg transition"><i class="fa-solid fa-calendar-check mr-2"></i>Book An Event</button>
-                        <a href="https://wa.me/256709763803" target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3.5 rounded-lg shadow-lg transition flex items-center justify-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Us (0709763803)
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Quick Highlight Cards -->
-            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div onclick="navigateTo('swimming')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
-                        <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-person-swimming"></i></div>
-                        <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Swimming Pool</h3>
-                        <p class="text-gray-600 text-sm">Clear standard pool with dedicated kids pool, swimming lessons, and expert lifesavers.</p>
-                    </div>
-                    <div onclick="navigateTo('menu')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
-                        <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-utensils"></i></div>
-                        <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Restaurant & Bar</h3>
-                        <p class="text-gray-600 text-sm">Delicious fresh local buffets, grilled tilapia, pork ribs, snacks, and poolside drinks.</p>
-                    </div>
-                    <div onclick="navigateTo('events')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
-                        <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-champagne-glasses"></i></div>
-                        <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Lush Gardens & Venue</h3>
-                        <p class="text-gray-600 text-sm">Spacious lawns ideal for weddings, birthday parties, retreats, and photoshoots.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Direct Contact & Map Bar -->
-            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-brand-green text-white rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="space-y-2 text-center md:text-left">
-                        <span class="text-xs font-bold uppercase tracking-wider text-brand-gold"><i class="fa-solid fa-map-pin mr-1"></i> Visit Us Today</span>
-                        <h3 class="text-2xl font-serif font-bold">Kiteezi, Lusanjja, Kampala</h3>
-                        <p class="text-sm text-gray-200">Call us for reservations or directions: <strong class="text-brand-gold">0766 529086</strong> | WhatsApp: <strong class="text-brand-gold">0709763803</strong></p>
-                    </div>
-                    <div class="flex flex-wrap gap-3">
-                        <a href="https://www.google.com/maps/place/kiteezi+recreational+center/data=!4m2!3m1!1s0x177db11709cac499:0x30f8c01c7912656a?sa=X&ved=1t:242&ictx=111" target="_blank" class="bg-brand-gold text-brand-dark hover:bg-yellow-500 font-bold px-6 py-3 rounded-lg shadow transition flex items-center gap-2">
-                            <i class="fa-solid fa-map-location-dot"></i> Open on Google Maps
-                        </a>
-                        <a href="tel:0766529086" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-lg border border-white/20 transition flex items-center gap-2">
-                            <i class="fa-solid fa-phone"></i> Call Now
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Personnel & Staff Area Highlight -->
-            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div class="text-center mb-10">
-                    <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Hospitality Professionals</span>
-                    <h2 class="text-3xl font-serif font-bold text-brand-green">Personnel & Leadership Area</h2>
-                    <p class="text-gray-600 mt-1 max-w-xl mx-auto">Meet the dedicated team working round the clock to ensure high standards of customer satisfaction.</p>
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div onclick="navigateTo('swimming')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
+                    <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-person-swimming"></i></div>
+                    <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Swimming Pool</h3>
+                    <p class="text-gray-600 text-sm">Clear standard pool with dedicated kids pool, swimming lessons, and expert lifesavers.</p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                        <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                            <i class="fa-solid fa-user-tie"></i>
-                        </div>
-                        <h3 class="font-serif font-bold text-lg text-brand-green">Grace Nalubega</h3>
-                        <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Operations & Guest Manager</p>
-                        <p class="text-xs text-gray-500">Coordinates venue bookings, guest receptions, and overall center experience.</p>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                        <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                            <i class="fa-solid fa-utensils"></i>
-                        </div>
-                        <h3 class="font-serif font-bold text-lg text-brand-green">Patrick Mukasa</h3>
-                        <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Head Chef</p>
-                        <p class="text-xs text-gray-500">Oversees local buffet preparations, grilled fresh tilapia, and kitchen operations.</p>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                        <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                            <i class="fa-solid fa-life-ring"></i>
-                        </div>
-                        <h3 class="font-serif font-bold text-lg text-brand-green">Dennis Okello</h3>
-                        <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Pool Supervisor & Coach</p>
-                        <p class="text-xs text-gray-500">Certified water safety guard managing pool sanitation, safety, and coaching sessions.</p>
-                    </div>
-
-                    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                        <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                            <i class="fa-solid fa-receipt"></i>
-                        </div>
-                        <h3 class="font-serif font-bold text-lg text-brand-green">Sarah Namukasa</h3>
-                        <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Front Desk & Cashier</p>
-                        <p class="text-xs text-gray-500">Manages guest ticketing, daily billings, and customer care inquiries.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Customer Reviews Powered by Supabase -->
-            <section id="reviews" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-brand-sand/40 rounded-2xl">
-                <div class="text-center mb-10">
-                    <p class="text-xs font-bold uppercase tracking-wider text-brand-gold">Guest Testimonials</p>
-                    <h2 class="text-3xl font-serif font-bold text-brand-green">Customer Reviews</h2>
-                    <p class="text-gray-600 mt-1">Read live feedback from visitors or share your experience with us.</p>
+                <div onclick="navigateTo('menu')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
+                    <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-utensils"></i></div>
+                    <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Restaurant & Bar</h3>
+                    <p class="text-gray-600 text-sm">Delicious fresh local buffets, grilled tilapia, pork ribs, snacks, and poolside drinks.</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    <!-- Review Form -->
-                    <div class="lg:col-span-5 bg-white p-6 rounded-xl shadow-md border border-gray-100">
-                        <h3 class="font-serif text-xl font-bold text-brand-green mb-4">Leave A Review</h3>
-                        <form id="review-form" onsubmit="handleReviewSubmit(event)" class="space-y-4">
-                            <div>
-                                <label for="review-name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-                                <input type="text" id="review-name" required placeholder="Enter your full name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
-                            </div>
-                            <div>
-                                <label for="review-rating" class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
-                                <select id="review-rating" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
-                                    <option value="">Select rating</option>
-                                    <option value="5">★★★★★ - Excellent</option>
-                                    <option value="4">★★★★☆ - Very Good</option>
-                                    <option value="3">★★★☆☆ - Good</option>
-                                    <option value="2">★★☆☆☆ - Fair</option>
-                                    <option value="1">★☆☆☆☆ - Poor</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="review-text" class="block text-sm font-medium text-gray-700 mb-1">Your Feedback</label>
-                                <textarea id="review-text" rows="4" required placeholder="Write about your visit to Kiteezi Recreational Center..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"></textarea>
-                            </div>
-                            <button type="submit" id="submit-btn" class="w-full bg-brand-green text-white font-bold py-3 rounded-lg hover:bg-brand-lightgreen transition">Submit Review</button>
-                            <p id="review-status" class="text-sm font-medium text-center hidden"></p>
-                        </form>
-                    </div>
-
-                    <!-- Reviews List -->
-                    <div class="lg:col-span-7">
-                        <div id="reviews-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
-                            <p class="text-gray-500 italic">Loading reviews...</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- 2. MENU & DINING VIEW -->
-        <div id="page-menu" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-            <div class="text-center max-w-2xl mx-auto">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Fresh & Savory</span>
-                <h2 class="text-3xl font-serif font-bold text-brand-green">Menu & Dining</h2>
-                <p class="text-gray-600 mt-2">Select your meals and drinks below to generate an instant WhatsApp order to <strong>0709763803</strong>!</p>
-            </div>
-
-            <!-- Menu Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Item 1 -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded font-medium">Buffet</span>
-                        <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Executive Local Buffet</h3>
-                        <p class="text-sm text-gray-500 mt-1">Matooke, fresh beef stew, local chicken, fresh salads, steamed rice, and fruit slice.</p>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div class="font-bold text-brand-gold text-lg">UGX 35,000</div>
-                        <button onclick="addToCart('Executive Local Buffet', 35000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                    </div>
-                </div>
-
-                <!-- Item 2 -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded font-medium">Speciality</span>
-                        <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Whole Fried Tilapia & Chips</h3>
-                        <p class="text-sm text-gray-500 mt-1">Crispy whole fresh lake tilapia served with golden chips and spicy tartar sauce.</p>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div class="font-bold text-brand-gold text-lg">UGX 30,000</div>
-                        <button onclick="addToCart('Whole Fried Tilapia & Chips', 30000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                    </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded font-medium">Speciality</span>
-                        <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Pork Ribs & Wedges</h3>
-                        <p class="text-sm text-gray-500 mt-1">Slow BBQ glazed pork ribs served with seasoned potato wedges.</p>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div class="font-bold text-brand-gold text-lg">UGX 28,000</div>
-                        <button onclick="addToCart('Pork Ribs & Wedges', 28000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                    </div>
-                </div>
-
-                <!-- Item 4 -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded font-medium">Fast Food</span>
-                        <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Crispy Chicken Wings & Chips</h3>
-                        <p class="text-sm text-gray-500 mt-1">6 pieces of crunchy fried chicken wings with French fries.</p>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div class="font-bold text-brand-gold text-lg">UGX 22,000</div>
-                        <button onclick="addToCart('Crispy Chicken Wings & Chips', 22000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                    </div>
-                </div>
-
-                <!-- Item 5 -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded font-medium">Beverage</span>
-                        <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Fresh Blended Smoothie</h3>
-                        <p class="text-sm text-gray-500 mt-1">Refreshing mix of passion fruit, mango, and pineapple.</p>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div class="font-bold text-brand-gold text-lg">UGX 10,000</div>
-                        <button onclick="addToCart('Fresh Blended Smoothie', 10000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                    </div>
-                </div>
-
-                <!-- Item 6 -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded font-medium">Beverage</span>
-                        <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Cold Soda / Mineral Water</h3>
-                        <p class="text-sm text-gray-500 mt-1">Chilled carbonated soft drinks or bottled water.</p>
-                    </div>
-                    <div class="mt-4 flex justify-between items-center">
-                        <div class="font-bold text-brand-gold text-lg">UGX 4,000</div>
-                        <button onclick="addToCart('Cold Soda / Mineral Water', 4000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                    </div>
+                <div onclick="navigateTo('events')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
+                    <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-champagne-glasses"></i></div>
+                    <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Lush Gardens & Venue</h3>
+                    <p class="text-gray-600 text-sm">Spacious lawns ideal for weddings, birthday parties, retreats, and photoshoots.</p>
                 </div>
             </div>
+        </section>
 
-            <!-- WhatsApp Cart Container -->
-            <div class="bg-brand-green text-white p-6 rounded-xl shadow-lg mt-8">
-                <div class="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
-                    <h3 class="font-serif text-xl font-bold text-brand-gold flex items-center gap-2">
-                        <i class="fa-solid fa-cart-shopping"></i> Your Selected Order
-                    </h3>
-                    <button onclick="clearCart()" class="text-xs text-red-300 hover:text-red-100 underline">Clear Cart</button>
-                </div>
-                
-                <div id="cart-items-list" class="text-sm space-y-2 mb-4 border-b border-white/20 pb-4">
-                    <p class="text-gray-300 italic">No items added yet. Click "Add to Order" on any meal above.</p>
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-brand-green text-white rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 text-center md:text-left">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">
+                        <i class="fa-solid fa-map-pin mr-1"></i> Visit Us Today
+                    </span>
+                    <h3 class="text-2xl font-serif font-bold">Kiteezi, Lusanjja, Kampala</h3>
+                    <p class="text-sm text-gray-200">
+                        Call us for reservations or directions:
+                        <strong class="text-brand-gold">0766 529086</strong> |
+                        WhatsApp:
+                        <strong class="text-brand-gold">0709763803</strong>
+                    </p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <div class="text-lg">Total Amount: <strong id="cart-total" class="text-brand-gold font-bold text-xl">UGX 0</strong></div>
-                    <button onclick="sendWhatsAppOrder()" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition shadow-lg">
-                        <i class="fa-brands fa-whatsapp text-xl"></i> Order via WhatsApp (0709763803)
-                    </button>
+                <div class="flex flex-wrap gap-3">
+                    <a href="https://www.google.com/maps/place/kiteezi+recreational+center/data=!4m2!3m1!1s0x177db11709cac499:0x30f8c01c7912656a?sa=X&ved=1t:242&ictx=111" target="_blank" class="bg-brand-gold text-brand-dark hover:bg-yellow-500 font-bold px-6 py-3 rounded-lg shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> Open on Google Maps
+                    </a>
+
+                    <a href="tel:0766529086" class="bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-lg border border-white/20 transition flex items-center gap-2">
+                        <i class="fa-solid fa-phone"></i> Call Now
+                    </a>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 3. SWIMMING POOL VIEW -->
-        <div id="page-swimming" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-            <div class="text-center max-w-2xl mx-auto">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Dip & Relax</span>
-                <h2 class="text-3xl font-serif font-bold text-brand-green">Swimming Pool Experience</h2>
-                <p class="text-gray-600 mt-2">Crystal clear waters, trained lifeguards, and pool safety in Kiteezi, Lusanjja.</p>
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Hospitality Professionals</span>
+                <h2 class="text-3xl font-serif font-bold text-brand-green">Personnel & Leadership Area</h2>
+                <p class="text-gray-600 mt-1 max-w-xl mx-auto">Meet the dedicated team working round the clock to ensure high standards of customer satisfaction.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Swimming Pool Kiteezi" class="rounded-2xl shadow-lg object-cover h-96 w-full">
-                
-                <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                        <h3 class="font-serif text-xl font-bold text-brand-green mb-4"><i class="fa-solid fa-ticket text-brand-gold mr-2"></i>Daily Pool Entry Rates</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between items-center border-b pb-2">
-                                <span class="text-gray-700">Adult Swimming Ticket</span>
-                                <span class="font-bold text-brand-green text-base">UGX 10,000 / day</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b pb-2">
-                                <span class="text-gray-700">Children Swimming Ticket</span>
-                                <span class="font-bold text-brand-green text-base">UGX 5,000 / day</span>
-                            </div>
-                            <div class="flex justify-between items-center border-b pb-2">
-                                <span class="text-gray-700">Monthly Individual Membership</span>
-                                <span class="font-bold text-brand-green text-base">UGX 150,000</span>
-                            </div>
-                        </div>
+            <div id="home-staff-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
+                    <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
+                        <i class="fa-solid fa-user-tie"></i>
                     </div>
+                    <h3 class="font-serif font-bold text-lg text-brand-green">Grace Nalubega</h3>
+                    <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Operations & Guest Manager</p>
+                    <p class="text-xs text-gray-500">Coordinates venue bookings, guest receptions, and overall center experience.</p>
+                </div>
 
-                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                        <h3 class="font-serif text-xl font-bold text-brand-green mb-2"><i class="fa-solid fa-graduation-cap text-brand-gold mr-2"></i>Swimming Lessons & Coaching</h3>
-                        <p class="text-sm text-gray-600 mb-3">Beginner and advanced coaching sessions guided by our chief pool trainer, Dennis Okello.</p>
-                        <p class="text-sm font-bold text-brand-gold bg-brand-sand px-3 py-2 rounded-lg inline-block">10-Session Coaching Package: UGX 120,000</p>
+                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
+                    <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
+                        <i class="fa-solid fa-utensils"></i>
                     </div>
+                    <h3 class="font-serif font-bold text-lg text-brand-green">Patrick Mukasa</h3>
+                    <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Head Chef</p>
+                    <p class="text-xs text-gray-500">Oversees local buffet preparations, grilled fresh tilapia, and kitchen operations.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
+                    <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
+                        <i class="fa-solid fa-life-ring"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-lg text-brand-green">Dennis Okello</h3>
+                    <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Pool Supervisor & Coach</p>
+                    <p class="text-xs text-gray-500">Certified water safety guard managing pool sanitation, safety, and coaching sessions.</p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
+                    <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-lg text-brand-green">Sarah Namukasa</h3>
+                    <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Front Desk & Cashier</p>
+                    <p class="text-xs text-gray-500">Manages guest ticketing, daily billings, and customer care inquiries.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 4. EVENTS & GARDENS VIEW -->
-        <div id="page-events" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-            <div class="text-center max-w-2xl mx-auto">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Outdoor Celebrations</span>
-                <h2 class="text-3xl font-serif font-bold text-brand-green">Events & Lawn Rental</h2>
-                <p class="text-gray-600 mt-2">Serene green gardens perfect for weddings, corporate galas, and birthday parties in Lusanjja.</p>
+        <section id="reviews" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-brand-sand/40 rounded-2xl">
+            <div class="text-center mb-10">
+                <p class="text-xs font-bold uppercase tracking-wider text-brand-gold">Guest Testimonials</p>
+                <h2 class="text-3xl font-serif font-bold text-brand-green">Customer Reviews</h2>
+                <p class="text-gray-600 mt-1">Read live feedback from visitors or share your experience with us.</p>
             </div>
 
-            <!-- Cost Calculator Widget -->
-            <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 max-w-3xl mx-auto">
-                <h3 class="font-serif text-2xl font-bold text-brand-green mb-1 text-center">Interactive Event Cost Estimator</h3>
-                <p class="text-gray-600 text-sm text-center mb-6">Calculate estimated ground hire and catering costs instantly.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-5 bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h3 class="font-serif text-xl font-bold text-brand-green mb-4">Leave A Review</h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Estimated Guests</label>
-                        <input type="number" id="calc-guests" min="10" value="100" oninput="calculateEventCost()" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Catering Option</label>
-                        <select id="calc-buffet" onchange="calculateEventCost()" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
-                            <option value="35000">Executive Buffet (UGX 35,000 / head)</option>
-                            <option value="25000">Standard Buffet (UGX 25,000 / head)</option>
-                            <option value="0">Ground Rental Only (No Catering)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mt-6 p-4 bg-brand-sand rounded-xl text-center">
-                    <p class="text-sm text-gray-600">Estimated Total Cost:</p>
-                    <div id="calc-total-result" class="text-3xl font-bold text-brand-green mt-1">UGX 4,500,000</div>
-                    <p class="text-xs text-gray-500 mt-1">* Includes standard venue space rental + selected buffet per person.</p>
-                </div>
-
-                <div class="mt-6 text-center">
-                    <button onclick="navigateTo('booking')" class="bg-brand-gold text-brand-dark hover:bg-yellow-500 font-bold px-6 py-2.5 rounded-lg shadow transition">Proceed To Booking Form</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 5. BOOKING VIEW -->
-        <div id="page-booking" class="page-view hidden max-w-3xl mx-auto px-4 py-12">
-            <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-                <h2 class="text-3xl font-serif font-bold text-brand-green mb-2">Reserve Venue & Services</h2>
-                <p class="text-gray-600 mb-6">Fill in your reservation details and our team will contact you promptly.</p>
-                
-                <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <form id="review-form" onsubmit="handleReviewSubmit(event)" class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                            <input type="text" id="book-name" required placeholder="e.g. Sarah Kaggwa" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
+                            <label for="review-name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                            <input type="text" id="review-name" required placeholder="Enter your full name" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                            <input type="tel" id="book-phone" required placeholder="e.g. 0766 529086" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
-                        </div>
-                    </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Event Type</label>
-                            <select id="book-type" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
-                                <option value="Wedding / Reception">Wedding / Reception</option>
-                                <option value="Birthday Party">Birthday Party</option>
-                                <option value="Corporate Retreat">Corporate Retreat</option>
-                                <option value="Swimming Group Booking">Swimming Group Booking</option>
+                            <label for="review-rating" class="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+                            <select id="review-rating" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
+                                <option value="">Select rating</option>
+                                <option value="5">★★★★★ - Excellent</option>
+                                <option value="4">★★★★☆ - Very Good</option>
+                                <option value="3">★★★☆☆ - Good</option>
+                                <option value="2">★★☆☆☆ - Fair</option>
+                                <option value="1">★☆☆☆☆ - Poor</option>
                             </select>
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Date</label>
-                            <input type="date" id="book-date" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
+                            <label for="review-text" class="block text-sm font-medium text-gray-700 mb-1">Your Feedback</label>
+                            <textarea id="review-text" rows="4" required placeholder="Write about your visit to Kiteezi Recreational Center..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"></textarea>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="w-full bg-brand-green text-white font-bold py-3 rounded-lg hover:bg-brand-lightgreen transition">
+                            Submit Review
+                        </button>
+
+                        <p id="review-status" class="text-sm font-medium text-center hidden"></p>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-7">
+                    <div id="reviews-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                        <p class="text-gray-500 italic">Loading reviews...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="page-menu" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+        <div class="text-center max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Fresh & Savory</span>
+            <h2 class="text-3xl font-serif font-bold text-brand-green">Menu & Dining</h2>
+            <p class="text-gray-600 mt-2">Select your meals and drinks below to generate an instant WhatsApp order to <strong>0709763803</strong>!</p>
+        </div>
+
+        <div id="public-menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                <div>
+                    <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded font-medium">Buffet</span>
+                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Executive Local Buffet</h3>
+                    <p class="text-sm text-gray-500 mt-1">Matooke, fresh beef stew, local chicken, fresh salads, steamed rice, and fruit slice.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="font-bold text-brand-gold text-lg">UGX 35,000</div>
+                    <button onclick="addToCart('Executive Local Buffet', 35000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                <div>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded font-medium">Speciality</span>
+                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Whole Fried Tilapia & Chips</h3>
+                    <p class="text-sm text-gray-500 mt-1">Crispy whole fresh lake tilapia served with golden chips and spicy tartar sauce.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="font-bold text-brand-gold text-lg">UGX 30,000</div>
+                    <button onclick="addToCart('Whole Fried Tilapia & Chips', 30000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                <div>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded font-medium">Speciality</span>
+                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Pork Ribs & Wedges</h3>
+                    <p class="text-sm text-gray-500 mt-1">Slow BBQ glazed pork ribs served with seasoned potato wedges.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="font-bold text-brand-gold text-lg">UGX 28,000</div>
+                    <button onclick="addToCart('Pork Ribs & Wedges', 28000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                <div>
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded font-medium">Fast Food</span>
+                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Crispy Chicken Wings & Chips</h3>
+                    <p class="text-sm text-gray-500 mt-1">6 pieces of crunchy fried chicken wings with French fries.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="font-bold text-brand-gold text-lg">UGX 22,000</div>
+                    <button onclick="addToCart('Crispy Chicken Wings & Chips', 22000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                <div>
+                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded font-medium">Beverage</span>
+                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Fresh Blended Smoothie</h3>
+                    <p class="text-sm text-gray-500 mt-1">Refreshing mix of passion fruit, mango, and pineapple.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="font-bold text-brand-gold text-lg">UGX 10,000</div>
+                    <button onclick="addToCart('Fresh Blended Smoothie', 10000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
+                <div>
+                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded font-medium">Beverage</span>
+                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Cold Soda / Mineral Water</h3>
+                    <p class="text-sm text-gray-500 mt-1">Chilled carbonated soft drinks or bottled water.</p>
+                </div>
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="font-bold text-brand-gold text-lg">UGX 4,000</div>
+                    <button onclick="addToCart('Cold Soda / Mineral Water', 4000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-brand-green text-white p-6 rounded-xl shadow-lg mt-8">
+            <div class="flex items-center justify-between border-b border-white/20 pb-3 mb-4">
+                <h3 class="font-serif text-xl font-bold text-brand-gold flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping"></i> Your Selected Order
+                </h3>
+                <button onclick="clearCart()" class="text-xs text-red-300 hover:text-red-100 underline">Clear Cart</button>
+            </div>
+
+            <div id="cart-items-list" class="text-sm space-y-2 mb-4 border-b border-white/20 pb-4">
+                <p class="text-gray-300 italic">No items added yet. Click "Add to Order" on any meal above.</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="text-lg">Total Amount: <strong id="cart-total" class="text-brand-gold font-bold text-xl">UGX 0</strong></div>
+
+                <button onclick="sendWhatsAppOrder()" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-lg flex items-center justify-center gap-2 transition shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> Order via WhatsApp (0709763803)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-swimming" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+        <div class="text-center max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Dip & Relax</span>
+            <h2 class="text-3xl font-serif font-bold text-brand-green">Swimming Pool Experience</h2>
+            <p class="text-gray-600 mt-2">Crystal clear waters, trained lifeguards, and pool safety in Kiteezi, Lusanjja.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Swimming Pool Kiteezi" class="rounded-2xl shadow-lg object-cover h-96 w-full">
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <h3 class="font-serif text-xl font-bold text-brand-green mb-4">
+                        <i class="fa-solid fa-ticket text-brand-gold mr-2"></i>Daily Pool Entry Rates
+                    </h3>
+
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between items-center border-b pb-2">
+                            <span class="text-gray-700">Adult Swimming Ticket</span>
+                            <span id="display-adult-price" class="font-bold text-brand-green text-base">UGX 10,000 / day</span>
+                        </div>
+
+                        <div class="flex justify-between items-center border-b pb-2">
+                            <span class="text-gray-700">Children Swimming Ticket</span>
+                            <span id="display-child-price" class="font-bold text-brand-green text-base">UGX 5,000 / day</span>
+                        </div>
+
+                        <div class="flex justify-between items-center border-b pb-2">
+                            <span class="text-gray-700">Monthly Individual Membership</span>
+                            <span id="display-monthly-price" class="font-bold text-brand-green text-base">UGX 150,000</span>
                         </div>
                     </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Number of Guests & Special Requests</label>
-                        <textarea id="book-notes" rows="3" placeholder="Provide guest count, setup preferences, or dietary requirements..." class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full bg-brand-gold text-brand-dark font-bold py-3.5 rounded-lg hover:bg-yellow-500 transition shadow">Submit Reservation Request</button>
-                    <p id="booking-msg" class="text-center font-medium text-green-600 hidden mt-2"></p>
-                </form>
-            </div>
-        </div>
-
-        <!-- 6. PERSONNEL & STAFF VIEW -->
-        <div id="page-personnel" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
-            <div class="text-center max-w-2xl mx-auto">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Our Team</span>
-                <h2 class="text-3xl font-serif font-bold text-brand-green">Personnel & Staff Area</h2>
-                <p class="text-gray-600 mt-2">Meet the staff members who work seamlessly to keep our center running smoothly.</p>
-            </div>
-
-            <!-- Staff Roster Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                    <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">GN</div>
-                    <div>
-                        <h3 class="font-bold text-brand-green">Grace Nalubega</h3>
-                        <p class="text-xs text-brand-gold font-semibold">Center Operations Manager</p>
-                        <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-clock mr-1"></i>Shift: Morning / Full Day</p>
-                    </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                    <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">PM</div>
-                    <div>
-                        <h3 class="font-bold text-brand-green">Patrick Mukasa</h3>
-                        <p class="text-xs text-brand-gold font-semibold">Head Chef</p>
-                        <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-clock mr-1"></i>Shift: Kitchen & Buffet Management</p>
-                    </div>
-                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <h3 class="font-serif text-xl font-bold text-brand-green mb-2">
+                        <i class="fa-solid fa-graduation-cap text-brand-gold mr-2"></i>Swimming Lessons & Coaching
+                    </h3>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                    <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">DO</div>
-                    <div>
-                        <h3 class="font-bold text-brand-green">Dennis Okello</h3>
-                        <p class="text-xs text-brand-gold font-semibold">Chief Lifeguard & Instructor</p>
-                        <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-clock mr-1"></i>Shift: Pool Operations & Coaching</p>
-                    </div>
-                </div>
+                    <p class="text-sm text-gray-600 mb-3">
+                        Beginner and advanced coaching sessions guided by our chief pool trainer, Dennis Okello.
+                    </p>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                    <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">SN</div>
-                    <div>
-                        <h3 class="font-bold text-brand-green">Sarah Namukasa</h3>
-                        <p class="text-xs text-brand-gold font-semibold">Head Cashier & Receptionist</p>
-                        <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-clock mr-1"></i>Shift: Ticketing Desk</p>
-                    </div>
-                </div>
+                    <p id="display-coaching-price" class="text-sm font-bold text-brand-gold bg-brand-sand px-3 py-2 rounded-lg inline-block">
+                        10-Session Coaching Package: UGX 120,000
+                    </p>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                    <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">JK</div>
-                    <div>
-                        <h3 class="font-bold text-brand-green">Joseph Kato</h3>
-                        <p class="text-xs text-brand-gold font-semibold">Grounds Supervisor</p>
-                        <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-clock mr-1"></i>Shift: Lawn & Event Setup</p>
-                    </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                    <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">AN</div>
-                    <div>
-                        <h3 class="font-bold text-brand-green">Agnes Nanteza</h3>
-                        <p class="text-xs text-brand-gold font-semibold">Senior Waitress</p>
-                        <p class="text-xs text-gray-500 mt-1"><i class="fa-regular fa-clock mr-1"></i>Shift: Restaurant & Bar Service</p>
-                    </div>
+                    <p id="display-promo-note" class="text-sm text-gray-500 mt-3"></p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- 7. CONTACT US & SOCIALS VIEW -->
-        <div id="page-contact" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-            <div class="text-center max-w-2xl mx-auto">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Stay Connected</span>
-                <h2 class="text-3xl font-serif font-bold text-brand-green">Contact Us & Social Links</h2>
-                <p class="text-gray-600 mt-2">Connect with us on social media or reach out directly for bookings and directions.</p>
+    <div id="page-events" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        <div class="text-center max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Outdoor Celebrations</span>
+            <h2 class="text-3xl font-serif font-bold text-brand-green">Events & Lawn Rental</h2>
+            <p class="text-gray-600 mt-2">Serene green gardens perfect for weddings, corporate galas, and birthday parties in Lusanjja.</p>
+        </div>
+
+        <!-- PUBLISHED ANNOUNCEMENTS -->
+        <div id="public-events-container" class="max-w-4xl mx-auto space-y-4"></div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 max-w-3xl mx-auto">
+            <h3 class="font-serif text-2xl font-bold text-brand-green mb-1 text-center">Interactive Event Cost Estimator</h3>
+            <p class="text-gray-600 text-sm text-center mb-6">Calculate estimated ground hire and catering costs instantly.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Estimated Guests</label>
+                    <input type="number" id="calc-guests" min="10" value="100" oninput="calculateEventCost()" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Catering Option</label>
+                    <select id="calc-buffet" onchange="calculateEventCost()" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none">
+                        <option value="35000">Ordinary Buffet (UGX 35,000 / head)</option>
+                        <option value="45000">Standard Buffet (UGX 45,000 / head)</option>
+                        <option value="55000">Ethinic Buffet (UGX 55,000 / head)</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- Verified Social Links -->
-            <div class="bg-brand-green text-white p-8 rounded-2xl shadow-xl text-center space-y-6">
-                <h3 class="font-serif text-2xl font-bold text-brand-gold">Connect With Us On Social Media</h3>
-                <p class="text-gray-200 text-sm max-w-xl mx-auto">Follow our official channels for photos, pool offers, event updates, and daily lunch buffets!</p>
+            <div class="mt-6 p-4 bg-brand-sand rounded-xl text-center">
+                <p class="text-sm text-gray-600">Estimated Total Cost:</p>
+                <div id="calc-total-result" class="text-3xl font-bold text-brand-green mt-1">UGX 4,500,000</div>
+                <p class="text-xs text-gray-500 mt-1">* Includes standard venue space rental + selected buffet per person.</p>
+            </div>
 
-                <div class="flex flex-wrap justify-center gap-4 pt-2">
-                    <!-- Instagram -->
-                    <a href="https://www.instagram.com/kiteezi_recreational_center/" target="_blank" class="social-btn bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 text-sm shadow-md">
-                        <i class="fa-brands fa-instagram text-xl"></i> Instagram (@kiteezi_recreational_center)
+            <div class="mt-6 text-center">
+                <button onclick="navigateTo('booking')" class="bg-brand-gold text-brand-dark hover:bg-yellow-500 font-bold px-6 py-2.5 rounded-lg shadow transition">
+                    Proceed To Booking Form
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-booking" class="page-view hidden max-w-3xl mx-auto px-4 py-12">
+        <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+            <h2 class="text-3xl font-serif font-bold text-brand-green mb-2">Reserve Venue & Services</h2>
+            <p class="text-gray-600 mb-6">Fill in your reservation details and our team will contact you promptly.</p>
+
+          <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="book-name"
+                required
+                placeholder="e.g. Sarah Kaggwa"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"
+            >
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Phone Number
+            </label>
+
+            <input
+                type="tel"
+                id="book-phone"
+                required
+                placeholder="e.g. 0766 529086"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"
+            >
+        </div>
+
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Event Type
+            </label>
+
+            <select
+                id="book-type"
+                required
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"
+            >
+                <option value="Wedding / Reception">Wedding / Reception</option>
+                <option value="Birthday Party">Birthday Party</option>
+                <option value="Corporate Retreat">Corporate Retreat</option>
+                <option value="Swimming Group Booking">Swimming Group Booking</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Preferred Date
+            </label>
+
+            <input
+                type="date"
+                id="book-date"
+                required
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"
+            >
+        </div>
+
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+            Number of Guests
+        </label>
+
+        <input
+            type="number"
+            id="book-guests"
+            min="1"
+            value="1"
+            required
+            oninput="updateReservationTotal()"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"
+        >
+    </div>
+
+    <!-- BUFFET SELECTION -->
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+            Buffet
+        </label>
+
+        <select
+            id="book-buffet"
+            onchange="updateReservationTotal()"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"
+        >
+            <option value="">No Buffet</option>
+        </select>
+    </div>
+
+    <!-- ADDITIONAL MENU ITEMS -->
+    <div class="mt-5">
+
+        <label class="block text-sm font-semibold text-gray-700 mb-2">
+            Additional Menu Items
+        </label>
+
+        <p class="text-xs text-gray-500 mb-3">
+            Select any additional food or drinks you would like in addition to the buffet.
+        </p>
+
+        <div
+            id="reservation-menu-items"
+            class="space-y-3"
+        >
+            <p class="text-gray-500 text-sm">
+                Loading menu...
+            </p>
+        </div>
+
+    </div>
+
+    <!-- RESERVATION TOTAL -->
+    <div class="mt-5 bg-gray-50 rounded-lg p-4">
+
+        <div class="flex justify-between">
+            <span>Buffet Total</span>
+            <span id="reservation-buffet-total">
+                UGX 0
+            </span>
+        </div>
+
+        <div class="flex justify-between mt-2">
+            <span>Additional Menu Total</span>
+            <span id="reservation-menu-total">
+                UGX 0
+            </span>
+        </div>
+
+        <div class="flex justify-between mt-3 pt-3 border-t font-bold text-lg">
+            <span>Estimated Total</span>
+
+            <span id="reservation-grand-total">
+                UGX 0
+            </span>
+        </div>
+
+    </div>
+
+    <!-- SPECIAL REQUESTS -->
+    <div>
+
+        <label class="block text-sm font-medium text-gray-700 mb-1">
+            Special Requests
+        </label>
+
+        <textarea
+            id="book-notes"
+            rows="3"
+            placeholder="Setup preferences, dietary requirements, or other requests..."
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-green outline-none"
+        ></textarea>
+
+    </div>
+
+    <button
+        type="submit"
+        class="w-full bg-brand-gold text-brand-dark font-bold py-3.5 rounded-lg hover:bg-yellow-500 transition shadow"
+    >
+        Submit Reservation Request
+    </button>
+
+    <p
+        id="booking-msg"
+        class="text-center font-medium text-green-600 hidden mt-2"
+    ></p>
+
+</form>
+        
+        </div>
+    </div>
+
+    <div id="page-personnel" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        <div class="text-center max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Our Team</span>
+            <h2 class="text-3xl font-serif font-bold text-brand-green">Personnel & Staff Area</h2>
+            <p class="text-gray-600 mt-2">Meet the staff members who work seamlessly to keep our center running smoothly.</p>
+        </div>
+
+        <div id="public-staff-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">TJ</div>
+                <div>
+                    <h3 class="font-bold text-brand-green">Mr John Turyagyenda</h3>
+                    <p class="text-xs text-brand-gold font-semibold">CEO & Founder</p>
+                    <p class="text-xs text-gray-500 mt-1">Shift: Occasional</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">NC</div>
+                <div>
+                    <h3 class="font-bold text-brand-green">Madam Nayiga Catherine</h3>
+                    <p class="text-xs text-brand-gold font-semibold">Center General Manager</p>
+                    <p class="text-xs text-gray-500 mt-1">Shift: Occasional</p>
+                </div>
+            </div>
+
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">AE</div>
+                <div>
+                    <h3 class="font-bold text-brand-green">Ainomugisha Elizabeth</h3>
+                    <p class="text-xs text-brand-gold font-semibold">Center Operations Manager</p>
+                    <p class="text-xs text-gray-500 mt-1">Shift: Morning / Full Day</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">BF</div>
+                <div>
+                    <h3 class="font-bold text-brand-green">Bayega Fred</h3>
+                    <p class="text-xs text-brand-gold font-semibold">Head Chef</p>
+                    <p class="text-xs text-gray-500 mt-1">Shift: Kitchen & Buffet Management</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">AP</div>
+                <div>
+                    <h3 class="font-bold text-brand-green">Adruvulle Phillium</h3>
+                    <p class="text-xs text-brand-gold font-semibold">Chief Lifeguard & Instructor</p>
+                    <p class="text-xs text-gray-500 mt-1">Shift: Pool Operations & Coaching</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">AE</div>
+                <div>
+                    <h3 class="font-bold text-brand-green">Ainomugisha Elizabeth</h3>
+                    <p class="text-xs text-brand-gold font-semibold">Head Cashier & Receptionist</p>
+                    <p class="text-xs text-gray-500 mt-1">Shift: Reception Desk</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">MZ</div>
+                <div>
+                    <h3 class="font-bold text-brand-green">Muzei</h3>
+                    <p class="text-xs text-brand-gold font-semibold">Grounds Supervisor</p>
+                    <p class="text-xs text-gray-500 mt-1">Shift: Lawn & Event Setup</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">NC</div>
+                <div>
+                    <h3 class="font-bold text-brand-green">Nakayenga Catherine</h3>
+                    <p class="text-xs text-brand-gold font-semibold">Senior Waitress</p>
+                    <p class="text-xs text-gray-500 mt-1">Shift: Restaurant & Bar Service</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="page-contact" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+        <div class="text-center max-w-2xl mx-auto">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Stay Connected</span>
+            <h2 class="text-3xl font-serif font-bold text-brand-green">Contact Us & Social Links</h2>
+            <p class="text-gray-600 mt-2">Connect with us on social media or reach out directly for bookings and directions.</p>
+        </div>
+
+        <div class="bg-brand-green text-white p-8 rounded-2xl shadow-xl text-center space-y-6">
+            <h3 class="font-serif text-2xl font-bold text-brand-gold">Connect With Us On Social Media</h3>
+            <p class="text-gray-200 text-sm max-w-xl mx-auto">Follow our official channels for photos, pool offers, event updates, and daily lunch buffets!</p>
+
+            <div class="flex flex-wrap justify-center gap-4 pt-2">
+                <a href="https://www.instagram.com/kiteezi_recreational_center/" target="_blank" class="social-btn bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 text-sm shadow-md">
+                    <i class="fa-brands fa-instagram text-xl"></i> Instagram (@kiteezi_recreational_center)
+                </a>
+
+                <a href="https://www.facebook.com/p/Kiteezi-Recreational-Centre-61569332887691/" target="_blank" class="social-btn bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 text-sm shadow-md">
+                    <i class="fa-brands fa-facebook text-xl"></i> Facebook Page
+                </a>
+
+                <a href="https://www.tiktok.com/@kiteezirecreationcentre" target="_blank" class="social-btn bg-black text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 text-sm shadow-md border border-gray-700">
+                    <i class="fa-brands fa-tiktok text-xl"></i> TikTok (@kiteezirecreationcentre)
+                </a>
+
+                <a href="https://wa.me/256709763803" target="_blank" class="social-btn bg-green-500 text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 text-sm shadow-md">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp Chat (0709763803)
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl mb-4">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-lg text-brand-green">Location</h3>
+                    <p class="text-sm text-gray-600 mt-2 font-medium">Kiteezi, Lusanjja, Kampala</p>
+                </div>
+
+                <div class="mt-6">
+                    <a href="https://www.google.com/maps/place/kiteezi+recreational+center/data=!4m2!3m1!1s0x177db11709cac499:0x30f8c01c7912656a?sa=X&ved=1t:242&ictx=111" target="_blank" class="inline-block bg-brand-green text-white text-xs px-4 py-2 rounded-lg hover:bg-brand-lightgreen transition">
+                        <i class="fa-solid fa-map-pin mr-1"></i> Open Google Maps Location
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl mb-4">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-lg text-brand-green">Phone & WhatsApp</h3>
+                    <p class="text-sm text-gray-600 mt-2">
+                        Direct Calls: <strong class="text-gray-900">0766 529086</strong><br>
+                        WhatsApp: <strong class="text-gray-900">0709763803</strong>
+                    </p>
+                </div>
+
+                <div class="mt-6 flex justify-center gap-2">
+                    <a href="tel:0766529086" class="bg-brand-green text-white text-xs px-3 py-2 rounded-lg hover:bg-brand-lightgreen transition">
+                        <i class="fa-solid fa-phone mr-1"></i> Call
                     </a>
 
-                    <!-- Facebook -->
-                    <a href="https://www.facebook.com/p/Kiteezi-Recreational-Centre-61569332887691/" target="_blank" class="social-btn bg-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 text-sm shadow-md">
-                        <i class="fa-brands fa-facebook text-xl"></i> Facebook Page
-                    </a>
-
-                    <!-- TikTok -->
-                    <a href="https://www.tiktok.com/@kiteezirecreationcentre" target="_blank" class="social-btn bg-black text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 text-sm shadow-md border border-gray-700">
-                        <i class="fa-brands fa-tiktok text-xl"></i> TikTok (@kiteezirecreationcentre)
-                    </a>
-
-                    <!-- WhatsApp -->
-                    <a href="https://wa.me/256709763803" target="_blank" class="social-btn bg-green-500 text-white px-6 py-3.5 rounded-xl font-semibold flex items-center gap-2 text-sm shadow-md">
-                        <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp Chat (0709763803)
+                    <a href="https://wa.me/256709763803" target="_blank" class="bg-green-500 text-white text-xs px-3 py-2 rounded-lg hover:bg-green-600 transition">
+                        <i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp
                     </a>
                 </div>
             </div>
 
-            <!-- Contact Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Location -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center flex flex-col justify-between">
-                    <div>
-                        <div class="w-12 h-12 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl mb-4">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-                        <h3 class="font-serif font-bold text-lg text-brand-green">Location</h3>
-                        <p class="text-sm text-gray-600 mt-2 font-medium">Kiteezi, Lusanjja, Kampala</p>
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl mb-4">
+                        <i class="fa-solid fa-envelope"></i>
                     </div>
-                    <div class="mt-6">
-                        <a href="https://www.google.com/maps/place/kiteezi+recreational+center/data=!4m2!3m1!1s0x177db11709cac499:0x30f8c01c7912656a?sa=X&ved=1t:242&ictx=111" target="_blank" class="inline-block bg-brand-green text-white text-xs px-4 py-2 rounded-lg hover:bg-brand-lightgreen transition">
-                            <i class="fa-solid fa-map-pin mr-1"></i> Open Google Maps Location
-                        </a>
-                    </div>
+                    <h3 class="font-serif font-bold text-lg text-brand-green">Email Address</h3>
+                    <p class="text-sm text-gray-600 mt-2 font-medium">krecreationalcenter@gmail.com</p>
                 </div>
 
-                <!-- Phone Numbers -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center flex flex-col justify-between">
-                    <div>
-                        <div class="w-12 h-12 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl mb-4">
-                            <i class="fa-solid fa-phone"></i>
-                        </div>
-                        <h3 class="font-serif font-bold text-lg text-brand-green">Phone & WhatsApp</h3>
-                        <p class="text-sm text-gray-600 mt-2">
-                            Direct Calls: <strong class="text-gray-900">0766 529086</strong><br>
-                            WhatsApp: <strong class="text-gray-900">0709763803</strong>
-                        </p>
-                    </div>
-                    <div class="mt-6 flex justify-center gap-2">
-                        <a href="tel:0766529086" class="bg-brand-green text-white text-xs px-3 py-2 rounded-lg hover:bg-brand-lightgreen transition"><i class="fa-solid fa-phone mr-1"></i> Call</a>
-                        <a href="https://wa.me/256709763803" target="_blank" class="bg-green-500 text-white text-xs px-3 py-2 rounded-lg hover:bg-green-600 transition"><i class="fa-brands fa-whatsapp mr-1"></i> WhatsApp</a>
-                    </div>
-                </div>
-
-                <!-- Email Address -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm text-center flex flex-col justify-between">
-                    <div>
-                        <div class="w-12 h-12 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl mb-4">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <h3 class="font-serif font-bold text-lg text-brand-green">Email Address</h3>
-                        <p class="text-sm text-gray-600 mt-2 font-medium">krecreationalcenter@gmail.com</p>
-                    </div>
-                    <div class="mt-6">
-                        <a href="mailto:krecreationalcenter@gmail.com" class="inline-block bg-brand-green text-white text-xs px-4 py-2 rounded-lg hover:bg-brand-lightgreen transition">
-                            <i class="fa-solid fa-paper-plane mr-1"></i> Send Email
-                        </a>
-                    </div>
+                <div class="mt-6">
+                    <a href="mailto:krecreationalcenter@gmail.com" class="inline-block bg-brand-green text-white text-xs px-4 py-2 rounded-lg hover:bg-brand-lightgreen transition">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> Send Email
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
 
-    </main>
+</main>
 
-    <!-- FOOTER -->
-    <footer class="bg-brand-green text-white py-12 border-t border-white/10 mt-16">
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm text-gray-300">
-            <div>
-                <h3 class="font-serif text-lg font-bold text-white mb-2">Kiteezi Recreational Center</h3>
-                <p class="text-xs text-gray-300 leading-relaxed">Your premier destination for swimming, dining, venue hire, and relaxation in Lusanjja, Kiteezi, Kampala.</p>
-                <p class="text-xs text-brand-gold mt-2 font-semibold">Email: krecreationalcenter@gmail.com</p>
-            </div>
-            <div>
-                <h4 class="font-bold text-white mb-2">Quick Navigation</h4>
-                <ul class="space-y-1 text-xs">
-                    <li><button onclick="navigateTo('home')" class="hover:text-brand-gold">Home</button></li>
-                    <li><button onclick="navigateTo('menu')" class="hover:text-brand-gold">Menu & Dining</button></li>
-                    <li><button onclick="navigateTo('swimming')" class="hover:text-brand-gold">Swimming Pool</button></li>
-                    <li><button onclick="navigateTo('events')" class="hover:text-brand-gold">Events & Gardens</button></li>
-                    <li><button onclick="navigateTo('personnel')" class="hover:text-brand-gold">Personnel Area</button></li>
-                    <li><button onclick="navigateTo('contact')" class="hover:text-brand-gold">Contact & Socials</button></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-bold text-white mb-2">Direct Contacts</h4>
-                <p class="text-xs">Direct Calls: <strong class="text-white">0766 529086</strong></p>
-                <p class="text-xs mt-1">WhatsApp: <strong class="text-white">0709763803</strong></p>
-                <p class="text-xs mt-2 text-brand-gold font-medium"><i class="fa-solid fa-location-dot mr-1"></i>Kiteezi, Lusanjja, Kampala</p>
-            </div>
+<footer class="bg-brand-green text-white py-12 border-t border-white/10 mt-16">
+    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm text-gray-300">
+        <div>
+            <h3 class="font-serif text-lg font-bold text-white mb-2">Kiteezi Recreational Center</h3>
+            <p class="text-xs text-gray-300 leading-relaxed">Your premier destination for swimming, dining, venue hire, and relaxation in Lusanjja, Kiteezi, Kampala.</p>
+            <p class="text-xs text-brand-gold mt-2 font-semibold">Email: krecreationalcenter@gmail.com</p>
         </div>
-        <div class="max-w-7xl mx-auto px-4 mt-8 pt-4 border-t border-white/10 text-center text-xs text-gray-400">
-            <p>&copy; 2026 Kiteezi Recreational Center. All rights reserved.</p>
+
+        <div>
+            <h4 class="font-bold text-white mb-2">Quick Navigation</h4>
+            <ul class="space-y-1 text-xs">
+                <li><button onclick="navigateTo('home')" class="hover:text-brand-gold">Home</button></li>
+                <li><button onclick="navigateTo('menu')" class="hover:text-brand-gold">Menu & Dining</button></li>
+                <li><button onclick="navigateTo('swimming')" class="hover:text-brand-gold">Swimming Pool</button></li>
+                <li><button onclick="navigateTo('events')" class="hover:text-brand-gold">Events & Gardens</button></li>
+                <li><button onclick="navigateTo('personnel')" class="hover:text-brand-gold">Personnel Area</button></li>
+                <li><button onclick="navigateTo('contact')" class="hover:text-brand-gold">Contact & Socials</button></li>
+            </ul>
         </div>
-    </footer>
 
-    <!-- JAVASCRIPT & SUPABASE INTEGRATION -->
-    <script>
-        // Supabase Credentials
-        const SUPABASE_URL = 'https://rgvwrfdcgummdfexxzuu.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_e_aIRgown6dzxGYgYxrdxQ_vDC7OM3_';
+        <div>
+            <h4 class="font-bold text-white mb-2">Direct Contacts</h4>
+            <p class="text-xs">Direct Calls: <strong class="text-white">0766 529086</strong></p>
+            <p class="text-xs mt-1">WhatsApp: <strong class="text-white">0709763803</strong></p>
+            <p class="text-xs mt-2 text-brand-gold font-medium">
+                <i class="fa-solid fa-location-dot mr-1"></i>Kiteezi, Lusanjja, Kampala
+            </p>
+        </div>
+    </div>
 
-        // Initialize Supabase Client
-        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    <div class="max-w-7xl mx-auto px-4 mt-8 pt-4 border-t border-white/10 text-center text-xs text-gray-400">
+        <p>&copy; 2026 Kiteezi Recreational Center. All rights reserved.</p>
+    </div>
+</footer>
 
-        // Shopping Cart Array for WhatsApp Orders
-        let cart = [];
+<script>
+const SUPABASE_URL = 'https://rgvwrfdcgummdfexxzuu.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_e_aIRgown6dzxGYgYxrdxQ_vDC7OM3_';
 
-        // Single Page Navigation Functionality
-        function navigateTo(pageId) {
-            document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
-            const target = document.getElementById('page-' + pageId);
-            if (target) target.classList.remove('hidden');
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
 
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active-tab'));
-            const activeBtn = document.getElementById('nav-' + pageId);
-            if (activeBtn) activeBtn.classList.add('active-tab');
+let cart = [];
 
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (mobileMenu) mobileMenu.classList.add('hidden');
+function escapeHTML(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+function navigateTo(pageId) {
+    document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
+    const target = document.getElementById('page-' + pageId);
 
-        // Cart Functions
-        function addToCart(itemName, price) {
-            cart.push({ name: itemName, price: price });
-            updateCartUI();
-        }
+    if (target) {
+        target.classList.remove('hidden');
+    }
 
-        function clearCart() {
-            cart = [];
-            updateCartUI();
-        }
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active-tab'));
 
-        function updateCartUI() {
-            const listEl = document.getElementById('cart-items-list');
-            const totalEl = document.getElementById('cart-total');
+    const activeBtn = document.getElementById('nav-' + pageId);
 
-            if (cart.length === 0) {
-                listEl.innerHTML = '<p class="text-gray-300 italic">No items added yet. Click "Add to Order" on any meal above.</p>';
-                totalEl.textContent = 'UGX 0';
-                return;
-            }
+    if (activeBtn) {
+        activeBtn.classList.add('active-tab');
+    }
 
-            let total = 0;
-            listEl.innerHTML = cart.map((item, idx) => {
-                total += item.price;
-                return `<div class="flex justify-between items-center text-xs bg-white/10 p-2 rounded">
-                    <span>${item.name}</span>
-                    <span class="font-bold text-brand-gold">UGX ${item.price.toLocaleString()}</span>
-                </div>`;
-            }).join('');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-            totalEl.textContent = 'UGX ' + total.toLocaleString();
-        }
+    if (mobileMenu) {
+        mobileMenu.classList.add('hidden');
+    }
 
-        function sendWhatsAppOrder() {
-            if (cart.length === 0) {
-                alert('Please add at least one item to your order first.');
-                return;
-            }
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
 
-            let orderText = "Hello Kiteezi Recreational Center, I would like to place an order:\n\n";
-            let total = 0;
-            cart.forEach(item => {
-                orderText += `• ${item.name} - UGX ${item.price.toLocaleString()}\n`;
-                total += item.price;
-            });
-            orderText += `\nTotal: UGX ${total.toLocaleString()}\n\nLocation: Kiteezi, Lusanjja`;
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
 
-            const encodedMsg = encodeURIComponent(orderText);
-            // Send directly to updated WhatsApp 0709763803 (256709763803)
-            window.open(`https://wa.me/256709763803?text=${encodedMsg}`, '_blank');
-        }
+    if (menu) {
+        menu.classList.toggle('hidden');
+    }
+}
 
-        // Event Calculator Function
-        function calculateEventCost() {
-            const guests = parseInt(document.getElementById('calc-guests').value) || 0;
-            const buffetPrice = parseInt(document.getElementById('calc-buffet').value) || 0;
-            const groundFee = 1000000;
+function addToCart(itemName, price) {
+    cart.push({
+        name: itemName,
+        price: Number(price)
+    });
 
-            const totalCost = groundFee + (guests * buffetPrice);
-            document.getElementById('calc-total-result').textContent = 'UGX ' + totalCost.toLocaleString();
-        }
+    updateCartUI();
+}
 
-        // Booking Form Submission Handler
-        function handleBookingSubmit(e) {
-            e.preventDefault();
-            const msg = document.getElementById('booking-msg');
-            msg.textContent = 'Thank you! Your reservation request has been received. Our team will reach out to you shortly via phone or WhatsApp.';
-            msg.classList.remove('hidden');
-            document.getElementById('booking-form').reset();
-        }
+function clearCart() {
+    cart = [];
+    updateCartUI();
+}
 
-        // Submit Review to Supabase
-        async function handleReviewSubmit(event) {
-            event.preventDefault();
-            
-            const statusEl = document.getElementById('review-status');
-            const submitBtn = document.getElementById('submit-btn');
+function updateCartUI() {
+    const listEl = document.getElementById('cart-items-list');
+    const totalEl = document.getElementById('cart-total');
 
-            const name = document.getElementById('review-name').value.trim();
-            const rating = parseInt(document.getElementById('review-rating').value);
-            const comment = document.getElementById('review-text').value.trim();
+    if (!listEl || !totalEl) return;
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
+    if (cart.length === 0) {
+        listEl.innerHTML =
+            '<p class="text-gray-300 italic">No items added yet. Click "Add to Order" on any meal above.</p>';
 
-            const { data, error } = await supabaseClient
-                .from('reviews')
-                .insert([{ customer_name: name, rating: rating, comment: comment }]);
+        totalEl.textContent = 'UGX 0';
+        return;
+    }
 
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Submit Review';
+    let total = 0;
 
-            statusEl.classList.remove('hidden');
+    listEl.innerHTML = cart.map(item => {
+        total += item.price;
 
-            if (error) {
-                console.error('Supabase Submit Error:', error);
-                statusEl.textContent = 'Submission error: ' + (error.message || 'Unable to post review.');
-                statusEl.className = 'text-sm font-medium text-center text-red-600 block mt-2';
-            } else {
-                statusEl.textContent = 'Thank you! Your review has been saved successfully.';
-                statusEl.className = 'text-sm font-medium text-center text-green-600 block mt-2';
-                document.getElementById('review-form').reset();
-                loadReviews();
-            }
-        }
+        return `
+            <div class="flex justify-between items-center text-xs bg-white/10 p-2 rounded">
+                <span>${escapeHTML(item.name)}</span>
+                <span class="font-bold text-brand-gold">UGX ${item.price.toLocaleString()}</span>
+            </div>
+        `;
+    }).join('');
 
-        // Fetch Reviews from Supabase
-        async function loadReviews() {
-            const container = document.getElementById('reviews-container');
-            if (!container) return;
+    totalEl.textContent = 'UGX ' + total.toLocaleString();
+}
 
-            const { data: reviews, error } = await supabaseClient
-                .from('reviews')
-                .select('*')
-                .order('created_at', { ascending: false });
+function sendWhatsAppOrder() {
+    if (cart.length === 0) {
+        alert('Please add at least one item to your order first.');
+        return;
+    }
 
-            if (error) {
-                console.error('Supabase Fetch Error:', error);
-                container.innerHTML = '<p class="text-red-500 text-sm">Unable to load reviews at the moment.</p>';
-                return;
-            }
+    let orderText =
+        'Hello Kiteezi Recreational Center, I would like to place an order:\n\n';
 
-            if (!reviews || reviews.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 italic">No reviews yet. Be the first to share your experience!</p>';
-                return;
-            }
+    let total = 0;
 
-            container.innerHTML = reviews.map(r => `
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
-                    <div class="flex justify-between items-center mb-2">
-                        <h4 class="font-bold text-brand-green">${r.customer_name || 'Visitor'}</h4>
-                        <span class="text-brand-gold text-sm">${'★'.repeat(r.rating || 5)}${'☆'.repeat(5 - (r.rating || 5))}</span>
-                    </div>
-                    <p class="text-gray-600 text-sm">${r.comment}</p>
-                </div>
-            `).join('');
-        }
+    cart.forEach(item => {
+        orderText += `• ${item.name} - UGX ${item.price.toLocaleString()}\n`;
+        total += item.price;
+    });
 
-        // Initialize application on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadReviews();
+    orderText +=
+        `\nTotal: UGX ${total.toLocaleString()}\n\nLocation: Kiteezi, Lusanjja`;
+
+    window.open(
+        `https://wa.me/256709763803?text=${encodeURIComponent(orderText)}`,
+        '_blank'
+    );
+}
+
+/* =========================================================
+   EVENT COST CALCULATOR
+========================================================= */
+
+function calculateEventCost() {
+    const guests = document.getElementById('calc-guests');
+    const buffet = document.getElementById('calc-buffet');
+    const result = document.getElementById('calc-total-result');
+
+    if (!guests || !buffet || !result) {
+        return;
+    }
+
+    const guestCount =
+        parseInt(guests.value, 10) || 0;
+
+    const buffetPrice =
+        parseInt(buffet.value, 10) || 0;
+
+    const total =
+        guestCount * buffetPrice;
+
+    result.textContent =
+        'UGX ' + total.toLocaleString();
+}
+
+/* =========================================================
+   FACILITY & ACTIVITIES BOOKING
+========================================================= */
+
+function openBookingModal(categoryName) {
+    const modal = document.getElementById('bookingModal');
+    const title = document.getElementById('bookingModalTitle');
+    const category = document.getElementById('bookingCategory');
+
+    if (!modal || !category) {
+        console.error('Booking modal elements are missing.');
+        return;
+    }
+
+    if (title) {
+        title.textContent = `Book ${categoryName}`;
+    }
+
+    category.value = categoryName;
+
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+}
+
+
+function closeBookingModal() {
+    const modal = document.getElementById('bookingModal');
+
+    if (modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+    }
+}
+
+/* =========================================================
+   RESERVATION MENU
+========================================================= */
+
+let reservationMenuItems = [];
+
+
+async function loadReservationMenu() {
+
+    const container =
+        document.getElementById('reservation-menu-items');
+
+    const buffetSelect =
+        document.getElementById('book-buffet');
+
+    if (!container || !buffetSelect) {
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from('menu_items')
+        .select('*')
+        .order('id', { ascending: true });
+
+    if (error) {
+
+        console.error(
+            'Error loading reservation menu:',
+            error
+        );
+
+        container.innerHTML = `
+            <p class="text-red-600 text-sm">
+                Unable to load menu items.
+            </p>
+        `;
+
+        return;
+    }
+
+    reservationMenuItems =
+        (data || []).filter(
+            item => item.available !== false
+        );
+
+    /*
+       CLEAR BUFFET OPTIONS
+    */
+
+    buffetSelect.innerHTML =
+        '<option value="">No Buffet</option>';
+
+
+    /*
+       ADD BUFFET OPTIONS
+    */
+
+    reservationMenuItems
+        .filter(item =>
+            String(item.category || '')
+                .toLowerCase()
+                .includes('buffet')
+        )
+        .forEach(item => {
+
+            const option =
+                document.createElement('option');
+
+            option.value = item.id;
+
+            option.dataset.price =
+                Number(item.price) || 0;
+
+            option.textContent =
+                `${item.name} — UGX ${Number(item.price || 0).toLocaleString()} / person`;
+
+            buffetSelect.appendChild(option);
         });
 
-        // Fetch and Display Swimming Prices on Public Page
+
+    /*
+       ADDITIONAL MENU ITEMS
+
+       Buffet items are excluded here because
+       they are selected separately above.
+    */
+
+    const additionalItems =
+        reservationMenuItems.filter(item =>
+            !String(item.category || '')
+                .toLowerCase()
+                .includes('buffet')
+        );
+
+
+    if (!additionalItems.length) {
+
+        container.innerHTML = `
+            <p class="text-gray-500 text-sm">
+                No additional menu items available.
+            </p>
+        `;
+
+    } else {
+
+        container.innerHTML =
+            additionalItems.map(item => `
+
+                <div class="border rounded-lg p-3 bg-white">
+
+                    <div class="flex items-center gap-3">
+
+                        <input
+                            type="checkbox"
+                            class="reservation-menu-checkbox"
+                            data-id="${escapeHTML(item.id)}"
+                            data-price="${Number(item.price) || 0}"
+                            onchange="toggleReservationMenuItem(this)"
+                        >
+
+                        <div class="flex-1">
+
+                            <p class="font-semibold text-gray-800">
+                                ${escapeHTML(item.name || '')}
+                            </p>
+
+                            <p class="text-sm text-gray-600">
+                                UGX ${Number(item.price || 0).toLocaleString()}
+                            </p>
+
+                        </div>
+
+                        <input
+                            type="number"
+                            min="1"
+                            value="1"
+                            class="reservation-menu-quantity w-20 border rounded-lg px-2 py-1"
+                            data-id="${escapeHTML(item.id)}"
+                            onchange="updateReservationTotal()"
+                            disabled
+                        >
+
+                    </div>
+
+                </div>
+
+            `).join('');
+    }
+
+
+    updateReservationTotal();
+}
+
+
+/* =========================================================
+   ENABLE / DISABLE MENU QUANTITY
+========================================================= */
+
+function toggleReservationMenuItem(checkbox) {
+
+    const quantity =
+        document.querySelector(
+            `.reservation-menu-quantity[data-id="${checkbox.dataset.id}"]`
+        );
+
+    if (quantity) {
+
+        quantity.disabled =
+            !checkbox.checked;
+
+    }
+
+    updateReservationTotal();
+}
+
+
+/* =========================================================
+   RESERVATION TOTAL
+========================================================= */
+
+function updateReservationTotal() {
+
+    const guestsEl =
+        document.getElementById('book-guests');
+
+    const buffetEl =
+        document.getElementById('book-buffet');
+
+    const buffetTotalEl =
+        document.getElementById('reservation-buffet-total');
+
+    const menuTotalEl =
+        document.getElementById('reservation-menu-total');
+
+    const grandTotalEl =
+        document.getElementById('reservation-grand-total');
+
+
+    const guests =
+        parseInt(guestsEl?.value, 10) || 0;
+
+
+    /*
+       BUFFET TOTAL
+    */
+
+    let buffetPrice = 0;
+
+    if (buffetEl && buffetEl.value) {
+
+        const selectedOption =
+            buffetEl.options[buffetEl.selectedIndex];
+
+        buffetPrice =
+            Number(selectedOption?.dataset?.price) || 0;
+    }
+
+
+    const buffetTotal =
+        buffetPrice * guests;
+
+
+    /*
+       ADDITIONAL MENU TOTAL
+    */
+
+    let menuTotal = 0;
+
+    document
+        .querySelectorAll(
+            '.reservation-menu-checkbox:checked'
+        )
+        .forEach(checkbox => {
+
+            const price =
+                Number(checkbox.dataset.price) || 0;
+
+            const quantityInput =
+                document.querySelector(
+                    `.reservation-menu-quantity[data-id="${checkbox.dataset.id}"]`
+                );
+
+            const quantity =
+                parseInt(
+                    quantityInput?.value,
+                    10
+                ) || 1;
+
+            menuTotal +=
+                price * quantity;
+        });
+
+
+    const grandTotal =
+        buffetTotal + menuTotal;
+
+
+    if (buffetTotalEl) {
+
+        buffetTotalEl.textContent =
+            'UGX ' +
+            buffetTotal.toLocaleString();
+    }
+
+
+    if (menuTotalEl) {
+
+        menuTotalEl.textContent =
+            'UGX ' +
+            menuTotal.toLocaleString();
+    }
+
+
+    if (grandTotalEl) {
+
+        grandTotalEl.textContent =
+            'UGX ' +
+            grandTotal.toLocaleString();
+    }
+}
+
+
+/* =========================================================
+   SUBMIT RESERVATION
+========================================================= */
+
+async function handleBookingSubmit(e) {
+
+    e.preventDefault();
+
+    const form =
+        document.getElementById('booking-form');
+
+    if (!form) {
+        return;
+    }
+
+
+    const name =
+        document.getElementById('book-name')?.value.trim();
+
+    const phone =
+        document.getElementById('book-phone')?.value.trim();
+
+    const type =
+        document.getElementById('book-type')?.value;
+
+    const date =
+        document.getElementById('book-date')?.value;
+
+    const guests =
+        parseInt(
+            document.getElementById('book-guests')?.value,
+            10
+        ) || 1;
+
+    const notes =
+        document.getElementById('book-notes')?.value.trim();
+
+
+    if (!name || !phone || !type || !date) {
+
+        alert(
+            'Please complete all required reservation fields.'
+        );
+
+        return;
+    }
+
+
+    /*
+       SELECTED BUFFET
+    */
+
+    const buffetSelect =
+        document.getElementById('book-buffet');
+
+    let selectedBuffet = null;
+
+    if (
+        buffetSelect &&
+        buffetSelect.value
+    ) {
+
+        const buffet =
+            reservationMenuItems.find(
+                item =>
+                    String(item.id) ===
+                    String(buffetSelect.value)
+            );
+
+        if (buffet) {
+
+            selectedBuffet = {
+
+                id: buffet.id,
+
+                name: buffet.name,
+
+                price:
+                    Number(buffet.price) || 0,
+
+                quantity: guests
+            };
+        }
+    }
+
+
+    /*
+       SELECTED ADDITIONAL MENU ITEMS
+    */
+
+    const selectedMenuItems = [];
+
+
+    document
+        .querySelectorAll(
+            '.reservation-menu-checkbox:checked'
+        )
+        .forEach(checkbox => {
+
+            const id =
+                checkbox.dataset.id;
+
+            const menuItem =
+                reservationMenuItems.find(
+                    item =>
+                        String(item.id) ===
+                        String(id)
+                );
+
+            if (!menuItem) {
+                return;
+            }
+
+
+            const quantityInput =
+                document.querySelector(
+                    `.reservation-menu-quantity[data-id="${id}"]`
+                );
+
+
+            const quantity =
+                Math.max(
+                    1,
+                    parseInt(
+                        quantityInput?.value,
+                        10
+                    ) || 1
+                );
+
+
+            selectedMenuItems.push({
+
+                id: menuItem.id,
+
+                name: menuItem.name,
+
+                price:
+                    Number(menuItem.price) || 0,
+
+                quantity: quantity
+            });
+
+        });
+
+
+    /*
+       STORE BUFFET + ADDITIONAL ITEMS
+       INSIDE menu_items JSONB
+    */
+
+    const reservationMenuData = {
+
+        buffet:
+            selectedBuffet,
+
+        additional_items:
+            selectedMenuItems
+    };
+
+
+    try {
+
+        const { error } =
+            await supabaseClient
+                .from('reservations')
+                .insert({
+
+                    customer_name:
+                        name,
+
+                    phone:
+                        phone,
+
+                    reservation_type:
+                        type,
+
+                    reservation_date:
+                        date,
+
+                    guests:
+                        guests,
+
+                    special_requests:
+                        notes || null,
+
+                    menu_items:
+                        reservationMenuData,
+
+                    status:
+                        'new'
+                });
+
+
+        if (error) {
+
+            console.error(
+                'SUPABASE RESERVATION ERROR:',
+                error
+            );
+
+            alert(
+                'Reservation failed: ' +
+                error.message
+            );
+
+            return;
+        }
+
+
+        /*
+           WHATSAPP MESSAGE
+        */
+
+        let message =
+            '*FACILITY & GAME RESERVATION — KITEEZI RECREATIONAL CENTER*\n\n';
+
+
+        message +=
+            `*Booking Type:* ${type}\n`;
+
+        message +=
+            `*Name:* ${name}\n`;
+
+        message +=
+            `*Phone:* ${phone}\n`;
+
+        message +=
+            `*Date:* ${date}\n`;
+
+        message +=
+            `*People:* ${guests}\n`;
+
+
+        /*
+           BUFFET
+        */
+
+        if (selectedBuffet) {
+
+            const buffetTotal =
+                selectedBuffet.price *
+                selectedBuffet.quantity;
+
+            message +=
+                '\n*BUFFET:*\n';
+
+            message +=
+                `• ${selectedBuffet.name} × ${selectedBuffet.quantity} — UGX ${buffetTotal.toLocaleString()}\n`;
+        }
+
+
+        /*
+           ADDITIONAL MENU
+        */
+
+        if (
+            selectedMenuItems.length > 0
+        ) {
+
+            message +=
+                '\n*ADDITIONAL MENU ITEMS:*\n';
+
+
+            selectedMenuItems.forEach(item => {
+
+                const subtotal =
+                    item.price *
+                    item.quantity;
+
+
+                message +=
+                    `• ${item.name} × ${item.quantity} — UGX ${subtotal.toLocaleString()}\n`;
+            });
+        }
+
+
+        /*
+           TOTAL
+        */
+
+        const buffetPrice =
+            selectedBuffet
+                ? selectedBuffet.price
+                : 0;
+
+        const buffetTotal =
+            buffetPrice * guests;
+
+
+        const additionalTotal =
+            selectedMenuItems.reduce(
+                (total, item) =>
+                    total +
+                    (item.price * item.quantity),
+                0
+            );
+
+
+        const grandTotal =
+            buffetTotal +
+            additionalTotal;
+
+
+        message +=
+            `\n*Estimated Food Total:* UGX ${grandTotal.toLocaleString()}\n`;
+
+
+        if (notes) {
+
+            message +=
+                `\n*Special Requests:* ${notes}\n`;
+        }
+
+
+        const whatsappUrl =
+            'https://wa.me/256709763803?text=' +
+            encodeURIComponent(message);
+
+
+        /*
+           RESET FORM
+        */
+
+        form.reset();
+
+
+        document
+            .querySelectorAll(
+                '.reservation-menu-quantity'
+            )
+            .forEach(input => {
+
+                input.disabled = true;
+
+                input.value = 1;
+            });
+
+
+        document
+            .querySelectorAll(
+                '.reservation-menu-checkbox'
+            )
+            .forEach(checkbox => {
+
+                checkbox.checked = false;
+            });
+
+
+        updateReservationTotal();
+
+
+        const bookingMsg =
+            document.getElementById(
+                'booking-msg'
+            );
+
+
+        if (bookingMsg) {
+
+            bookingMsg.textContent =
+                'Reservation submitted successfully.';
+
+            bookingMsg.classList.remove(
+                'hidden'
+            );
+        }
+
+
+        window.open(
+            whatsappUrl,
+            '_blank'
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            'RESERVATION ERROR:',
+            error
+        );
+
+        alert(
+            'Something went wrong while submitting the reservation.'
+        );
+    }
+}
+
+function updateReservationTotal() {
+    const guestsEl = document.getElementById('bookingGuests');
+
+    const buffetEl = document.getElementById('calc-buffet');
+
+    const buffetTotalEl =
+        document.getElementById('reservation-buffet-total');
+
+    const menuTotalEl =
+        document.getElementById('reservation-menu-total');
+
+    const grandTotalEl =
+        document.getElementById('reservation-grand-total');
+
+    const guests = parseInt(guestsEl?.value, 10) || 0;
+
+    const buffetPrice = parseInt(buffetEl?.value, 10) || 0;
+
+    const buffetTotal = guests * buffetPrice;
+
+    let menuTotal = 0;
+
+    document.querySelectorAll('.reservation-menu-checkbox:checked')
+        .forEach(checkbox => {
+
+            const price = Number(checkbox.dataset.price) || 0;
+
+            const quantityInput = document.querySelector(
+                `.reservation-menu-quantity[data-id="${checkbox.dataset.id}"]`
+            );
+
+            const quantity =
+                parseInt(quantityInput?.value, 10) || 1;
+
+            menuTotal += price * quantity;
+        });
+
+    const grandTotal = buffetTotal + menuTotal;
+
+    if (buffetTotalEl) {
+        buffetTotalEl.textContent =
+            'UGX ' + buffetTotal.toLocaleString();
+    }
+
+    if (menuTotalEl) {
+        menuTotalEl.textContent =
+            'UGX ' + menuTotal.toLocaleString();
+    }
+
+    if (grandTotalEl) {
+        grandTotalEl.textContent =
+            'UGX ' + grandTotal.toLocaleString();
+    }
+}
+
+async function handleReviewSubmit(event) {
+    event.preventDefault();
+
+    const statusEl = document.getElementById('review-status');
+    const submitBtn = document.getElementById('submit-btn');
+
+    const name =
+        document.getElementById('review-name').value.trim();
+
+    const rating =
+        parseInt(document.getElementById('review-rating').value);
+
+    const comment =
+        document.getElementById('review-text').value.trim();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    const { error } = await supabaseClient
+        .from('reviews')
+        .insert([{
+            customer_name: name,
+            rating: rating,
+            comment: comment
+        }]);
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Review';
+
+    statusEl.classList.remove('hidden');
+
+    if (error) {
+        console.error('Supabase Submit Error:', error);
+
+        statusEl.textContent =
+            'Submission error: ' +
+            (error.message || 'Unable to post review.');
+
+        statusEl.className =
+            'text-sm font-medium text-center text-red-600 block mt-2';
+
+        return;
+    }
+
+    statusEl.textContent =
+        'Thank you! Your review has been saved successfully.';
+
+    statusEl.className =
+        'text-sm font-medium text-center text-green-600 block mt-2';
+
+    document.getElementById('review-form').reset();
+
+    loadReviews();
+}
+
+async function loadReviews() {
+    const container =
+        document.getElementById('reviews-container');
+
+    if (!container) return;
+
+    const { data: reviews, error } =
+        await supabaseClient
+            .from('reviews')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Supabase Fetch Error:', error);
+
+        container.innerHTML =
+            '<p class="text-red-500 text-sm">Unable to load reviews at the moment.</p>';
+
+        return;
+    }
+
+    if (!reviews || reviews.length === 0) {
+        container.innerHTML =
+            '<p class="text-gray-500 italic">No reviews yet. Be the first to share your experience!</p>';
+
+        return;
+    }
+
+    container.innerHTML = reviews.map(r => {
+        const rating = Math.min(5, Math.max(1, Number(r.rating || 5)));
+
+        return `
+            <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="font-bold text-brand-green">
+                        ${escapeHTML(r.customer_name || r.name || 'Visitor')}
+                    </h4>
+
+                    <span class="text-brand-gold text-sm">
+                        ${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}
+                    </span>
+                </div>
+
+                <p class="text-gray-600 text-sm">
+                    ${escapeHTML(r.comment || r.message || '')}
+                </p>
+            </div>
+        `;
+    }).join('');
+}
+
 async function fetchPublicSwimmingPrices() {
-  const { data, error } = await dbClient.from('swimming_prices').select('*').eq('id', 1).single();
-  if (data) {
-    // Example: update elements by ID on your main site
-    if (document.getElementById('display-adult-price')) {
-      document.getElementById('display-adult-price').innerText = `UGX ${data.adult_price.toLocaleString()}`;
+    const { data, error } =
+        await supabaseClient
+            .from('swimming_prices')
+            .select('*')
+            .eq('id', 1)
+            .maybeSingle();
+
+    if (error || !data) {
+        console.error('Swimming prices:', error);
+        return;
     }
-    if (document.getElementById('display-child-price')) {
-      document.getElementById('display-child-price').innerText = `UGX ${data.child_price.toLocaleString()}`;
+
+    const adult =
+        document.getElementById('display-adult-price');
+
+    const child =
+        document.getElementById('display-child-price');
+
+    const monthly =
+        document.getElementById('display-monthly-price');
+
+    const coaching =
+        document.getElementById('display-coaching-price');
+
+    const promo =
+        document.getElementById('display-promo-note');
+
+    const adultPrice =
+        data.adult_price ?? 10000;
+
+    const childPrice =
+        data.child_price ?? 5000;
+
+    const monthlyPrice =
+        data.monthly_price ??
+        data.membership_price ??
+        150000;
+
+    const coachingPrice =
+        data.coaching_price ??
+        120000;
+
+    if (adult) {
+        adult.textContent =
+            `UGX ${Number(adultPrice).toLocaleString()} / day`;
     }
-    if (document.getElementById('display-promo-note')) {
-      document.getElementById('display-promo-note').innerText = data.promo_note;
+
+    if (child) {
+        child.textContent =
+            `UGX ${Number(childPrice).toLocaleString()} / day`;
     }
-  }
+
+    if (monthly) {
+        monthly.textContent =
+            `UGX ${Number(monthlyPrice).toLocaleString()}`;
+    }
+
+    if (coaching) {
+        coaching.textContent =
+            `10-Session Coaching Package: UGX ${Number(coachingPrice).toLocaleString()}`;
+    }
+
+    if (promo) {
+        promo.textContent =
+            data.promo_note || '';
+    }
 }
 
-// Fetch and Display Events on Public Page
 async function fetchPublicEvents() {
-  const { data, error } = await dbClient.from('events').select('*').order('created_at', { ascending: false });
-  const container = document.getElementById('public-events-container');
-  if (container && data) {
-    container.innerHTML = data.map(ev => `
-      <div class="event-card border p-4 rounded-lg my-2 shadow-sm">
-        <h3 class="font-bold text-lg">${ev.title}</h3>
-        <span class="text-sm font-semibold text-emerald-600">${ev.event_date}</span>
-        <p class="text-gray-600 text-sm mt-1">${ev.description}</p>
-      </div>
+    const container =
+        document.getElementById('public-events-container');
+
+    if (!container) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from('events')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Events:', error);
+        container.innerHTML = '';
+        return;
+    }
+
+    const published =
+        (data || []).filter(event => event.published !== false);
+
+    if (!published.length) {
+        container.innerHTML = '';
+        return;
+    }
+
+    published.sort((a, b) => {
+        if (Boolean(a.highlighted) !== Boolean(b.highlighted)) {
+            return Boolean(b.highlighted) - Boolean(a.highlighted);
+        }
+
+        return String(b.created_at || '').localeCompare(
+            String(a.created_at || '')
+        );
+    });
+
+    container.innerHTML = published.map((event, index) => `
+        <article class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 ${event.highlighted || index === 0 ? 'public-announcement' : ''}">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+                ${event.highlighted || index === 0
+                    ? '<span class="bg-brand-gold/20 text-yellow-800 text-xs font-bold px-2 py-1 rounded"><i class="fa-solid fa-bullhorn mr-1"></i>Featured Statement</span>'
+                    : ''
+                }
+
+                ${event.event_date
+                    ? `<span class="text-xs font-semibold text-brand-green">${escapeHTML(event.event_date)}</span>`
+                    : ''
+                }
+            </div>
+
+            <h3 class="font-serif text-xl font-bold text-brand-green">
+                ${escapeHTML(event.title || '')}
+            </h3>
+
+            <p class="text-gray-600 text-sm mt-2">
+                ${escapeHTML(event.description || '')}
+            </p>
+        </article>
     `).join('');
-  }
 }
 
-// Run fetches on page load
-window.addEventListener('DOMContentLoaded', () => {
-  fetchPublicSwimmingPrices();
-  fetchPublicEvents();
+async function fetchPublicMenu() {
+    const grid =
+        document.getElementById('public-menu-grid');
+
+    if (!grid) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from('menu_items')
+            .select('*')
+            .order('id', { ascending: true });
+
+    if (error || !data || data.length === 0) {
+        return;
+    }
+
+    const available =
+        data.filter(item => item.available !== false);
+
+    if (!available.length) {
+        return;
+    }
+
+    grid.innerHTML = available.map(item => `
+        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
+            <div>
+                <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded font-medium">
+                    ${escapeHTML(item.category || 'Dining')}
+                </span>
+
+                <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">
+                    ${escapeHTML(item.name || '')}
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-1">
+                    ${escapeHTML(item.description || '')}
+                </p>
+            </div>
+
+            <div class="mt-4 flex justify-between items-center gap-3">
+                <div class="font-bold text-brand-gold text-lg">
+                    UGX ${Number(item.price || 0).toLocaleString()}
+                </div>
+
+                <button
+                    onclick='addToCart(${JSON.stringify(item.name || '')}, ${Number(item.price || 0)})'
+                    class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition"
+                >
+                    Add to Order
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function fetchPublicStaff() {
+    const container =
+        document.getElementById('public-staff-container');
+
+    const homeContainer =
+        document.getElementById('home-staff-container');
+
+    const { data, error } =
+        await supabaseClient
+            .from('staff')
+            .select('*')
+            .order('display_order', { ascending: true });
+
+    if (error || !data || !data.length) {
+        return;
+    }
+
+    const staffHTML = data.map(person => {
+        const initials =
+            String(person.name || 'Staff')
+                .split(' ')
+                .map(x => x[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase();
+
+        return `
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
+                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">
+                    ${escapeHTML(initials)}
+                </div>
+
+                <div>
+                    <h3 class="font-bold text-brand-green">
+                        ${escapeHTML(person.name || '')}
+                    </h3>
+
+                    <p class="text-xs text-brand-gold font-semibold">
+                        ${escapeHTML(person.position || person.role || '')}
+                    </p>
+
+                    <p class="text-xs text-gray-500 mt-1">
+                        ${escapeHTML(person.description || person.bio || '')}
+                    </p>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    if (container) {
+        container.innerHTML = staffHTML;
+    }
+
+    if (homeContainer) {
+        homeContainer.innerHTML =
+            data.slice(0, 4).map(person => {
+                const initials =
+                    String(person.name || 'Staff')
+                        .split(' ')
+                        .map(x => x[0])
+                        .join('')
+                        .slice(0, 2)
+                        .toUpperCase();
+
+                return `
+                    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
+                        <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
+                            ${escapeHTML(initials)}
+                        </div>
+
+                        <h3 class="font-serif font-bold text-lg text-brand-green">
+                            ${escapeHTML(person.name || '')}
+                        </h3>
+
+                        <p class="text-xs text-brand-gold font-semibold uppercase mb-2">
+                            ${escapeHTML(person.position || person.role || '')}
+                        </p>
+
+                        <p class="text-xs text-gray-500">
+                            ${escapeHTML(person.description || person.bio || '')}
+                        </p>
+                    </div>
+                `;
+            }).join('');
+    }
+}
+
+function getWebsiteMediaUrl(filePath) {
+    if (!filePath) return '';
+
+    if (
+        filePath.startsWith('http://') ||
+        filePath.startsWith('https://')
+    ) {
+        return filePath;
+    }
+
+    return `${SUPABASE_URL}/storage/v1/object/public/website-images/${filePath}`;
+}
+
+async function loadManagedMedia() {
+    const galleries =
+        document.querySelectorAll(
+            '.media-gallery[data-media-area]'
+        );
+
+    for (const gallery of galleries) {
+        const area =
+            gallery.dataset.mediaArea;
+
+        const { data, error } =
+            await supabaseClient
+                .from('website_images')
+                .select('*')
+                .eq('area', area)
+                .eq('is_published', true)
+                .order('position', { ascending: true });
+
+        if (error || !data || !data.length) {
+            continue;
+        }
+
+        const managedItems = data.filter(item => item.file_path);
+
+        if (!managedItems.length) {
+            continue;
+        }
+
+        const fallbackHTML = gallery.innerHTML;
+
+        gallery.innerHTML =
+            managedItems.map((item, index) => {
+                const url =
+                    getWebsiteMediaUrl(item.file_path);
+
+                const mediaType =
+                    String(item.media_type || '').toLowerCase();
+
+                const isVideo =
+                    mediaType === 'video' ||
+                    /\.(mp4|webm|ogg|mov|m4v)$/i.test(
+                        item.file_path
+                    );
+
+                return `
+                    <div class="media-slide ${index === 0 ? 'active' : ''}">
+                        ${
+                            isVideo
+                                ? `<video src="${escapeHTML(url)}" muted autoplay loop playsinline controls></video>`
+                                : `<img src="${escapeHTML(url)}" alt="${escapeHTML(item.title || 'Kiteezi Recreational Center')}">`
+                        }
+                    </div>
+                `;
+            }).join('');
+
+        if (!gallery.innerHTML.trim()) {
+            gallery.innerHTML = fallbackHTML;
+        }
+    }
+}
+
+async function fetchPublicContent() {
+    const container =
+        document.getElementById('public-statements-container');
+
+    const wrapper =
+        document.getElementById('public-statements');
+
+    if (!container || !wrapper) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from('site_content')
+            .select('*')
+            .eq('is_published', true)
+            .order('display_order', { ascending: true });
+
+    if (error || !data || !data.length) {
+        return;
+    }
+
+    const sorted =
+        [...data].sort((a, b) => {
+            if (Boolean(a.is_highlighted) !== Boolean(b.is_highlighted)) {
+                return Boolean(b.is_highlighted) - Boolean(a.is_highlighted);
+            }
+
+            return Number(a.display_order || 0) -
+                   Number(b.display_order || 0);
+        });
+
+    container.innerHTML = sorted.map((item, index) => `
+        <article class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 ${item.is_highlighted || index === 0 ? 'public-announcement' : ''}">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+                ${item.is_highlighted || index === 0
+                    ? '<span class="bg-brand-gold/20 text-yellow-800 text-xs font-bold px-2 py-1 rounded"><i class="fa-solid fa-bullhorn mr-1"></i>Featured Statement</span>'
+                    : ''
+                }
+            </div>
+
+            <h2 class="font-serif text-2xl font-bold text-brand-green">
+                ${escapeHTML(item.title || item.content_key || '')}
+            </h2>
+
+            <p class="text-gray-600 mt-2 leading-relaxed">
+                ${escapeHTML(item.body || item.content || item.description || '')}
+            </p>
+        </article>
+    `).join('');
+
+    wrapper.classList.remove('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+    navigateTo('home');
+
+    calculateEventCost();
+
+    await Promise.allSettled([
+        loadReviews(),
+        fetchPublicSwimmingPrices(),
+        fetchPublicEvents(),
+        fetchPublicMenu(),
+        fetchPublicStaff(),
+        fetchPublicContent(),
+        loadManagedMedia(),
+        loadReservationMenu()
+    ]);
+
+    updateReservationTotal();
 });
-    </script>
+
+</script>
+
 </body>
 </html>
