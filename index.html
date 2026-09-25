@@ -1761,61 +1761,6 @@ async function handleBookingSubmit(e) {
     }
 }
 
-function updateReservationTotal() {
-    const guestsEl = document.getElementById('bookingGuests');
-
-    const buffetEl = document.getElementById('calc-buffet');
-
-    const buffetTotalEl =
-        document.getElementById('reservation-buffet-total');
-
-    const menuTotalEl =
-        document.getElementById('reservation-menu-total');
-
-    const grandTotalEl =
-        document.getElementById('reservation-grand-total');
-
-    const guests = parseInt(guestsEl?.value, 10) || 0;
-
-    const buffetPrice = parseInt(buffetEl?.value, 10) || 0;
-
-    const buffetTotal = guests * buffetPrice;
-
-    let menuTotal = 0;
-
-    document.querySelectorAll('.reservation-menu-checkbox:checked')
-        .forEach(checkbox => {
-
-            const price = Number(checkbox.dataset.price) || 0;
-
-            const quantityInput = document.querySelector(
-                `.reservation-menu-quantity[data-id="${checkbox.dataset.id}"]`
-            );
-
-            const quantity =
-                parseInt(quantityInput?.value, 10) || 1;
-
-            menuTotal += price * quantity;
-        });
-
-    const grandTotal = buffetTotal + menuTotal;
-
-    if (buffetTotalEl) {
-        buffetTotalEl.textContent =
-            'UGX ' + buffetTotal.toLocaleString();
-    }
-
-    if (menuTotalEl) {
-        menuTotalEl.textContent =
-            'UGX ' + menuTotal.toLocaleString();
-    }
-
-    if (grandTotalEl) {
-        grandTotalEl.textContent =
-            'UGX ' + grandTotal.toLocaleString();
-    }
-}
-
 async function handleReviewSubmit(event) {
     event.preventDefault();
 
