@@ -252,12 +252,13 @@
                     Logout
                 </button>
             </div>
-<div>
-            <button onclick="showAdminTab('reservations')" class="admin-sidebar-item w-full text-left px-4 py-3 rounded-lg flex items-center gap-3">
-    <i class="fas fa-calendar-check"></i>
-    Reservations
-</button>
-</div>
+                <button type="button"
+                        onclick="switchTab('reservations')"
+                        id="tab-btn-reservations"
+                        class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">
+                    <i class="fa-solid fa-calendar-check text-lg w-6"></i>
+                    Reservations
+                </button>
         </aside>
 
         <!-- MAIN CONTENT -->
@@ -750,9 +751,14 @@
 
                             <input type="text"
                                    id="media-url"
-                                   required
                                    class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                                    placeholder="images/full view.jpg or https://...">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Or Upload Image / Video</label>
+                            <input type="file" id="media-file" accept="image/*,video/*"
+                                   class="w-full px-3 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <p class="text-xs text-slate-400 mt-1">Uploaded files are stored in the existing website-images bucket.</p>
                         </div>
 
                         <div class="md:col-span-2 flex items-center gap-2">
@@ -1029,7 +1035,37 @@
                             <input type="url"
                                    id="staff-photo"
                                    class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
-                                   placeholder="https://images.unsplash.com/photo-...">
+                                   placeholder="https://...">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Or Upload Staff Photo</label>
+                            <input type="file" id="staff-photo-file" accept="image/*"
+                                   class="w-full px-3 py-2 border rounded-lg bg-white">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Display Order</label>
+                            <input type="number" id="staff-order" min="1" value="1"
+                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Short Description / Shift</label>
+                            <input type="text" id="staff-description"
+                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                                   placeholder="e.g., Pool Operations & Coaching">
+                        </div>
+
+                        <div class="flex items-center gap-5">
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" id="staff-featured" class="w-4 h-4 text-emerald-600 rounded">
+                                Show on Home
+                            </label>
+                            <label class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" id="staff-published" checked class="w-4 h-4 text-emerald-600 rounded">
+                                Published
+                            </label>
                         </div>
 
                         <div class="md:col-span-2">
@@ -1137,37 +1173,24 @@
                     </div>
                 </div>
             </section>
-
-            <!-- RESERVATIONS -->
-<div id="reservations-tab" class="admin-tab hidden">
-    <div class="bg-white rounded-xl shadow p-6">
-
-        <div class="flex justify-between items-center mb-6">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-800">
-                    Reservations
-                </h2>
-                <p class="text-gray-500">
-                    Customer reservation requests
-                </p>
-            </div>
-
-            <button
-                onclick="loadReservations()"
-                class="bg-gray-800 text-white px-4 py-2 rounded-lg">
-                <i class="fas fa-sync-alt mr-2"></i>
-                Refresh
-            </button>
-        </div>
-
-        <div id="reservations-list" class="space-y-4">
-            <p class="text-gray-500">Loading reservations...</p>
-        </div>
-
-    </div>
-</div>
-
             <!-- ========================================================= -->
+            <!-- RESERVATIONS -->
+            <!-- ========================================================= -->
+            <section id="section-reservations" class="hidden space-y-6">
+                <div class="flex items-center justify-between border-b pb-4 border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Reservations</h2>
+                        <p class="text-slate-500 text-sm">Customer reservation requests submitted from the public website.</p>
+                    </div>
+                    <button type="button" onclick="loadReservations()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm">
+                        <i class="fa-solid fa-rotate-right mr-2"></i>Refresh
+                    </button>
+                </div>
+                <div id="reservations-list" class="space-y-4">
+                    <p class="text-slate-500">Loading reservations...</p>
+                </div>
+            </section>
+
             <!-- SETTINGS -->
             <!-- ========================================================= -->
 
@@ -1415,6 +1438,22 @@
                 </div>
 
             </form>
+        </div>
+    </div>
+
+    <!-- MANAGER EDIT MODAL -->
+    <div id="manager-edit-modal" class="hidden fixed inset-0 z-[110] modal-backdrop items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between">
+                <div>
+                    <h3 id="manager-edit-title" class="text-xl font-bold text-slate-800">Edit Item</h3>
+                    <p id="manager-edit-subtitle" class="text-xs text-slate-500 mt-1">Changes are saved to the public website database.</p>
+                </div>
+                <button type="button" onclick="closeManagerEditor()" class="text-slate-400 hover:text-slate-700 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="manager-edit-form" class="p-6 space-y-4"></form>
         </div>
     </div>
 
@@ -1807,6 +1846,7 @@
             loadMenuData();
             loadStaffData();
             loadReviewsData();
+            loadReservations();
         }
 
 
@@ -1840,6 +1880,7 @@
                 'menu',
                 'personnel',
                 'reviews',
+                'reservations',
                 'settings'
             ].forEach(t => {
 
@@ -3217,460 +3258,435 @@ async function updateReservationStatus(id, status) {
 
 
         /* ============================================================
-           MEDIA
+           MEDIA / MENU / STAFF MANAGERS
         ============================================================ */
+
+        async function uploadWebsiteFile(file, folder = 'media') {
+            if (!file) return null;
+
+            const safeName = file.name
+                .replace(/[^a-zA-Z0-9._-]/g, '-')
+                .replace(/-+/g, '-');
+
+            const path = `${folder}/${Date.now()}-${safeName}`;
+
+            const { error } = await dbClient
+                .storage
+                .from('website-images')
+                .upload(path, file, {
+                    cacheControl: '3600',
+                    upsert: false
+                });
+
+            if (error) throw error;
+
+            return path;
+        }
+
+        function publicStorageUrl(path) {
+            if (!path) return '';
+            if (/^https?:\/\//i.test(path)) return path;
+            return `${SUPABASE_URL}/storage/v1/object/public/website-images/${path}`;
+        }
 
         async function loadMediaData() {
+            const tbody = document.getElementById('media-table-body');
+            if (!tbody) return;
+
+            tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400">Loading gallery...</td></tr>';
+
+            const { data, error } = await dbClient
+                .from('website_images')
+                .select('*')
+                .order('area', { ascending: true })
+                .order('position', { ascending: true });
+
+            if (error) {
+                console.error(error);
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">${escapeHTML(error.message)}</td></tr>`;
+                return;
+            }
+
+            if (!data?.length) {
+                tbody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400">No media items found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.map(item => `
+                <tr class="border-b border-slate-100 hover:bg-slate-50">
+                    <td class="p-4 capitalize">${escapeHTML(item.area || 'General')}</td>
+                    <td class="p-4 capitalize font-semibold">${escapeHTML(item.media_type || 'image')}</td>
+                    <td class="p-4 font-medium text-slate-800">${escapeHTML(item.title || 'Untitled')}</td>
+                    <td class="p-4 text-emerald-600 truncate max-w-xs">
+                        <a href="${escapeAttribute(publicStorageUrl(item.file_path || ''))}" target="_blank" rel="noopener" class="hover:underline">
+                            ${escapeHTML(item.file_path || '')}
+                        </a>
+                    </td>
+                    <td class="p-4">
+                        <span class="${item.is_published ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'} px-2 py-1 rounded-full text-xs">
+                            ${item.is_published ? 'Published' : 'Hidden'}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right whitespace-nowrap">
+                        <button type="button" onclick="openManagerEditor('media','${escapeAttribute(item.id)}')" class="text-emerald-600 hover:text-emerald-800 px-2 py-1" title="Edit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button type="button" onclick="deleteItem('website_images','${escapeAttribute(item.id)}')" class="text-red-500 hover:text-red-700 px-2 py-1" title="Delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        document.getElementById('add-media-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('media-title').value.trim();
+            const type = document.getElementById('media-type').value;
+            const area = document.getElementById('media-area').value;
+            const order = Number(document.getElementById('media-order').value) || 1;
+            const url = document.getElementById('media-url').value.trim();
+            const file = document.getElementById('media-file').files[0];
+            const published = document.getElementById('media-published').checked;
 
             try {
+                let filePath = url;
 
-                const {
-                    data,
-                    error
-                } = await dbClient
-                    .from('media')
-                    .select('*');
+                if (file) {
+                    filePath = await uploadWebsiteFile(file, area || 'media');
+                }
 
-                const tbody =
-                    document.getElementById(
-                        'media-table-body'
-                    );
-
-                if (
-                    error ||
-                    !data ||
-                    data.length === 0
-                ) {
-
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="6"
-                                class="p-4 text-center text-slate-400">
-                                No gallery items found.
-                            </td>
-                        </tr>
-                    `;
-
+                if (!filePath) {
+                    showToast('Choose a file or enter a resource URL.', 'error');
                     return;
                 }
 
-                tbody.innerHTML =
-                    data.map(item => `
+                const { error } = await dbClient
+                    .from('website_images')
+                    .insert([{
+                        title,
+                        area,
+                        file_path: filePath,
+                        media_type: type,
+                        position: order,
+                        is_published: published
+                    }]);
 
-                        <tr class="border-b border-slate-100 hover:bg-slate-50">
+                if (error) throw error;
 
-                            <td class="p-4 capitalize">
-                                ${escapeHTML(item.area || 'General')}
-                            </td>
-
-                            <td class="p-4 capitalize font-semibold">
-                                ${escapeHTML(item.type || 'image')}
-                            </td>
-
-                            <td class="p-4 font-medium text-slate-800">
-                                ${escapeHTML(item.title || 'Untitled')}
-                            </td>
-
-                            <td class="p-4 text-emerald-600 truncate max-w-xs">
-                                <a href="${escapeAttribute(item.url || '')}"
-                                   target="_blank"
-                                   class="hover:underline">
-                                    ${escapeHTML(item.url || '')}
-                                </a>
-                            </td>
-
-                            <td class="p-4">
-                                <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full text-xs">
-                                    Active
-                                </span>
-                            </td>
-
-                            <td class="p-4 text-right">
-
-                                <button
-                                    onclick="deleteItem('media','${escapeAttribute(item.id)}')"
-                                    class="text-red-500 hover:text-red-700 px-2 py-1">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    `).join('');
-
-            } catch (err) {
-
-                console.error(err);
+                showToast('Media asset published successfully.');
+                e.target.reset();
+                document.getElementById('media-published').checked = true;
+                loadMediaData();
+            } catch (error) {
+                console.error(error);
+                showToast('Unable to save media: ' + error.message, 'error');
             }
-        }
-
-
-        document
-            .getElementById('add-media-form')
-            .addEventListener(
-                'submit',
-                async (e) => {
-
-                    e.preventDefault();
-
-                    const title =
-                        document.getElementById(
-                            'media-title'
-                        ).value;
-
-                    const type =
-                        document.getElementById(
-                            'media-type'
-                        ).value;
-
-                    const area =
-                        document.getElementById(
-                            'media-area'
-                        ).value;
-
-                    const url =
-                        document.getElementById(
-                            'media-url'
-                        ).value;
-
-                    const {
-                        error
-                    } = await dbClient
-                        .from('media')
-                        .insert([{
-                            title,
-                            type,
-                            area,
-                            url
-                        }]);
-
-                    if (error) {
-
-                        console.error(error);
-
-                        showToast(
-                            'Error saving media.',
-                            'error'
-                        );
-
-                    } else {
-
-                        showToast(
-                            'Media asset saved!'
-                        );
-
-                        document
-                            .getElementById(
-                                'add-media-form'
-                            )
-                            .reset();
-
-                        document.getElementById(
-                            'media-published'
-                        ).checked = true;
-
-                        loadMediaData();
-                    }
-                }
-            );
-
-
-        /* ============================================================
-           MENU
-        ============================================================ */
+        });
 
         async function loadMenuData() {
+            const tbody = document.getElementById('menu-table-body');
+            if (!tbody) return;
 
-            try {
+            tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">Loading menu...</td></tr>';
 
-                const {
-                    data,
-                    error
-                } = await dbClient
-                    .from('menu_items')
-                    .select('*');
+            const { data, error } = await dbClient
+                .from('menu_items')
+                .select('*')
+                .order('id', { ascending: true });
 
-                const tbody =
-                    document.getElementById(
-                        'menu-table-body'
-                    );
-
-                if (
-                    error ||
-                    !data ||
-                    data.length === 0
-                ) {
-
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="4"
-                                class="p-4 text-center text-slate-400">
-                                No menu items found.
-                            </td>
-                        </tr>
-                    `;
-
-                    return;
-                }
-
-                tbody.innerHTML =
-                    data.map(item => `
-
-                        <tr class="border-b border-slate-100 hover:bg-slate-50">
-
-                            <td class="p-4 font-medium text-slate-800">
-                                ${escapeHTML(item.name || '')}
-                            </td>
-
-                            <td class="p-4 capitalize">
-
-                                <span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-xs">
-                                    ${escapeHTML(item.category || 'General')}
-                                </span>
-
-                            </td>
-
-                            <td class="p-4 font-semibold text-emerald-600">
-                                UGX ${(Number(item.price) || 0).toLocaleString()}
-                            </td>
-
-                            <td class="p-4 text-right">
-
-                                <button
-                                    onclick="deleteItem('menu_items','${escapeAttribute(item.id)}')"
-                                    class="text-red-500 hover:text-red-700 px-2 py-1">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    `).join('');
-
-            } catch (err) {
-
-                console.error(err);
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500">${escapeHTML(error.message)}</td></tr>`;
+                return;
             }
+
+            if (!data?.length) {
+                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">No menu items found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.map(item => `
+                <tr class="border-b border-slate-100 hover:bg-slate-50">
+                    <td class="p-4 font-medium text-slate-800">${escapeHTML(item.name || '')}</td>
+                    <td class="p-4 capitalize"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-xs">${escapeHTML(item.category || 'General')}</span></td>
+                    <td class="p-4 font-semibold text-emerald-600">UGX ${(Number(item.price) || 0).toLocaleString()}</td>
+                    <td class="p-4 text-right whitespace-nowrap">
+                        <button type="button" onclick="openManagerEditor('menu','${escapeAttribute(item.id)}')" class="text-emerald-600 hover:text-emerald-800 px-2 py-1" title="Edit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button type="button" onclick="deleteItem('menu_items','${escapeAttribute(item.id)}')" class="text-red-500 hover:text-red-700 px-2 py-1" title="Delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
+        document.getElementById('add-menu-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        document
-            .getElementById('add-menu-form')
-            .addEventListener(
-                'submit',
-                async (e) => {
+            const payload = {
+                name: document.getElementById('menu-name').value.trim(),
+                category: document.getElementById('menu-category').value,
+                price: Number(document.getElementById('menu-price').value) || 0,
+                description: document.getElementById('menu-description').value.trim(),
+                available: true
+            };
 
-                    e.preventDefault();
+            const { error } = await dbClient.from('menu_items').insert([payload]);
 
-                    const name =
-                        document.getElementById(
-                            'menu-name'
-                        ).value;
+            if (error) {
+                showToast('Error adding menu item: ' + error.message, 'error');
+                return;
+            }
 
-                    const category =
-                        document.getElementById(
-                            'menu-category'
-                        ).value;
-
-                    const price =
-                        parseFloat(
-                            document.getElementById(
-                                'menu-price'
-                            ).value
-                        );
-
-                    const description =
-                        document.getElementById(
-                            'menu-description'
-                        ).value;
-
-                    const {
-                        error
-                    } = await dbClient
-                        .from('menu_items')
-                        .insert([{
-                            name,
-                            category,
-                            price,
-                            description
-                        }]);
-
-                    if (error) {
-
-                        showToast(
-                            'Error adding menu item.',
-                            'error'
-                        );
-
-                    } else {
-
-                        showToast(
-                            'Menu item added successfully!'
-                        );
-
-                        document
-                            .getElementById(
-                                'add-menu-form'
-                            )
-                            .reset();
-
-                        loadMenuData();
-                    }
-                }
-            );
-
-
-        /* ============================================================
-           STAFF
-        ============================================================ */
+            showToast('Menu item added successfully!');
+            e.target.reset();
+            loadMenuData();
+        });
 
         async function loadStaffData() {
+            const tbody = document.getElementById('staff-table-body');
+            if (!tbody) return;
 
-            try {
+            tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">Loading staff directory...</td></tr>';
 
-                const {
-                    data,
-                    error
-                } = await dbClient
-                    .from('staff')
-                    .select('*');
+            const { data, error } = await dbClient
+                .from('staff')
+                .select('*')
+                .order('display_order', { ascending: true });
 
-                const tbody =
-                    document.getElementById(
-                        'staff-table-body'
-                    );
-
-                if (
-                    error ||
-                    !data ||
-                    data.length === 0
-                ) {
-
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="4"
-                                class="p-4 text-center text-slate-400">
-                                No staff members listed.
-                            </td>
-                        </tr>
-                    `;
-
-                    return;
-                }
-
-                tbody.innerHTML =
-                    data.map(st => `
-
-                        <tr class="border-b border-slate-100 hover:bg-slate-50">
-
-                            <td class="p-4 font-medium text-slate-800 flex items-center gap-2">
-
-                                ${
-                                    st.photo_url
-                                        ? `<img src="${escapeAttribute(st.photo_url)}"
-                                                class="w-7 h-7 rounded-full object-cover"
-                                                alt="${escapeAttribute(st.name || '')}">`
-                                        : `<i class="fa-solid fa-user text-slate-400"></i>`
-                                }
-
-                                ${escapeHTML(st.name || '')}
-
-                            </td>
-
-                            <td class="p-4 text-slate-600">
-                                ${escapeHTML(st.role || 'Staff')}
-                            </td>
-
-                            <td class="p-4 text-slate-500">
-                                ${escapeHTML(st.phone || 'N/A')}
-                            </td>
-
-                            <td class="p-4 text-right">
-
-                                <button
-                                    onclick="deleteItem('staff','${escapeAttribute(st.id)}')"
-                                    class="text-red-500 hover:text-red-700 px-2 py-1">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-
-                            </td>
-
-                        </tr>
-
-                    `).join('');
-
-            } catch (err) {
-
-                console.error(err);
+            if (error) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500">${escapeHTML(error.message)}</td></tr>`;
+                return;
             }
+
+            if (!data?.length) {
+                tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400">No staff members listed.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.map(st => `
+                <tr class="border-b border-slate-100 hover:bg-slate-50">
+                    <td class="p-4 font-medium text-slate-800 flex items-center gap-2">
+                        ${st.photo_url
+                            ? `<img src="${escapeAttribute(st.photo_url)}" class="w-9 h-9 rounded-full object-cover" alt="${escapeAttribute(st.name || '')}">`
+                            : `<i class="fa-solid fa-user text-slate-400"></i>`}
+                        ${escapeHTML(st.name || '')}
+                    </td>
+                    <td class="p-4 text-slate-600">${escapeHTML(st.position || st.role || 'Staff')}</td>
+                    <td class="p-4 text-slate-500">${escapeHTML(st.phone || 'N/A')}</td>
+                    <td class="p-4 text-right whitespace-nowrap">
+                        <button type="button" onclick="openManagerEditor('staff','${escapeAttribute(st.id)}')" class="text-emerald-600 hover:text-emerald-800 px-2 py-1" title="Edit">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button type="button" onclick="deleteItem('staff','${escapeAttribute(st.id)}')" class="text-red-500 hover:text-red-700 px-2 py-1" title="Delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
+        document.getElementById('add-personnel-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        document
-            .getElementById('add-personnel-form')
-            .addEventListener(
-                'submit',
-                async (e) => {
+            try {
+                const photoFile = document.getElementById('staff-photo-file').files[0];
+                let photoUrl = document.getElementById('staff-photo').value.trim();
 
-                    e.preventDefault();
+                if (photoFile) {
+                    const path = await uploadWebsiteFile(photoFile, 'personnel');
+                    photoUrl = publicStorageUrl(path);
+                }
 
-                    const name =
-                        document.getElementById(
-                            'staff-name'
-                        ).value;
+                const payload = {
+                    name: document.getElementById('staff-name').value.trim(),
+                    role: document.getElementById('staff-role').value.trim(),
+                    position: document.getElementById('staff-role').value.trim(),
+                    phone: document.getElementById('staff-phone').value.trim(),
+                    photo_url: photoUrl || null,
+                    description: document.getElementById('staff-description').value.trim(),
+                    display_order: Number(document.getElementById('staff-order').value) || 1,
+                    is_featured_home: document.getElementById('staff-featured').checked,
+                    is_published: document.getElementById('staff-published').checked
+                };
 
-                    const role =
-                        document.getElementById(
-                            'staff-role'
-                        ).value;
+                const { error } = await dbClient.from('staff').insert([payload]);
+                if (error) throw error;
 
-                    const phone =
-                        document.getElementById(
-                            'staff-phone'
-                        ).value;
+                showToast('Staff member profile added!');
+                e.target.reset();
+                document.getElementById('staff-published').checked = true;
+                loadStaffData();
+            } catch (error) {
+                console.error(error);
+                showToast('Error adding staff member: ' + error.message, 'error');
+            }
+        });
 
-                    const photo_url =
-                        document.getElementById(
-                            'staff-photo'
-                        ).value;
+        function managerField(label, input) {
+            return `<div><label class="block text-sm font-medium text-slate-700 mb-1">${label}</label>${input}</div>`;
+        }
 
-                    const {
-                        error
-                    } = await dbClient
-                        .from('staff')
-                        .insert([{
-                            name,
-                            role,
-                            phone,
-                            photo_url
-                        }]);
+        async function openManagerEditor(type, id) {
+            const modal = document.getElementById('manager-edit-modal');
+            const form = document.getElementById('manager-edit-form');
+            const title = document.getElementById('manager-edit-title');
+            if (!modal || !form) return;
 
-                    if (error) {
+            form.innerHTML = '<p class="text-slate-500">Loading...</p>';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
 
-                        showToast(
-                            'Error adding staff member.',
-                            'error'
-                        );
+            const table = type === 'media' ? 'website_images' : type === 'menu' ? 'menu_items' : 'staff';
+            const { data, error } = await dbClient.from(table).select('*').eq('id', id).single();
 
+            if (error || !data) {
+                form.innerHTML = `<p class="text-red-500">${escapeHTML(error?.message || 'Item not found.')}</p>`;
+                return;
+            }
+
+            title.textContent = type === 'media' ? 'Edit Media Asset' : type === 'menu' ? 'Edit Menu Item' : 'Edit Staff Profile';
+
+            if (type === 'media') {
+                form.innerHTML = `
+                    <input type="hidden" id="manager-edit-id" value="${escapeAttribute(data.id)}">
+                    ${managerField('Title', `<input id="edit-media-title" required value="${escapeAttribute(data.title || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${managerField('Website Area', `<select id="edit-media-area" class="w-full px-3 py-2 border rounded-lg">
+                            ${['home','about','menu','swimming','sports','events','restaurant','personnel','personnel-background','gallery'].map(a => `<option value="${a}" ${data.area === a ? 'selected' : ''}>${a}</option>`).join('')}
+                        </select>`)}
+                        ${managerField('Media Type', `<select id="edit-media-type" class="w-full px-3 py-2 border rounded-lg">
+                            <option value="image" ${data.media_type !== 'video' ? 'selected' : ''}>Image</option>
+                            <option value="video" ${data.media_type === 'video' ? 'selected' : ''}>Video</option>
+                        </select>`)}
+                    </div>
+                    ${managerField('Resource URL / File Path', `<input id="edit-media-path" value="${escapeAttribute(data.file_path || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                    ${managerField('Replace With File', `<input id="edit-media-file" type="file" accept="image/*,video/*" class="w-full px-3 py-2 border rounded-lg">`)}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${managerField('Display Order', `<input id="edit-media-order" type="number" min="1" value="${Number(data.position) || 1}" class="w-full px-3 py-2 border rounded-lg">`)}
+                        <label class="flex items-center gap-2 mt-7 text-sm"><input id="edit-media-published" type="checkbox" ${data.is_published ? 'checked' : ''} class="w-4 h-4"> Published</label>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-3">
+                        <button type="button" onclick="closeManagerEditor()" class="px-5 py-2.5 bg-slate-200 rounded-lg">Cancel</button>
+                        <button class="px-5 py-2.5 bg-emerald-600 text-white rounded-lg font-medium">Save Changes</button>
+                    </div>
+                `;
+            } else if (type === 'menu') {
+                form.innerHTML = `
+                    <input type="hidden" id="manager-edit-id" value="${escapeAttribute(data.id)}">
+                    ${managerField('Item / Package Name', `<input id="edit-menu-name" required value="${escapeAttribute(data.name || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${managerField('Category', `<input id="edit-menu-category" required value="${escapeAttribute(data.category || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                        ${managerField('Price (UGX)', `<input id="edit-menu-price" type="number" min="0" required value="${Number(data.price) || 0}" class="w-full px-3 py-2 border rounded-lg">`)}
+                    </div>
+                    ${managerField('Description', `<textarea id="edit-menu-description" rows="4" class="w-full px-3 py-2 border rounded-lg">${escapeHTML(data.description || '')}</textarea>`)}
+                    <label class="flex items-center gap-2 text-sm"><input id="edit-menu-available" type="checkbox" ${data.available !== false ? 'checked' : ''} class="w-4 h-4"> Available for orders and reservations</label>
+                    <div class="flex justify-end gap-3 pt-3">
+                        <button type="button" onclick="closeManagerEditor()" class="px-5 py-2.5 bg-slate-200 rounded-lg">Cancel</button>
+                        <button class="px-5 py-2.5 bg-emerald-600 text-white rounded-lg font-medium">Save Changes</button>
+                    </div>
+                `;
+            } else {
+                form.innerHTML = `
+                    <input type="hidden" id="manager-edit-id" value="${escapeAttribute(data.id)}">
+                    ${managerField('Full Name', `<input id="edit-staff-name" required value="${escapeAttribute(data.name || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${managerField('Role / Position', `<input id="edit-staff-role" required value="${escapeAttribute(data.position || data.role || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                        ${managerField('Phone', `<input id="edit-staff-phone" value="${escapeAttribute(data.phone || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                    </div>
+                    ${managerField('Description / Shift', `<input id="edit-staff-description" value="${escapeAttribute(data.description || data.bio || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                    ${managerField('Photo URL', `<input id="edit-staff-photo" value="${escapeAttribute(data.photo_url || '')}" class="w-full px-3 py-2 border rounded-lg">`)}
+                    ${managerField('Replace Photo', `<input id="edit-staff-photo-file" type="file" accept="image/*" class="w-full px-3 py-2 border rounded-lg">`)}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        ${managerField('Display Order', `<input id="edit-staff-order" type="number" min="1" value="${Number(data.display_order) || 1}" class="w-full px-3 py-2 border rounded-lg">`)}
+                        <div class="flex flex-col gap-2 mt-2">
+                            <label class="flex items-center gap-2 text-sm"><input id="edit-staff-featured" type="checkbox" ${data.is_featured_home ? 'checked' : ''} class="w-4 h-4"> Show on Home</label>
+                            <label class="flex items-center gap-2 text-sm"><input id="edit-staff-published" type="checkbox" ${data.is_published !== false ? 'checked' : ''} class="w-4 h-2"> Published</label>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-3">
+                        <button type="button" onclick="closeManagerEditor()" class="px-5 py-2.5 bg-slate-200 rounded-lg">Cancel</button>
+                        <button class="px-5 py-2.5 bg-emerald-600 text-white rounded-lg font-medium">Save Changes</button>
+                    </div>
+                `;
+            }
+
+            form.onsubmit = async (e) => {
+                e.preventDefault();
+
+                try {
+                    if (type === 'media') {
+                        const file = document.getElementById('edit-media-file').files[0];
+                        let filePath = document.getElementById('edit-media-path').value.trim();
+                        if (file) filePath = await uploadWebsiteFile(file, document.getElementById('edit-media-area').value || 'media');
+
+                        const { error } = await dbClient.from('website_images').update({
+                            title: document.getElementById('edit-media-title').value.trim(),
+                            area: document.getElementById('edit-media-area').value,
+                            media_type: document.getElementById('edit-media-type').value,
+                            file_path: filePath,
+                            position: Number(document.getElementById('edit-media-order').value) || 1,
+                            is_published: document.getElementById('edit-media-published').checked
+                        }).eq('id', id);
+
+                        if (error) throw error;
+                        showToast('Media updated successfully.');
+                        loadMediaData();
+                    } else if (type === 'menu') {
+                        const { error } = await dbClient.from('menu_items').update({
+                            name: document.getElementById('edit-menu-name').value.trim(),
+                            category: document.getElementById('edit-menu-category').value.trim(),
+                            price: Number(document.getElementById('edit-menu-price').value) || 0,
+                            description: document.getElementById('edit-menu-description').value.trim(),
+                            available: document.getElementById('edit-menu-available').checked
+                        }).eq('id', id);
+
+                        if (error) throw error;
+                        showToast('Menu item updated successfully.');
+                        loadMenuData();
                     } else {
+                        const file = document.getElementById('edit-staff-photo-file').files[0];
+                        let photoUrl = document.getElementById('edit-staff-photo').value.trim();
+                        if (file) {
+                            const path = await uploadWebsiteFile(file, 'personnel');
+                            photoUrl = publicStorageUrl(path);
+                        }
 
-                        showToast(
-                            'Staff member profile added!'
-                        );
+                        const role = document.getElementById('edit-staff-role').value.trim();
+                        const { error } = await dbClient.from('staff').update({
+                            name: document.getElementById('edit-staff-name').value.trim(),
+                            role,
+                            position: role,
+                            phone: document.getElementById('edit-staff-phone').value.trim(),
+                            description: document.getElementById('edit-staff-description').value.trim(),
+                            photo_url: photoUrl || null,
+                            display_order: Number(document.getElementById('edit-staff-order').value) || 1,
+                            is_featured_home: document.getElementById('edit-staff-featured').checked,
+                            is_published: document.getElementById('edit-staff-published').checked
+                        }).eq('id', id);
 
-                        document
-                            .getElementById(
-                                'add-personnel-form'
-                            )
-                            .reset();
-
+                        if (error) throw error;
+                        showToast('Staff profile updated successfully.');
                         loadStaffData();
                     }
-                }
-            );
 
+                    closeManagerEditor();
+                } catch (error) {
+                    console.error(error);
+                    showToast('Update failed: ' + error.message, 'error');
+                }
+            };
+        }
+
+        function closeManagerEditor() {
+            const modal = document.getElementById('manager-edit-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
 
         /* ============================================================
            REVIEWS
@@ -3751,134 +3767,7 @@ async function updateReservationStatus(id, status) {
             }
         }
 
-        async function loadReservations() {
-    const container = document.getElementById('reservations-list');
-
-    if (!container) return;
-
-    container.innerHTML = `
-        <p class="text-gray-500">Loading reservations...</p>
-    `;
-
-    const { data, error } = await dbClient
-        .from('reservations')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-    if (error) {
-        console.error('Error loading reservations:', error);
-
-        container.innerHTML = `
-            <div class="bg-red-50 text-red-700 p-4 rounded-lg">
-                Failed to load reservations.
-            </div>
-        `;
-
-        return;
-    }
-
-    if (!data || data.length === 0) {
-        container.innerHTML = `
-            <div class="text-center py-10 text-gray-500">
-                No reservations yet.
-            </div>
-        `;
-        return;
-    }
-
-    container.innerHTML = data.map(reservation => {
-
-        const created = reservation.created_at
-            ? new Date(reservation.created_at).toLocaleString()
-            : '';
-
-        return `
-            <div class="border rounded-xl p-5 bg-gray-50">
-
-                <div class="flex justify-between items-start gap-4">
-
-                    <div>
-                        <h3 class="text-lg font-bold text-gray-800">
-                            ${escapeHTML(reservation.customer_name || '')}
-                        </h3>
-
-                        <p class="text-sm text-gray-600 mt-1">
-                            ${escapeHTML(reservation.reservation_type || '')}
-                        </p>
-                    </div>
-
-                    <span class="px-3 py-1 rounded-full text-xs font-semibold
-                        ${reservation.status === 'new'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : reservation.status === 'confirmed'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-red-100 text-red-800'}">
-                        ${escapeHTML(reservation.status || 'new')}
-                    </span>
-
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-3 mt-4 text-sm">
-
-                    <p>
-                        <strong>Phone:</strong>
-                        ${escapeHTML(reservation.phone || '')}
-                    </p>
-
-                    <p>
-                        <strong>Date:</strong>
-                        ${escapeHTML(reservation.reservation_date || '')}
-                    </p>
-
-                    <p>
-                        <strong>People:</strong>
-                        ${reservation.guests || 1}
-                    </p>
-
-                    <p>
-                        <strong>Submitted:</strong>
-                        ${escapeHTML(created)}
-                    </p>
-
-                </div>
-
-                ${
-                    reservation.special_requests
-                        ? `
-                            <div class="mt-4">
-                                <strong class="text-sm">Notes:</strong>
-                                <p class="text-sm text-gray-600 mt-1">
-                                    ${escapeHTML(reservation.special_requests)}
-                                </p>
-                            </div>
-                        `
-                        : ''
-                }
-
-                <div class="mt-5 flex gap-2">
-
-                    <button
-                        onclick="updateReservationStatus('${reservation.id}', 'confirmed')"
-                        class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm">
-                        Confirm
-                    </button>
-
-                    <button
-                        onclick="updateReservationStatus('${reservation.id}', 'cancelled')"
-                        class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
-                        Cancel
-                    </button>
-
-                </div>
-
-            </div>
-        `;
-
-    }).join('');
-}
-
-
-async function updateReservationStatus(id, status) {
+        async function updateReservationStatus(id, status) {
 
     const { error } = await dbClient
         .from('reservations')
@@ -4053,65 +3942,28 @@ async function updateReservationStatus(id, status) {
            DELETE
         ============================================================ */
 
-        async function deleteItem(
-            table,
-            id
-        ) {
+        async function deleteItem(table, id) {
+            if (!confirm('Are you sure you want to remove this item?')) return;
 
-            if (
-                !confirm(
-                    'Are you sure you want to remove this item?'
-                )
-            ) {
-                return;
-            }
-
-            const {
-                error
-            } = await dbClient
+            const { error } = await dbClient
                 .from(table)
                 .delete()
                 .eq('id', id);
 
             if (error) {
-
                 console.error(error);
-
-                showToast(
-                    'Failed to delete item.',
-                    'error'
-                );
-
+                showToast('Failed to delete item: ' + error.message, 'error');
                 return;
             }
 
-            showToast(
-                'Item deleted successfully.'
-            );
+            showToast('Item deleted successfully.');
 
-            if (table === 'media') {
-                loadMediaData();
-            }
-
-            if (table === 'menu_items') {
-                loadMenuData();
-            }
-
-            if (table === 'reviews') {
-                loadReviewsData();
-            }
-
-            if (table === 'events') {
-                loadEventsData();
-            }
-
-            if (table === 'staff') {
-                loadStaffData();
-            }
-
-            if (tabName === 'reservations') {
-    loadReservations();
-}
+            if (table === 'website_images') loadMediaData();
+            if (table === 'menu_items') loadMenuData();
+            if (table === 'reviews') loadReviewsData();
+            if (table === 'events') loadEventsData();
+            if (table === 'staff') loadStaffData();
+            if (table === 'reservations') loadReservations();
         }
 
 
@@ -4125,6 +3977,7 @@ async function updateReservationStatus(id, status) {
 
                 if (e.key === 'Escape') {
                     closeContentModal();
+                    closeManagerEditor();
                 }
             }
         );
