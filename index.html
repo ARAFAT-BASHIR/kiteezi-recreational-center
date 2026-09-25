@@ -480,7 +480,7 @@
                     </p>
 
                     <p id="display-coaching-price" class="text-sm font-bold text-brand-gold bg-brand-sand px-3 py-2 rounded-lg inline-block">
-                        10-Session Coaching Package: UGX 120,000
+                        school swimming Coaching Package: UGX5,000
                     </p>
 
                     <p id="display-promo-note" class="text-sm text-gray-500 mt-3"></p>
@@ -1625,11 +1625,11 @@ async function fetchPublicSwimmingPrices() {
     const monthlyPrice =
         data.monthly_price ??
         data.membership_price ??
-        150000;
+        250000;
 
     const coachingPrice =
         data.coaching_price ??
-        120000;
+        5000;
 
     if (adult) {
         adult.textContent =
@@ -1648,7 +1648,7 @@ async function fetchPublicSwimmingPrices() {
 
     if (coaching) {
         coaching.textContent =
-            `10-Session Coaching Package: UGX ${Number(coachingPrice).toLocaleString()}`;
+            `school swimming Coaching Package: UGX ${Number(coachingPrice).toLocaleString()}`;
     }
 
     if (promo) {
