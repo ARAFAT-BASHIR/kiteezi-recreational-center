@@ -49,7 +49,7 @@
         }
 
         .hero-bg {
-            background: linear-gradient(rgba(27, 67, 50, 0.88), rgba(43, 45, 66, 0.92)), url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            background: linear-gradient(rgba(27, 67, 50, 0.88), rgba(43, 45, 66, 0.92)) center/cover no-repeat;
         }
 
         .active-tab {
@@ -68,6 +68,110 @@
 
         .public-announcement {
             border-left: 5px solid #d4af37;
+        }
+
+        /* Managed media / gallery */
+        .media-gallery {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            background: #0f172a;
+            min-height: 320px;
+            touch-action: pan-y;
+        }
+
+        .media-track {
+            display: flex;
+            width: 100%;
+            transition: transform 0.45s ease;
+        }
+
+        .media-slide {
+            min-width: 100%;
+            position: relative;
+            display: none;
+            height: 380px;
+        }
+
+        .media-slide.active {
+            display: block;
+        }
+
+        .media-slide img,
+        .media-slide video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .media-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 1.25rem 1.5rem;
+            color: white;
+            background: linear-gradient(transparent, rgba(0,0,0,.78));
+            pointer-events: none;
+        }
+
+        .media-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            background: rgba(0,0,0,.45);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            transition: .2s ease;
+        }
+
+        .media-control:hover {
+            background: rgba(0,0,0,.7);
+        }
+
+        .media-control.prev { left: 14px; }
+        .media-control.next { right: 14px; }
+
+        .media-dots {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            z-index: 6;
+        }
+
+        .media-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.55);
+            border: 0;
+            cursor: pointer;
+        }
+
+        .media-dot.active {
+            width: 22px;
+            background: #d4af37;
+        }
+
+        .gallery-card {
+            cursor: zoom-in;
+        }
+
+        @media (max-width: 640px) {
+            .media-slide {
+                height: 280px;
+            }
         }
 
         ::-webkit-scrollbar {
@@ -92,7 +196,7 @@
         <div class="flex justify-between items-center h-20">
             <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
                 <div class="w-12 h-12 rounded-full border-2 border-brand-gold overflow-hidden bg-brand-lightgreen flex items-center justify-center text-brand-gold font-bold text-xl shadow">
-                    <i class="fa-solid fa-tree"></i>
+                    <img src="ARAFAT-BASHIR/kiteezi-recreational-center/LOGO.png" alt="Kiteezi Recreational Center logo" class="w-full h-full object-cover">
                 </div>
                 <div>
                     <h1 class="font-serif text-lg sm:text-2xl font-bold tracking-wide text-white leading-tight">Kiteezi Recreational Center</h1>
@@ -133,17 +237,17 @@
 
     <div id="page-home" class="page-view space-y-16">
 
-        <section class="hero-bg text-white py-24 sm:py-32 px-4 sm:px-6 lg:px-8 text-center relative">
+        <section id="hero-section" class="hero-bg text-white py-24 sm:py-32 px-4 sm:px-6 lg:px-8 text-center relative">
             <div class="max-w-4xl mx-auto space-y-6">
-                <span class="inline-block bg-brand-gold/20 text-brand-gold border border-brand-gold px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase">
+                <span data-managed-content="hero_badge" class="inline-block bg-brand-gold/20 text-brand-gold border border-brand-gold px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase">
                     <i class="fa-solid fa-gem mr-1.5"></i>Kiteezi, Lusanjja • Kampala
                 </span>
 
-                <h1 class="text-4xl sm:text-6xl font-serif font-bold tracking-tight text-white leading-tight">
+                <h1 data-managed-content="hero_title" class="text-4xl sm:text-6xl font-serif font-bold tracking-tight text-white leading-tight">
                     Your Oasis of Comfort, Dining & Relaxation
                 </h1>
 
-                <p class="text-lg sm:text-xl font-light text-gray-200 max-w-2xl mx-auto">
+                <p data-managed-content="hero_description" class="text-lg sm:text-xl font-light text-gray-200 max-w-2xl mx-auto">
                     Refreshing swimming pool, gourmet local & continental cuisine, lush garden venue rentals, and welcoming hospitality in Lusanjja, Kiteezi.
                 </p>
 
@@ -168,20 +272,20 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div onclick="navigateTo('swimming')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
                     <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-person-swimming"></i></div>
-                    <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Swimming Pool</h3>
-                    <p class="text-gray-600 text-sm">Clear standard pool with dedicated kids pool, swimming lessons, and expert lifesavers.</p>
+                    <h3 data-managed-content="home_swimming_title" class="font-serif text-xl font-bold mb-2 text-brand-green">Swimming Pool</h3>
+                    <p data-managed-content="home_swimming_description" class="text-gray-600 text-sm">Clear standard pool with dedicated kids pool, swimming lessons, and expert lifesavers.</p>
                 </div>
 
                 <div onclick="navigateTo('menu')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
                     <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-utensils"></i></div>
-                    <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Restaurant & Bar</h3>
-                    <p class="text-gray-600 text-sm">Delicious fresh local buffets, grilled tilapia, pork ribs, snacks, and poolside drinks.</p>
+                    <h3 data-managed-content="home_restaurant_title" class="font-serif text-xl font-bold mb-2 text-brand-green">Restaurant & Bar</h3>
+                    <p data-managed-content="home_restaurant_description" class="text-gray-600 text-sm">Delicious fresh local buffets, grilled tilapia, pork ribs, snacks, and poolside drinks.</p>
                 </div>
 
                 <div onclick="navigateTo('events')" class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-brand-gold cursor-pointer hover:-translate-y-1 transition duration-300">
                     <div class="text-brand-green text-3xl mb-3"><i class="fa-solid fa-champagne-glasses"></i></div>
-                    <h3 class="font-serif text-xl font-bold mb-2 text-brand-green">Lush Gardens & Venue</h3>
-                    <p class="text-gray-600 text-sm">Spacious lawns ideal for weddings, birthday parties, retreats, and photoshoots.</p>
+                    <h3 data-managed-content="home_garden_title" class="font-serif text-xl font-bold mb-2 text-brand-green">Lush Gardens & Venue</h3>
+                    <p data-managed-content="home_garden_description" class="text-gray-600 text-sm">Spacious lawns ideal for weddings, birthday parties, retreats, and photoshoots.</p>
                 </div>
             </div>
         </section>
@@ -215,46 +319,27 @@
 
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="text-center mb-10">
-                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Hospitality Professionals</span>
-                <h2 class="text-3xl font-serif font-bold text-brand-green">Personnel & Leadership Area</h2>
-                <p class="text-gray-600 mt-1 max-w-xl mx-auto">Meet the dedicated team working round the clock to ensure high standards of customer satisfaction.</p>
+                <span data-managed-content="home_staff_badge" class="text-xs font-bold uppercase tracking-wider text-brand-gold">Hospitality Professionals</span>
+                <h2 data-managed-content="home_staff_title" class="text-3xl font-serif font-bold text-brand-green">Personnel & Leadership Area</h2>
+                <p data-managed-content="home_staff_description" class="text-gray-600 mt-1 max-w-xl mx-auto">Meet the dedicated team working round the clock to ensure high standards of customer satisfaction.</p>
             </div>
 
             <div id="home-staff-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                    <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                        <i class="fa-solid fa-user-tie"></i>
-                    </div>
-                    <h3 class="font-serif font-bold text-lg text-brand-green">Grace Nalubega</h3>
-                    <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Operations & Guest Manager</p>
-                    <p class="text-xs text-gray-500">Coordinates venue bookings, guest receptions, and overall center experience.</p>
+                <div class="sm:col-span-2 lg:col-span-4 text-center py-8 text-gray-500">
+                    Loading personnel profiles...
                 </div>
+            </div>
+        </section>
 
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                    <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                        <i class="fa-solid fa-utensils"></i>
-                    </div>
-                    <h3 class="font-serif font-bold text-lg text-brand-green">Patrick Mukasa</h3>
-                    <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Head Chef</p>
-                    <p class="text-xs text-gray-500">Oversees local buffet preparations, grilled fresh tilapia, and kitchen operations.</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                    <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                        <i class="fa-solid fa-life-ring"></i>
-                    </div>
-                    <h3 class="font-serif font-bold text-lg text-brand-green">Dennis Okello</h3>
-                    <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Pool Supervisor & Coach</p>
-                    <p class="text-xs text-gray-500">Certified water safety guard managing pool sanitation, safety, and coaching sessions.</p>
-                </div>
-
-                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                    <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                        <i class="fa-solid fa-receipt"></i>
-                    </div>
-                    <h3 class="font-serif font-bold text-lg text-brand-green">Sarah Namukasa</h3>
-                    <p class="text-xs text-brand-gold font-semibold uppercase mb-2">Front Desk & Cashier</p>
-                    <p class="text-xs text-gray-500">Manages guest ticketing, daily billings, and customer care inquiries.</p>
+        <section id="public-gallery" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="text-center mb-8">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Explore Kiteezi</span>
+                <h2 class="text-3xl font-serif font-bold text-brand-green">Photo & Video Gallery</h2>
+                <p class="text-gray-600 mt-1 max-w-2xl mx-auto">Browse the latest photos and videos published by the center.</p>
+            </div>
+            <div id="public-gallery-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div class="md:col-span-2 lg:col-span-3 text-center py-10 text-gray-500">
+                    Loading gallery...
                 </div>
             </div>
         </section>
@@ -312,83 +397,18 @@
 
     <div id="page-menu" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div class="text-center max-w-2xl mx-auto">
-            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Fresh & Savory</span>
-            <h2 class="text-3xl font-serif font-bold text-brand-green">Menu & Dining</h2>
-            <p class="text-gray-600 mt-2">Select your meals and drinks below to generate an instant WhatsApp order to <strong>0709763803</strong>!</p>
+            <span data-managed-content="menu_badge" class="text-xs font-bold uppercase tracking-wider text-brand-gold">Fresh & Savory</span>
+            <h2 data-managed-content="menu_title" class="text-3xl font-serif font-bold text-brand-green">Menu & Dining</h2>
+            <p data-managed-content="menu_description" class="text-gray-600 mt-2">Select your meals and drinks below to generate an instant WhatsApp order to <strong>0709763803</strong>!</p>
+        </div>
+
+                <div class="media-gallery shadow-lg" data-media-area="menu" data-autoplay="true">
+            <div class="media-loading flex items-center justify-center h-96 text-gray-300">Loading menu media...</div>
         </div>
 
         <div id="public-menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                <div>
-                    <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded font-medium">Buffet</span>
-                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Executive Local Buffet</h3>
-                    <p class="text-sm text-gray-500 mt-1">Matooke, fresh beef stew, local chicken, fresh salads, steamed rice, and fruit slice.</p>
-                </div>
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="font-bold text-brand-gold text-lg">UGX 35,000</div>
-                    <button onclick="addToCart('Executive Local Buffet', 35000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                <div>
-                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded font-medium">Speciality</span>
-                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Whole Fried Tilapia & Chips</h3>
-                    <p class="text-sm text-gray-500 mt-1">Crispy whole fresh lake tilapia served with golden chips and spicy tartar sauce.</p>
-                </div>
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="font-bold text-brand-gold text-lg">UGX 30,000</div>
-                    <button onclick="addToCart('Whole Fried Tilapia & Chips', 30000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                <div>
-                    <span class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1 rounded font-medium">Speciality</span>
-                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Pork Ribs & Wedges</h3>
-                    <p class="text-sm text-gray-500 mt-1">Slow BBQ glazed pork ribs served with seasoned potato wedges.</p>
-                </div>
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="font-bold text-brand-gold text-lg">UGX 28,000</div>
-                    <button onclick="addToCart('Pork Ribs & Wedges', 28000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                <div>
-                    <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded font-medium">Fast Food</span>
-                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Crispy Chicken Wings & Chips</h3>
-                    <p class="text-sm text-gray-500 mt-1">6 pieces of crunchy fried chicken wings with French fries.</p>
-                </div>
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="font-bold text-brand-gold text-lg">UGX 22,000</div>
-                    <button onclick="addToCart('Crispy Chicken Wings & Chips', 22000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                <div>
-                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded font-medium">Beverage</span>
-                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Fresh Blended Smoothie</h3>
-                    <p class="text-sm text-gray-500 mt-1">Refreshing mix of passion fruit, mango, and pineapple.</p>
-                </div>
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="font-bold text-brand-gold text-lg">UGX 10,000</div>
-                    <button onclick="addToCart('Fresh Blended Smoothie', 10000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col justify-between">
-                <div>
-                    <span class="bg-purple-100 text-purple-800 text-xs px-2.5 py-1 rounded font-medium">Beverage</span>
-                    <h3 class="font-serif font-bold text-lg mt-2 text-brand-green">Cold Soda / Mineral Water</h3>
-                    <p class="text-sm text-gray-500 mt-1">Chilled carbonated soft drinks or bottled water.</p>
-                </div>
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="font-bold text-brand-gold text-lg">UGX 4,000</div>
-                    <button onclick="addToCart('Cold Soda / Mineral Water', 4000)" class="bg-brand-green text-white text-sm px-3 py-1.5 rounded hover:bg-brand-lightgreen transition">Add to Order</button>
-                </div>
+            <div class="md:col-span-2 lg:col-span-3 text-center py-10 text-gray-500">
+                Loading menu from the website manager...
             </div>
         </div>
 
@@ -416,13 +436,15 @@
 
     <div id="page-swimming" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
         <div class="text-center max-w-2xl mx-auto">
-            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Dip & Relax</span>
-            <h2 class="text-3xl font-serif font-bold text-brand-green">Swimming Pool Experience</h2>
-            <p class="text-gray-600 mt-2">Crystal clear waters, trained lifeguards, and pool safety in Kiteezi, Lusanjja.</p>
+            <span data-managed-content="swimming_badge" class="text-xs font-bold uppercase tracking-wider text-brand-gold">Dip & Relax</span>
+            <h2 data-managed-content="swimming_title" class="text-3xl font-serif font-bold text-brand-green">Swimming Pool Experience</h2>
+            <p data-managed-content="swimming_description" class="text-gray-600 mt-2">Crystal clear waters, trained lifeguards, and pool safety in Kiteezi, Lusanjja.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=800&q=80" alt="Swimming Pool Kiteezi" class="rounded-2xl shadow-lg object-cover h-96 w-full">
+            <div class="media-gallery shadow-lg" data-media-area="swimming" data-autoplay="true">
+                <div class="media-loading flex items-center justify-center h-96 text-gray-300">Loading swimming media...</div>
+            </div>
 
             <div class="space-y-6">
                 <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
@@ -469,13 +491,17 @@
 
     <div id="page-events" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         <div class="text-center max-w-2xl mx-auto">
-            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Outdoor Celebrations</span>
-            <h2 class="text-3xl font-serif font-bold text-brand-green">Events & Lawn Rental</h2>
-            <p class="text-gray-600 mt-2">Serene green gardens perfect for weddings, corporate galas, and birthday parties in Lusanjja.</p>
+            <span data-managed-content="events_badge" class="text-xs font-bold uppercase tracking-wider text-brand-gold">Outdoor Celebrations</span>
+            <h2 data-managed-content="events_title" class="text-3xl font-serif font-bold text-brand-green">Events & Lawn Rental</h2>
+            <p data-managed-content="events_description" class="text-gray-600 mt-2">Serene green gardens perfect for weddings, corporate galas, and birthday parties in Lusanjja.</p>
         </div>
 
         <!-- PUBLISHED ANNOUNCEMENTS -->
         <div id="public-events-container" class="max-w-4xl mx-auto space-y-4"></div>
+
+        <div class="media-gallery shadow-lg max-w-5xl mx-auto" data-media-area="events" data-autoplay="true">
+            <div class="media-loading flex items-center justify-center h-96 text-gray-300">Loading events media...</div>
+        </div>
 
         <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 max-w-3xl mx-auto">
             <h3 class="font-serif text-2xl font-bold text-brand-green mb-1 text-center">Interactive Event Cost Estimator</h3>
@@ -513,8 +539,8 @@
 
     <div id="page-booking" class="page-view hidden max-w-3xl mx-auto px-4 py-12">
         <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-            <h2 class="text-3xl font-serif font-bold text-brand-green mb-2">Reserve Venue & Services</h2>
-            <p class="text-gray-600 mb-6">Fill in your reservation details and our team will contact you promptly.</p>
+            <h2 data-managed-content="booking_title" class="text-3xl font-serif font-bold text-brand-green mb-2">Reserve Venue & Services</h2>
+            <p data-managed-content="booking_description" class="text-gray-600 mb-6">Fill in your reservation details and our team will contact you promptly.</p>
 
           <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
 
@@ -699,93 +725,27 @@
 
     <div id="page-personnel" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         <div class="text-center max-w-2xl mx-auto">
-            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Our Team</span>
-            <h2 class="text-3xl font-serif font-bold text-brand-green">Personnel & Staff Area</h2>
-            <p class="text-gray-600 mt-2">Meet the staff members who work seamlessly to keep our center running smoothly.</p>
+            <span data-managed-content="personnel_badge" class="text-xs font-bold uppercase tracking-wider text-brand-gold">Our Team</span>
+            <h2 data-managed-content="personnel_title" class="text-3xl font-serif font-bold text-brand-green">Personnel & Staff Area</h2>
+            <p data-managed-content="personnel_description" class="text-gray-600 mt-2">Meet the staff members who work seamlessly to keep our center running smoothly.</p>
+        </div>
+
+        <div class="media-gallery shadow-lg" data-media-area="personnel-background" data-autoplay="true">
+            <div class="media-loading flex items-center justify-center h-96 text-gray-300">Loading personnel background...</div>
         </div>
 
         <div id="public-staff-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">TJ</div>
-                <div>
-                    <h3 class="font-bold text-brand-green">Mr John Turyagyenda</h3>
-                    <p class="text-xs text-brand-gold font-semibold">CEO & Founder</p>
-                    <p class="text-xs text-gray-500 mt-1">Shift: Occasional</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">NC</div>
-                <div>
-                    <h3 class="font-bold text-brand-green">Madam Nayiga Catherine</h3>
-                    <p class="text-xs text-brand-gold font-semibold">Center General Manager</p>
-                    <p class="text-xs text-gray-500 mt-1">Shift: Occasional</p>
-                </div>
-            </div>
-
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">AE</div>
-                <div>
-                    <h3 class="font-bold text-brand-green">Ainomugisha Elizabeth</h3>
-                    <p class="text-xs text-brand-gold font-semibold">Center Operations Manager</p>
-                    <p class="text-xs text-gray-500 mt-1">Shift: Morning / Full Day</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">BF</div>
-                <div>
-                    <h3 class="font-bold text-brand-green">Bayega Fred</h3>
-                    <p class="text-xs text-brand-gold font-semibold">Head Chef</p>
-                    <p class="text-xs text-gray-500 mt-1">Shift: Kitchen & Buffet Management</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">AP</div>
-                <div>
-                    <h3 class="font-bold text-brand-green">Adruvulle Phillium</h3>
-                    <p class="text-xs text-brand-gold font-semibold">Chief Lifeguard & Instructor</p>
-                    <p class="text-xs text-gray-500 mt-1">Shift: Pool Operations & Coaching</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">AE</div>
-                <div>
-                    <h3 class="font-bold text-brand-green">Ainomugisha Elizabeth</h3>
-                    <p class="text-xs text-brand-gold font-semibold">Head Cashier & Receptionist</p>
-                    <p class="text-xs text-gray-500 mt-1">Shift: Reception Desk</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">MZ</div>
-                <div>
-                    <h3 class="font-bold text-brand-green">Muzei</h3>
-                    <p class="text-xs text-brand-gold font-semibold">Grounds Supervisor</p>
-                    <p class="text-xs text-gray-500 mt-1">Shift: Lawn & Event Setup</p>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">NC</div>
-                <div>
-                    <h3 class="font-bold text-brand-green">Nakayenga Catherine</h3>
-                    <p class="text-xs text-brand-gold font-semibold">Senior Waitress</p>
-                    <p class="text-xs text-gray-500 mt-1">Shift: Restaurant & Bar Service</p>
-                </div>
+            <div class="md:col-span-2 lg:col-span-3 text-center py-10 text-gray-500">
+                Loading personnel profiles...
             </div>
         </div>
     </div>
 
     <div id="page-contact" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
         <div class="text-center max-w-2xl mx-auto">
-            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold">Stay Connected</span>
-            <h2 class="text-3xl font-serif font-bold text-brand-green">Contact Us & Social Links</h2>
-            <p class="text-gray-600 mt-2">Connect with us on social media or reach out directly for bookings and directions.</p>
+            <span data-managed-content="contact_badge" class="text-xs font-bold uppercase tracking-wider text-brand-gold">Stay Connected</span>
+            <h2 data-managed-content="contact_title" class="text-3xl font-serif font-bold text-brand-green">Contact Us & Social Links</h2>
+            <p data-managed-content="contact_description" class="text-gray-600 mt-2">Connect with us on social media or reach out directly for bookings and directions.</p>
         </div>
 
         <div class="bg-brand-green text-white p-8 rounded-2xl shadow-xl text-center space-y-6">
@@ -1056,40 +1016,6 @@ function calculateEventCost() {
 
     result.textContent =
         'UGX ' + total.toLocaleString();
-}
-
-/* =========================================================
-   FACILITY & ACTIVITIES BOOKING
-========================================================= */
-
-function openBookingModal(categoryName) {
-    const modal = document.getElementById('bookingModal');
-    const title = document.getElementById('bookingModalTitle');
-    const category = document.getElementById('bookingCategory');
-
-    if (!modal || !category) {
-        console.error('Booking modal elements are missing.');
-        return;
-    }
-
-    if (title) {
-        title.textContent = `Book ${categoryName}`;
-    }
-
-    category.value = categoryName;
-
-    modal.style.display = 'flex';
-    modal.setAttribute('aria-hidden', 'false');
-}
-
-
-function closeBookingModal() {
-    const modal = document.getElementById('bookingModal');
-
-    if (modal) {
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-    }
 }
 
 /* =========================================================
@@ -1379,385 +1305,180 @@ function updateReservationTotal() {
 ========================================================= */
 
 async function handleBookingSubmit(e) {
-
     e.preventDefault();
 
-    const form =
-        document.getElementById('booking-form');
+    const form = document.getElementById('booking-form');
+    const submitBtn = document.getElementById('booking-submit-btn');
+    const statusEl = document.getElementById('booking-msg');
 
-    if (!form) {
-        return;
-    }
+    if (!form) return;
 
-
-    const name =
-        document.getElementById('book-name')?.value.trim();
-
-    const phone =
-        document.getElementById('book-phone')?.value.trim();
-
-    const type =
-        document.getElementById('book-type')?.value;
-
-    const date =
-        document.getElementById('book-date')?.value;
-
-    const guests =
-        parseInt(
-            document.getElementById('book-guests')?.value,
-            10
-        ) || 1;
-
-    const notes =
-        document.getElementById('book-notes')?.value.trim();
-
+    const name = document.getElementById('book-name')?.value.trim();
+    const phone = document.getElementById('book-phone')?.value.trim();
+    const type = document.getElementById('book-type')?.value;
+    const date = document.getElementById('book-date')?.value;
+    const guests = Math.max(1, parseInt(document.getElementById('book-guests')?.value, 10) || 1);
+    const notes = document.getElementById('book-notes')?.value.trim();
 
     if (!name || !phone || !type || !date) {
-
-        alert(
-            'Please complete all required reservation fields.'
-        );
-
+        if (statusEl) {
+            statusEl.textContent = 'Please complete all required reservation fields.';
+            statusEl.className = 'text-center font-medium text-red-600 mt-2';
+        }
         return;
     }
 
+    if (!/^[+0-9 ()-]{7,20}$/.test(phone)) {
+        if (statusEl) {
+            statusEl.textContent = 'Please enter a valid phone number.';
+            statusEl.className = 'text-center font-medium text-red-600 mt-2';
+        }
+        return;
+    }
 
-    /*
-       SELECTED BUFFET
-    */
+    if (new Date(date + 'T00:00:00') < new Date(new Date().toDateString())) {
+        if (statusEl) {
+            statusEl.textContent = 'Please choose today or a future date.';
+            statusEl.className = 'text-center font-medium text-red-600 mt-2';
+        }
+        return;
+    }
 
-    const buffetSelect =
-        document.getElementById('book-buffet');
+    const whatsappTab = window.open('about:blank', '_blank');
 
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Submitting Reservation...';
+    }
+    if (statusEl) {
+        statusEl.className = 'text-center font-medium text-gray-600 mt-2';
+        statusEl.textContent = 'Saving your reservation...';
+    }
+
+    const buffetSelect = document.getElementById('book-buffet');
     let selectedBuffet = null;
 
-    if (
-        buffetSelect &&
-        buffetSelect.value
-    ) {
-
-        const buffet =
-            reservationMenuItems.find(
-                item =>
-                    String(item.id) ===
-                    String(buffetSelect.value)
-            );
+    if (buffetSelect?.value) {
+        const buffet = reservationMenuItems.find(
+            item => String(item.id) === String(buffetSelect.value)
+        );
 
         if (buffet) {
-
             selectedBuffet = {
-
                 id: buffet.id,
-
                 name: buffet.name,
-
-                price:
-                    Number(buffet.price) || 0,
-
+                price: Number(buffet.price) || 0,
                 quantity: guests
             };
         }
     }
 
-
-    /*
-       SELECTED ADDITIONAL MENU ITEMS
-    */
-
     const selectedMenuItems = [];
+    document.querySelectorAll('.reservation-menu-checkbox:checked').forEach(checkbox => {
+        const id = checkbox.dataset.id;
+        const menuItem = reservationMenuItems.find(
+            item => String(item.id) === String(id)
+        );
 
+        if (!menuItem) return;
 
-    document
-        .querySelectorAll(
-            '.reservation-menu-checkbox:checked'
-        )
-        .forEach(checkbox => {
+        const quantityInput = document.querySelector(
+            `.reservation-menu-quantity[data-id="${id}"]`
+        );
 
-            const id =
-                checkbox.dataset.id;
-
-            const menuItem =
-                reservationMenuItems.find(
-                    item =>
-                        String(item.id) ===
-                        String(id)
-                );
-
-            if (!menuItem) {
-                return;
-            }
-
-
-            const quantityInput =
-                document.querySelector(
-                    `.reservation-menu-quantity[data-id="${id}"]`
-                );
-
-
-            const quantity =
-                Math.max(
-                    1,
-                    parseInt(
-                        quantityInput?.value,
-                        10
-                    ) || 1
-                );
-
-
-            selectedMenuItems.push({
-
-                id: menuItem.id,
-
-                name: menuItem.name,
-
-                price:
-                    Number(menuItem.price) || 0,
-
-                quantity: quantity
-            });
-
+        selectedMenuItems.push({
+            id: menuItem.id,
+            name: menuItem.name,
+            price: Number(menuItem.price) || 0,
+            quantity: Math.max(1, parseInt(quantityInput?.value, 10) || 1)
         });
-
-
-    /*
-       STORE BUFFET + ADDITIONAL ITEMS
-       INSIDE menu_items JSONB
-    */
+    });
 
     const reservationMenuData = {
-
-        buffet:
-            selectedBuffet,
-
-        additional_items:
-            selectedMenuItems
+        buffet: selectedBuffet,
+        additional_items: selectedMenuItems
     };
 
-
     try {
+        const { data: reservation, error } = await supabaseClient
+            .from('reservations')
+            .insert({
+                customer_name: name,
+                phone: phone,
+                reservation_type: type,
+                reservation_date: date,
+                guests: guests,
+                special_requests: notes || null,
+                menu_items: reservationMenuData,
+                status: 'new'
+            })
+            .select('id')
+            .single();
 
-        const { error } =
-            await supabaseClient
-                .from('reservations')
-                .insert({
+        if (error) throw error;
 
-                    customer_name:
-                        name,
-
-                    phone:
-                        phone,
-
-                    reservation_type:
-                        type,
-
-                    reservation_date:
-                        date,
-
-                    guests:
-                        guests,
-
-                    special_requests:
-                        notes || null,
-
-                    menu_items:
-                        reservationMenuData,
-
-                    status:
-                        'new'
-                });
-
-
-        if (error) {
-
-            console.error(
-                'SUPABASE RESERVATION ERROR:',
-                error
-            );
-
-            alert(
-                'Reservation failed: ' +
-                error.message
-            );
-
-            return;
-        }
-
-
-        /*
-           WHATSAPP MESSAGE
-        */
-
-        let message =
-            '*FACILITY & GAME RESERVATION — KITEEZI RECREATIONAL CENTER*\n\n';
-
-
-        message +=
-            `*Booking Type:* ${type}\n`;
-
-        message +=
-            `*Name:* ${name}\n`;
-
-        message +=
-            `*Phone:* ${phone}\n`;
-
-        message +=
-            `*Date:* ${date}\n`;
-
-        message +=
-            `*People:* ${guests}\n`;
-
-
-        /*
-           BUFFET
-        */
+        let message = '*FACILITY & GAME RESERVATION — KITEEZI RECREATIONAL CENTER*\n\n';
+        message += `*Booking Type:* ${type}\n`;
+        message += `*Name:* ${name}\n`;
+        message += `*Phone:* ${phone}\n`;
+        message += `*Date:* ${date}\n`;
+        message += `*People:* ${guests}\n`;
+        message += `*Reservation ID:* ${reservation?.id || 'Pending'}\n`;
 
         if (selectedBuffet) {
-
-            const buffetTotal =
-                selectedBuffet.price *
-                selectedBuffet.quantity;
-
-            message +=
-                '\n*BUFFET:*\n';
-
-            message +=
-                `• ${selectedBuffet.name} × ${selectedBuffet.quantity} — UGX ${buffetTotal.toLocaleString()}\n`;
+            const buffetTotal = selectedBuffet.price * selectedBuffet.quantity;
+            message += `\n*BUFFET:*\n• ${selectedBuffet.name} × ${selectedBuffet.quantity} — UGX ${buffetTotal.toLocaleString()}\n`;
         }
 
-
-        /*
-           ADDITIONAL MENU
-        */
-
-        if (
-            selectedMenuItems.length > 0
-        ) {
-
-            message +=
-                '\n*ADDITIONAL MENU ITEMS:*\n';
-
-
+        if (selectedMenuItems.length) {
+            message += '\n*ADDITIONAL MENU ITEMS:*\n';
             selectedMenuItems.forEach(item => {
-
-                const subtotal =
-                    item.price *
-                    item.quantity;
-
-
-                message +=
-                    `• ${item.name} × ${item.quantity} — UGX ${subtotal.toLocaleString()}\n`;
+                const subtotal = item.price * item.quantity;
+                message += `• ${item.name} × ${item.quantity} — UGX ${subtotal.toLocaleString()}\n`;
             });
         }
 
-
-        /*
-           TOTAL
-        */
-
-        const buffetPrice =
-            selectedBuffet
-                ? selectedBuffet.price
-                : 0;
-
-        const buffetTotal =
-            buffetPrice * guests;
-
-
-        const additionalTotal =
-            selectedMenuItems.reduce(
-                (total, item) =>
-                    total +
-                    (item.price * item.quantity),
-                0
-            );
-
-
-        const grandTotal =
-            buffetTotal +
-            additionalTotal;
-
-
-        message +=
-            `\n*Estimated Food Total:* UGX ${grandTotal.toLocaleString()}\n`;
-
-
-        if (notes) {
-
-            message +=
-                `\n*Special Requests:* ${notes}\n`;
-        }
-
+        const buffetTotal = selectedBuffet ? selectedBuffet.price * guests : 0;
+        const additionalTotal = selectedMenuItems.reduce(
+            (total, item) => total + item.price * item.quantity, 0
+        );
+        message += `\n*Estimated Food Total:* UGX ${(buffetTotal + additionalTotal).toLocaleString()}\n`;
+        if (notes) message += `\n*Special Requests:* ${notes}\n`;
 
         const whatsappUrl =
-            'https://wa.me/256709763803?text=' +
-            encodeURIComponent(message);
-
-
-        /*
-           RESET FORM
-        */
+            'https://wa.me/256709763803?text=' + encodeURIComponent(message);
 
         form.reset();
-
-
-        document
-            .querySelectorAll(
-                '.reservation-menu-quantity'
-            )
-            .forEach(input => {
-
-                input.disabled = true;
-
-                input.value = 1;
-            });
-
-
-        document
-            .querySelectorAll(
-                '.reservation-menu-checkbox'
-            )
-            .forEach(checkbox => {
-
-                checkbox.checked = false;
-            });
-
-
+        document.querySelectorAll('.reservation-menu-checkbox').forEach(cb => cb.checked = false);
+        document.querySelectorAll('.reservation-menu-quantity').forEach(input => {
+            input.disabled = true;
+            input.value = 1;
+        });
         updateReservationTotal();
 
-
-        const bookingMsg =
-            document.getElementById(
-                'booking-msg'
-            );
-
-
-        if (bookingMsg) {
-
-            bookingMsg.textContent =
-                'Reservation submitted successfully.';
-
-            bookingMsg.classList.remove(
-                'hidden'
-            );
+        if (statusEl) {
+            statusEl.textContent = 'Reservation submitted successfully. Opening WhatsApp...';
+            statusEl.className = 'text-center font-medium text-green-600 mt-2';
         }
 
-
-        window.open(
-            whatsappUrl,
-            '_blank'
-        );
-
-
+        if (whatsappTab && !whatsappTab.closed) {
+            whatsappTab.location.href = whatsappUrl;
+        } else {
+            window.location.href = whatsappUrl;
+        }
     } catch (error) {
+        console.error('RESERVATION ERROR:', error);
+        if (whatsappTab && !whatsappTab.closed) whatsappTab.close();
 
-        console.error(
-            'RESERVATION ERROR:',
-            error
-        );
-
-        alert(
-            'Something went wrong while submitting the reservation.'
-        );
+        if (statusEl) {
+            statusEl.textContent = 'Reservation failed: ' + (error.message || 'Unable to save reservation.');
+            statusEl.className = 'text-center font-medium text-red-600 mt-2';
+        }
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Submit Reservation Request';
+        }
     }
 }
 
@@ -2053,212 +1774,359 @@ async function fetchPublicMenu() {
 }
 
 async function fetchPublicStaff() {
-    const container =
-        document.getElementById('public-staff-container');
+    const container = document.getElementById('public-staff-container');
+    const homeContainer = document.getElementById('home-staff-container');
 
-    const homeContainer =
-        document.getElementById('home-staff-container');
+    if (!container && !homeContainer) return;
 
-    const { data, error } =
-        await supabaseClient
-            .from('staff')
-            .select('*')
-            .order('display_order', { ascending: true });
+    const { data, error } = await supabaseClient
+        .from('staff')
+        .select('*')
+        .eq('is_published', true)
+        .order('display_order', { ascending: true });
 
-    if (error || !data || !data.length) {
+    if (error) {
+        console.error('Staff load error:', error);
+        if (container) container.innerHTML = '<p class="text-red-500 text-sm">Unable to load staff profiles.</p>';
+        if (homeContainer) homeContainer.innerHTML = '<p class="text-red-500 text-sm">Unable to load staff profiles.</p>';
         return;
     }
 
-    const staffHTML = data.map(person => {
-        const initials =
-            String(person.name || 'Staff')
-                .split(' ')
-                .map(x => x[0])
-                .join('')
-                .slice(0, 2)
-                .toUpperCase();
+    const staff = data || [];
+
+    const staffCard = (person, compact = false) => {
+        const name = person.name || 'Staff Member';
+        const role = person.position || person.role || 'Staff';
+        const description = person.description || person.bio || person.shift || '';
+        const photo = person.photo_url || '';
+        const initials = name.split(' ').map(x => x[0]).join('').slice(0, 2).toUpperCase();
 
         return `
-            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center space-x-4">
-                <div class="w-14 h-14 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold text-xl">
-                    ${escapeHTML(initials)}
+            <article class="${compact ? 'p-5 text-center' : 'p-6 flex items-center space-x-4'} bg-white rounded-xl border border-gray-100 shadow-sm">
+                <div class="${compact ? 'w-20 h-20 mx-auto mb-4 text-2xl' : 'w-16 h-16 shrink-0 text-xl'} bg-emerald-100 text-brand-green rounded-full flex items-center justify-center font-bold overflow-hidden shadow">
+                    ${photo
+                        ? `<img src="${escapeHTML(photo)}" alt="${escapeHTML(name)}" class="w-full h-full object-cover">`
+                        : escapeHTML(initials)}
                 </div>
-
-                <div>
-                    <h3 class="font-bold text-brand-green">
-                        ${escapeHTML(person.name || '')}
-                    </h3>
-
-                    <p class="text-xs text-brand-gold font-semibold">
-                        ${escapeHTML(person.position || person.role || '')}
-                    </p>
-
-                    <p class="text-xs text-gray-500 mt-1">
-                        ${escapeHTML(person.description || person.bio || '')}
-                    </p>
+                <div class="${compact ? '' : 'min-w-0'}">
+                    <h3 class="${compact ? 'font-serif text-lg' : 'font-bold'} text-brand-green">${escapeHTML(name)}</h3>
+                    <p class="text-xs text-brand-gold font-semibold uppercase">${escapeHTML(role)}</p>
+                    ${description ? `<p class="text-xs text-gray-500 mt-1">${escapeHTML(description)}</p>` : ''}
                 </div>
-            </div>
+            </article>
         `;
-    }).join('');
+    };
+
+    if (!staff.length) {
+        if (container) container.innerHTML = '<p class="text-gray-500">No staff profiles have been published yet.</p>';
+        if (homeContainer) homeContainer.innerHTML = '<p class="text-gray-500 sm:col-span-2 lg:col-span-4 text-center">No staff profiles have been published yet.</p>';
+        return;
+    }
 
     if (container) {
-        container.innerHTML = staffHTML;
+        container.innerHTML = staff.map(person => staffCard(person, false)).join('');
     }
 
     if (homeContainer) {
-        homeContainer.innerHTML =
-            data.slice(0, 4).map(person => {
-                const initials =
-                    String(person.name || 'Staff')
-                        .split(' ')
-                        .map(x => x[0])
-                        .join('')
-                        .slice(0, 2)
-                        .toUpperCase();
-
-                return `
-                    <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm text-center">
-                        <div class="w-20 h-20 bg-brand-lightgreen text-brand-gold rounded-full flex items-center justify-center mx-auto text-3xl mb-4 shadow">
-                            ${escapeHTML(initials)}
-                        </div>
-
-                        <h3 class="font-serif font-bold text-lg text-brand-green">
-                            ${escapeHTML(person.name || '')}
-                        </h3>
-
-                        <p class="text-xs text-brand-gold font-semibold uppercase mb-2">
-                            ${escapeHTML(person.position || person.role || '')}
-                        </p>
-
-                        <p class="text-xs text-gray-500">
-                            ${escapeHTML(person.description || person.bio || '')}
-                        </p>
-                    </div>
-                `;
-            }).join('');
+        const featured = staff.filter(x => x.is_featured_home);
+        const homeStaff = (featured.length ? featured : staff).slice(0, 4);
+        homeContainer.innerHTML = homeStaff.map(person => staffCard(person, true)).join('');
     }
 }
 
 function getWebsiteMediaUrl(filePath) {
     if (!filePath) return '';
-
-    if (
-        filePath.startsWith('http://') ||
-        filePath.startsWith('https://')
-    ) {
-        return filePath;
-    }
-
+    if (filePath.startsWith('http://') || filePath.startsWith('https://')) return filePath;
     return `${SUPABASE_URL}/storage/v1/object/public/website-images/${filePath}`;
 }
 
+const mediaCarouselStates = new Map();
+
+function isVideoMedia(item) {
+    const mediaType = String(item.media_type || item.type || '').toLowerCase();
+    const path = String(item.file_path || item.url || '');
+    return mediaType === 'video' || /\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(path);
+}
+
+function renderManagedCarousel(container, items, options = {}) {
+    if (!container || !items.length) return;
+
+    const slides = items.map((item, index) => {
+        const url = getWebsiteMediaUrl(item.file_path || item.url);
+        const title = item.title || 'Kiteezi Recreational Center';
+        const video = isVideoMedia(item);
+
+        return `
+            <div class="media-slide ${index === 0 ? 'active' : ''}" data-index="${index}">
+                ${video
+                    ? `<video src="${escapeHTML(url)}" muted autoplay loop playsinline controls preload="metadata"></video>`
+                    : `<img src="${escapeHTML(url)}" alt="${escapeHTML(title)}" loading="${index === 0 ? 'eager' : 'lazy'}">`
+                }
+                ${title ? `<div class="media-caption"><div class="font-semibold">${escapeHTML(title)}</div></div>` : ''}
+            </div>
+        `;
+    }).join('');
+
+    container.innerHTML = `
+        <div class="media-track">${slides}</div>
+        ${items.length > 1 ? `
+            <button type="button" class="media-control prev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="media-control next" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="media-dots">
+                ${items.map((_, i) => `<button type="button" class="media-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Go to slide ${i + 1}"></button>`).join('')}
+            </div>
+        ` : ''}
+    `;
+
+    let current = 0;
+    let timer = null;
+    let touchStartX = null;
+
+    const show = (index) => {
+        current = (index + items.length) % items.length;
+        container.querySelectorAll('.media-slide').forEach((slide, i) => {
+            slide.classList.toggle('active', i === current);
+        });
+        container.querySelectorAll('.media-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === current);
+        });
+    };
+
+    const stop = () => {
+        if (timer) clearInterval(timer);
+        timer = null;
+    };
+
+    const start = () => {
+        stop();
+        if (items.length > 1 && options.autoplay !== false) {
+            timer = setInterval(() => show(current + 1), 5000);
+        }
+    };
+
+    container.querySelector('.media-control.prev')?.addEventListener('click', () => {
+        show(current - 1);
+        start();
+    });
+    container.querySelector('.media-control.next')?.addEventListener('click', () => {
+        show(current + 1);
+        start();
+    });
+    container.querySelectorAll('.media-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+            show(Number(dot.dataset.index));
+            start();
+        });
+    });
+
+    container.addEventListener('mouseenter', stop);
+    container.addEventListener('mouseleave', start);
+    container.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    container.addEventListener('touchend', e => {
+        if (touchStartX === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 45 && items.length > 1) {
+            show(current + (dx < 0 ? 1 : -1));
+            start();
+        }
+        touchStartX = null;
+    }, { passive: true });
+
+    mediaCarouselStates.set(container, { show, stop, start });
+    start();
+}
+
+async function loadManagedHero() {
+    const hero = document.getElementById('hero-section');
+    if (!hero) return;
+
+    const { data, error } = await supabaseClient
+        .from('website_images')
+        .select('*')
+        .eq('area', 'hero')
+        .eq('is_published', true)
+        .order('position', { ascending: true })
+        .limit(1);
+
+    if (error || !data?.length) return;
+
+    const item = data[0];
+    const url = getWebsiteMediaUrl(item.file_path);
+    if (!url || isVideoMedia(item)) return;
+
+    hero.style.backgroundImage =
+        `linear-gradient(rgba(27, 67, 50, 0.88), rgba(43, 45, 66, 0.92)), url("${url.replace(/"/g, '\"')}")`;
+}
+
 async function loadManagedMedia() {
-    const galleries =
-        document.querySelectorAll(
-            '.media-gallery[data-media-area]'
-        );
+    const galleries = document.querySelectorAll('.media-gallery[data-media-area]');
 
     for (const gallery of galleries) {
-        const area =
-            gallery.dataset.mediaArea;
+        const area = gallery.dataset.mediaArea;
+        const { data, error } = await supabaseClient
+            .from('website_images')
+            .select('*')
+            .eq('area', area)
+            .eq('is_published', true)
+            .order('position', { ascending: true });
 
-        const { data, error } =
-            await supabaseClient
-                .from('website_images')
-                .select('*')
-                .eq('area', area)
-                .eq('is_published', true)
-                .order('position', { ascending: true });
-
-        if (error || !data || !data.length) {
+        if (error) {
+            console.error(`Media load error for ${area}:`, error);
+            gallery.innerHTML = '<div class="flex items-center justify-center h-96 text-gray-300">Media is temporarily unavailable.</div>';
             continue;
         }
 
-        const managedItems = data.filter(item => item.file_path);
-
-        if (!managedItems.length) {
+        const items = (data || []).filter(item => item.file_path);
+        if (!items.length) {
+            gallery.innerHTML = '<div class="flex items-center justify-center h-96 text-gray-300">No media published for this section yet.</div>';
             continue;
         }
 
-        const fallbackHTML = gallery.innerHTML;
-
-        gallery.innerHTML =
-            managedItems.map((item, index) => {
-                const url =
-                    getWebsiteMediaUrl(item.file_path);
-
-                const mediaType =
-                    String(item.media_type || '').toLowerCase();
-
-                const isVideo =
-                    mediaType === 'video' ||
-                    /\.(mp4|webm|ogg|mov|m4v)$/i.test(
-                        item.file_path
-                    );
-
-                return `
-                    <div class="media-slide ${index === 0 ? 'active' : ''}">
-                        ${
-                            isVideo
-                                ? `<video src="${escapeHTML(url)}" muted autoplay loop playsinline controls></video>`
-                                : `<img src="${escapeHTML(url)}" alt="${escapeHTML(item.title || 'Kiteezi Recreational Center')}">`
-                        }
-                    </div>
-                `;
-            }).join('');
-
-        if (!gallery.innerHTML.trim()) {
-            gallery.innerHTML = fallbackHTML;
-        }
+        renderManagedCarousel(gallery, items, { autoplay: gallery.dataset.autoplay !== 'false' });
     }
 }
 
-async function fetchPublicContent() {
-    const container =
-        document.getElementById('public-statements-container');
+async function loadPublicGallery() {
+    const grid = document.getElementById('public-gallery-grid');
+    if (!grid) return;
 
-    const wrapper =
-        document.getElementById('public-statements');
+    const { data, error } = await supabaseClient
+        .from('website_images')
+        .select('*')
+        .eq('is_published', true)
+        .order('position', { ascending: true });
 
-    if (!container || !wrapper) return;
-
-    const { data, error } =
-        await supabaseClient
-            .from('site_content')
-            .select('*')
-            .eq('is_published', true)
-            .order('display_order', { ascending: true });
-
-    if (error || !data || !data.length) {
+    if (error) {
+        console.error('Public gallery error:', error);
+        grid.innerHTML = '<p class="text-red-500 md:col-span-2 lg:col-span-3 text-center">Unable to load gallery.</p>';
         return;
     }
 
-    const sorted =
-        [...data].sort((a, b) => {
-            if (Boolean(a.is_highlighted) !== Boolean(b.is_highlighted)) {
-                return Boolean(b.is_highlighted) - Boolean(a.is_highlighted);
-            }
+    const items = (data || []).filter(item => item.file_path);
+    if (!items.length) {
+        grid.innerHTML = '<p class="text-gray-500 md:col-span-2 lg:col-span-3 text-center">No gallery media has been published yet.</p>';
+        return;
+    }
 
-            return Number(a.display_order || 0) -
-                   Number(b.display_order || 0);
-        });
+    grid.innerHTML = items.map(item => {
+        const url = getWebsiteMediaUrl(item.file_path);
+        const video = isVideoMedia(item);
+        return `
+            <article class="gallery-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100" onclick="openMediaLightbox('${escapeHTML(url)}', '${video ? 'video' : 'image'}', '${escapeHTML(item.title || '')}')">
+                <div class="h-64 bg-slate-900 overflow-hidden">
+                    ${video
+                        ? `<video src="${escapeHTML(url)}" muted playsinline preload="metadata" class="w-full h-full object-cover"></video>`
+                        : `<img src="${escapeHTML(url)}" alt="${escapeHTML(item.title || 'Kiteezi gallery')}" loading="lazy" class="w-full h-full object-cover hover:scale-105 transition duration-500">`
+                    }
+                </div>
+                <div class="p-4">
+                    <h3 class="font-semibold text-brand-green">${escapeHTML(item.title || 'Kiteezi Recreational Center')}</h3>
+                    <p class="text-xs text-gray-500 mt-1 capitalize">${escapeHTML(item.area || 'Gallery')}</p>
+                </div>
+            </article>
+        `;
+    }).join('');
+}
+
+function openMediaLightbox(url, type, title) {
+    let modal = document.getElementById('media-lightbox');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'media-lightbox';
+        modal.className = 'fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 p-4';
+        modal.innerHTML = `
+            <button type="button" class="absolute top-5 right-5 text-white text-3xl" aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="max-w-6xl w-full max-h-[90vh] flex flex-col items-center gap-3">
+                <div id="media-lightbox-content" class="max-h-[80vh] w-full flex items-center justify-center"></div>
+                <div id="media-lightbox-title" class="text-white text-center font-semibold"></div>
+            </div>
+        `;
+        modal.querySelector('button').addEventListener('click', () => modal.classList.add('hidden'));
+        modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+        document.body.appendChild(modal);
+    }
+
+    const content = document.getElementById('media-lightbox-content');
+    const titleEl = document.getElementById('media-lightbox-title');
+    content.innerHTML = type === 'video'
+        ? `<video src="${escapeHTML(url)}" controls autoplay playsinline class="max-h-[80vh] max-w-full rounded-xl"></video>`
+        : `<img src="${escapeHTML(url)}" alt="${escapeHTML(title)}" class="max-h-[80vh] max-w-full rounded-xl object-contain">`;
+    titleEl.textContent = title || '';
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+async function fetchPublicContent() {
+    const container = document.getElementById('public-statements-container');
+    const wrapper = document.getElementById('public-statements');
+
+    const { data, error } = await supabaseClient
+        .from('site_content')
+        .select('*')
+        .eq('is_published', true)
+        .order('display_order', { ascending: true });
+
+    if (error) {
+        console.error('Public content error:', error);
+        return;
+    }
+
+    const rows = data || [];
+
+    /* Apply individually managed text without changing the page layout. */
+    const managedElements = document.querySelectorAll('[data-managed-content]');
+    managedElements.forEach(element => {
+        const key = element.dataset.managedContent;
+        const row = rows.find(item =>
+            String(item.content_key || item.key || item.slug || item.title || '').toLowerCase() === key.toLowerCase()
+        );
+        if (!row) return;
+
+        const value = row.body || row.content || row.description || row.value || '';
+        if (value === '') return;
+
+        if (element.tagName === 'P' && element.querySelector('strong')) {
+            const strong = element.querySelector('strong');
+            element.textContent = value;
+        } else {
+            element.textContent = value;
+        }
+    });
+
+    if (!container || !wrapper) return;
+
+    const statements = rows.filter(item => {
+        const key = String(item.content_key || item.key || '').toLowerCase();
+        return !key.includes('hero_') &&
+               !key.includes('home_') &&
+               !key.includes('menu_') &&
+               !key.includes('personnel_') &&
+               !key.includes('swimming_') &&
+               !key.includes('events_') &&
+               !key.includes('booking_') &&
+               !key.includes('contact_');
+    });
+
+    if (!statements.length) return;
+
+    const sorted = [...statements].sort((a, b) => {
+        if (Boolean(a.is_highlighted) !== Boolean(b.is_highlighted)) {
+            return Boolean(b.is_highlighted) - Boolean(a.is_highlighted);
+        }
+        return Number(a.display_order || 0) - Number(b.display_order || 0);
+    });
 
     container.innerHTML = sorted.map((item, index) => `
         <article class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 ${item.is_highlighted || index === 0 ? 'public-announcement' : ''}">
             <div class="flex flex-wrap items-center gap-2 mb-2">
                 ${item.is_highlighted || index === 0
                     ? '<span class="bg-brand-gold/20 text-yellow-800 text-xs font-bold px-2 py-1 rounded"><i class="fa-solid fa-bullhorn mr-1"></i>Featured Statement</span>'
-                    : ''
-                }
+                    : ''}
             </div>
-
-            <h2 class="font-serif text-2xl font-bold text-brand-green">
-                ${escapeHTML(item.title || item.content_key || '')}
-            </h2>
-
-            <p class="text-gray-600 mt-2 leading-relaxed">
-                ${escapeHTML(item.body || item.content || item.description || '')}
-            </p>
+            <h2 class="font-serif text-2xl font-bold text-brand-green">${escapeHTML(item.title || item.content_key || '')}</h2>
+            <p class="text-gray-600 mt-2 leading-relaxed">${escapeHTML(item.body || item.content || item.description || '')}</p>
         </article>
     `).join('');
 
@@ -2271,6 +2139,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     calculateEventCost();
 
+    const bookingDate = document.getElementById('book-date');
+    if (bookingDate) {
+        bookingDate.min = new Date().toISOString().split('T')[0];
+    }
+
     await Promise.allSettled([
         loadReviews(),
         fetchPublicSwimmingPrices(),
@@ -2278,7 +2151,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         fetchPublicMenu(),
         fetchPublicStaff(),
         fetchPublicContent(),
+        loadManagedHero(),
         loadManagedMedia(),
+        loadPublicGallery(),
         loadReservationMenu()
     ]);
 
@@ -2288,4 +2163,3 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 
 </body>
-</html>
